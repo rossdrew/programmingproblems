@@ -5,7 +5,7 @@ package com.rox.problems.sub;
  */
 public class NumberSet
 {
-    private Long numbers[];
+    protected Long[] numbers;
 
     public NumberSet(Long[] numbers)
     {

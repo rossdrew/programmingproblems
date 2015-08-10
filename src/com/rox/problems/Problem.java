@@ -1,7 +1,7 @@
 package com.rox.problems;
 
 /**
- * Created by Ross W. Drew on 29/07/15.
+ * An interface to an object which provides a solution
  */
 public interface Problem
 {
