@@ -40,9 +40,9 @@ public class NumberSet
         }
 
         long hcf = highestCommonFactor(numbers[0], numbers[1]);
-        for (int i=2; i < numbers.length; i++)
+        for (long number : numbers)
         {
-            hcf = highestCommonFactor(hcf, numbers[i]);
+            hcf = highestCommonFactor(hcf, number);
         }
 
         return hcf;
@@ -75,9 +75,9 @@ public class NumberSet
         }
 
         long result = numbers[0];
-        for (int i = 1; i < numbers.length; i++)
+        for (long number : numbers)
         {
-            result = lowestCommonMultiple(result, numbers[i]);
+            result = lowestCommonMultiple(result, number);
         }
 
         return result;
