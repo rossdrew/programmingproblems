@@ -1,6 +1,7 @@
 package com.rox.problems;
 
 import com.rox.problems.sub.NumberAnalyser;
+import com.rox.problems.sub.NumberSet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,9 @@ public class Problem5 implements Problem {
 
         Long[] n = new Long[numbers.size()];
         n = numbers.toArray(n);
-        return NumberAnalyser.lowestCommonMultiple(n);
+
+        NumberSet numberSet = new NumberSet(n);
+
+        return numberSet.lowestCommonMultiple();
     }
 }
