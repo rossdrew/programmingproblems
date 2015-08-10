@@ -1,7 +1,4 @@
-package com.ncr.problems.sub;
-
-import java.math.BigInteger;
-import java.util.Stack;
+package com.rox.problems.sub;
 
 /**
  * Class for analysing numbers

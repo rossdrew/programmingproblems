@@ -1,7 +1,7 @@
-package com.ncr.problems;
+package com.rox.problems;
 
 import java.util.Stack;
-import com.ncr.problems.sub.NumberAnalyser;
+import com.rox.problems.sub.NumberAnalyser;
 
 /**
  * The prime factors of 13195 are 5, 7, 13 and 29.

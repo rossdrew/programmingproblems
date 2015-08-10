@@ -1,6 +1,6 @@
-package com.ncr.problems;
+package com.rox.problems;
 
-import com.ncr.problems.sub.NumberAnalyser;
+import com.rox.problems.sub.NumberAnalyser;
 
 import java.util.ArrayList;
 import java.util.List;

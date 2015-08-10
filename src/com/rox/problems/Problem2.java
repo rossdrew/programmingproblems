@@ -1,7 +1,7 @@
-package com.ncr.problems;
+package com.rox.problems;
 
-import com.ncr.problems.sub.NumberAnalyser;
-import com.ncr.problems.sub.Validator;
+import com.rox.problems.sub.NumberAnalyser;
+import com.rox.problems.sub.Validator;
 
 import java.util.HashSet;
 

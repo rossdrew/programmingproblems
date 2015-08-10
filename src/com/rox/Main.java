@@ -1,7 +1,7 @@
-package com.ncr;
+package com.rox;
 
 
-import com.ncr.problems.*;
+import com.rox.problems.*;
 
 public class Main {
 
