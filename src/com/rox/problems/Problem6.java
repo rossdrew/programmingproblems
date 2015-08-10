@@ -43,9 +43,6 @@ public class Problem6 implements Problem {
             sumOfSquares += (number * number);
         }
 
-        /*DEBUG*/System.out.println("Square of Sum = " + squareOfSum + "\nSum of Squares = " + sumOfSquares);
-        /*DEBUG*/System.out.println(" = " + Math.abs(squareOfSum - sumOfSquares));
-
-        return -1;
+        return Math.abs(squareOfSum - sumOfSquares);
     }
 }
