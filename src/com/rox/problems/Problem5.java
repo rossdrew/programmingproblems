@@ -18,6 +18,7 @@ import java.util.List;
  *  LCM (Lowest Common Multiple) = The lowest number which is a multiple of all given numbers
  *                               > multiply ALL factors together from two numbers
  *
+ *  [Answer = 232792560]
  */
 public class Problem5 implements Problem {
     @Override
