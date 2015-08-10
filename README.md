@@ -1,2 +1,3 @@
-# projecteular
-My solutions for https://projecteuler.net problems
+#projecteuler
+
+My personal solutions for Project Euler problems found at https://projecteuler.net problems
