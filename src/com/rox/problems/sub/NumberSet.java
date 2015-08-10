@@ -1,5 +1,8 @@
 package com.rox.problems.sub;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Representation of a set of numbers and common operations on them
  */
@@ -7,9 +10,32 @@ public class NumberSet
 {
     protected Long[] numbers;
 
+    public Long[] getNumbers()
+    {
+        return numbers;
+    }
+
     public NumberSet(Long[] numbers)
     {
         this.numbers = numbers;
+    }
+
+    /**
+     * Create a NumberSet from a given range, inclusive
+     */
+    public static NumberSet createRangeSet(long start, long finish)
+    {
+        List<Long> numbers = new ArrayList<>();
+
+        for (long i = start; i <= finish; i++)
+        {
+            numbers.add(i);
+        }
+
+        Long[] n = new Long[numbers.size()];
+        n = numbers.toArray(n);
+
+        return new NumberSet(n);
     }
 
     /**
@@ -83,8 +109,22 @@ public class NumberSet
         return result;
     }
 
-    public long lowestCommonMultiple(long a, long b)
+    private long lowestCommonMultiple(long a, long b)
     {
         return a * (b / highestCommonFactor(a, b));
+    }
+
+    /**
+     * XXX Optimization = Sum of Natural numbers = n(n-1) / 2
+     */
+    public long sum()
+    {
+        long sum = 0;
+        for (Long number : numbers)
+        {
+            sum += number;
+        }
+
+        return sum;
     }
 }

@@ -29,17 +29,7 @@ public class Problem5 implements Problem {
 
     private long solution(long start, long finish)
     {
-        List<Long> numbers = new ArrayList<>();
-
-        for (long i = start; i <= finish; i++)
-        {
-            numbers.add(i);
-        }
-
-        Long[] n = new Long[numbers.size()];
-        n = numbers.toArray(n);
-
-        NumberSet numberSet = new NumberSet(n);
+        NumberSet numberSet = NumberSet.createRangeSet(start, finish);
 
         return numberSet.lowestCommonMultiple();
     }
