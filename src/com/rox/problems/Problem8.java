@@ -23,8 +23,14 @@ package com.rox.problems;
  * 84580156166097919133875499200524063689912560717606
  * 05886116467109405077541002256983155200055935729725
  * 71636269561882670428252483600823257530420752963450
- *
+ *-9878799272442
  * Find the thirteen adjacent digits in the 1000-digit number that have the greatest product. What is the value of this product?
+ *
+ * |||||> Solution is 23514624000:420752963450, I get 9781797784617:2091059712, which is wrong
+ *
+ * the solution is kind of like 6256932197846:235146240 but missing a few zeros!?!?
+ *
+ * [FAIL : I cannot get this to return the correct answer]
  */
 public class Problem8 implements Problem {
     @Override
@@ -50,7 +56,7 @@ public class Problem8 implements Problem {
                             + "05886116467109405077541002256983155200055935729725"
                             + "71636269561882670428252483600823257530420752963450";
 
-        return solution(numberString, 4);
+        return solution(numberString, 13);
     }
 
     public long solution(String numberString, int snippetSize) {
@@ -67,16 +73,15 @@ public class Problem8 implements Problem {
             product = Math.max(product, newProduct);
         }
 
-
         return product;
     }
 
-    private int[] extractSnippet(int snippetSize, char[] characters, int i) {
+    private int[] extractSnippet(int snippetSize, char[] characters, int startIndex) {
         int[] numbers = new int[snippetSize];
 
         for (int j=0; j<snippetSize; j++)
         {
-            numbers[j] = Character.getNumericValue(characters[i + j]);
+            numbers[j] = Character.getNumericValue(characters[startIndex + j]);
         }
 
         return numbers;
@@ -89,7 +94,7 @@ public class Problem8 implements Problem {
             if (number == 0)
             {
                 /*DEBUG*/ System.out.print("X");
-                newProduct = 0;
+                newProduct *= 1;
                 break;
             }
             /*DEBUG*/ System.out.print(number);
