@@ -1,4 +1,4 @@
-package com.rox.skyscanner;
+package com.rox.prob.skyscanner;
 
 import com.rox.prob.StringProblem;
 

@@ -1,4 +1,4 @@
-package com.rox.eauler.sub;
+package com.rox.prob.eauler.sub;
 
 /**
  * Created by Ross W. Drew on 29/07/15.

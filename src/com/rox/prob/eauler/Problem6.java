@@ -1,6 +1,6 @@
-package com.rox.eauler;
+package com.rox.prob.eauler;
 
-import com.rox.eauler.sub.NumberSet;
+import com.rox.prob.eauler.sub.NumberSet;
 import com.rox.prob.NumericalProblem;
 
 /**
