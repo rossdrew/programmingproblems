@@ -1,7 +1,7 @@
 package com.rox;
 
 
-import com.rox.prob.eauler.*;
+import com.rox.prob.euler.*;
 import com.rox.prob.NumericalProblem;
 
 public class Main {
