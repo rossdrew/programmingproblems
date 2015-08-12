@@ -3,6 +3,8 @@ package com.rox.prob.hackerrank.skyscanner;
 import com.rox.prob.StringProblem;
 
 /**
+ * Top Search Term
+ *
  * Input a number to standard out which defines the number of  following inputs.
  * Then a series of destinations as "search terms".
  *
