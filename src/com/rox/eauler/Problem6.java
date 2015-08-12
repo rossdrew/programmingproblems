@@ -1,6 +1,7 @@
-package com.rox.problems;
+package com.rox.eauler;
 
-import com.rox.problems.sub.NumberSet;
+import com.rox.eauler.sub.NumberSet;
+import com.rox.prob.NumericalProblem;
 
 /**
  * The sum of the squares of the first ten natural numbers is,
@@ -20,7 +21,7 @@ import com.rox.problems.sub.NumberSet;
  *
  *   - Sum of squares of natural numbers = n(n+1)(2n+1) / 6
  */
-public class Problem6 implements Problem {
+public class Problem6 implements NumericalProblem {
 
     @Override
     public long solution()

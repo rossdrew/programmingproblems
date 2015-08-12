@@ -1,4 +1,6 @@
-package com.rox.problems;
+package com.rox.eauler;
+
+import com.rox.prob.NumericalProblem;
 
 /**
  * A Pythagorean triplet is a set of three natural numbers, a < b < c, for which,
@@ -9,7 +11,7 @@ package com.rox.problems;
  * There exists exactly one Pythagorean triplet for which a + b + c = 1000.
  * Find the product abc.
  */
-public class Problem9 implements Problem {
+public class Problem9 implements NumericalProblem {
     @Override
     public long solution() {
         return solution(1000L);

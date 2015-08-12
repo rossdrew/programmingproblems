@@ -1,10 +1,7 @@
-package com.rox.problems;
+package com.rox.eauler;
 
-import com.rox.problems.sub.NumberAnalyser;
-import com.rox.problems.sub.NumberSet;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.rox.eauler.sub.NumberSet;
+import com.rox.prob.NumericalProblem;
 
 /**
  * 2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without any remainder.
@@ -21,7 +18,7 @@ import java.util.List;
  *
  *  [Answer = 232792560]
  */
-public class Problem5 implements Problem {
+public class Problem5 implements NumericalProblem {
     @Override
     public long solution() {
         return solution(1, 20);

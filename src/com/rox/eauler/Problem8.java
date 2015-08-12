@@ -1,4 +1,6 @@
-package com.rox.problems;
+package com.rox.eauler;
+
+import com.rox.prob.NumericalProblem;
 
 /**
  * The four adjacent digits in the 1000-digit number that have the greatest product are 9 × 9 × 8 × 9 = 5832.
@@ -23,16 +25,16 @@ package com.rox.problems;
  * 84580156166097919133875499200524063689912560717606
  * 05886116467109405077541002256983155200055935729725
  * 71636269561882670428252483600823257530420752963450
- *-9878799272442
+ *
  * Find the thirteen adjacent digits in the 1000-digit number that have the greatest product. What is the value of this product?
  *
  * |||||> Solution is 23514624000:420752963450, I get 9781797784617:2091059712, which is wrong
  *
  * the solution is kind of like 6256932197846:235146240 but missing a few zeros!?!?
  *
- * [FAIL : I cannot get this to return the correct answer]
+ * XXX [FAIL : I cannot get this to return the correct answer]
  */
-public class Problem8 implements Problem {
+public class Problem8 implements NumericalProblem {
     @Override
     public long solution() {
         String numberString = "73167176531330624919225119674426574742355349194934"

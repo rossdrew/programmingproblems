@@ -1,9 +1,9 @@
-package com.rox.problems;
+package com.rox.prob;
 
 /**
  * An interface to an object which provides a solution
  */
-public interface Problem
+public interface NumericalProblem
 {
     long solution();
 }

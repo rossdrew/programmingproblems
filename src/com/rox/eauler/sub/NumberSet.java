@@ -1,4 +1,4 @@
-package com.rox.problems.sub;
+package com.rox.eauler.sub;
 
 import java.util.ArrayList;
 import java.util.List;

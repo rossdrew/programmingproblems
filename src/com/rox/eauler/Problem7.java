@@ -1,6 +1,7 @@
-package com.rox.problems;
+package com.rox.eauler;
 
-import com.rox.problems.sub.NumberAnalyser;
+import com.rox.eauler.sub.NumberAnalyser;
+import com.rox.prob.NumericalProblem;
 
 /**
  * By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13.
@@ -9,7 +10,7 @@ import com.rox.problems.sub.NumberAnalyser;
  *
  * [Answer = 104743]
  */
-public class Problem7 implements Problem {
+public class Problem7 implements NumericalProblem {
     @Override
     public long solution() {
         return solution(10001L);

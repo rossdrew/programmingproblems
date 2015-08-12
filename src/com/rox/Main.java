@@ -1,13 +1,13 @@
 package com.rox;
 
 
-import com.rox.problems.*;
-import com.rox.problems.sub.NumberAnalyser;
+import com.rox.eauler.*;
+import com.rox.prob.NumericalProblem;
 
 public class Main {
 
     public static void main(String[] args) {
-        Problem p = new Problem7();
+        NumericalProblem p = new Problem8();
         /*DEBUG*/System.out.println(p.solution());
 
     }

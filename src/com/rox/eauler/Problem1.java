@@ -1,6 +1,7 @@
-package com.rox.problems;
+package com.rox.eauler;
 
-import com.rox.problems.sub.NumberAnalyser;
+import com.rox.eauler.sub.NumberAnalyser;
+import com.rox.prob.NumericalProblem;
 
 import java.util.HashSet;
 
@@ -17,7 +18,7 @@ import java.util.HashSet;
  *
  *  [Answer = 233168]
  */
-public class Problem1 implements Problem
+public class Problem1 implements NumericalProblem
 {
     /**
      * Get next number divisable by <code>divisor</code> on or after given <code>number</code>

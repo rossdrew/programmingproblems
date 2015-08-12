@@ -1,7 +1,8 @@
-package com.rox.problems;
+package com.rox.eauler;
 
 import java.util.Stack;
-import com.rox.problems.sub.NumberAnalyser;
+import com.rox.eauler.sub.NumberAnalyser;
+import com.rox.prob.NumericalProblem;
 
 /**
  * The prime factors of 13195 are 5, 7, 13 and 29.
@@ -15,7 +16,7 @@ import com.rox.problems.sub.NumberAnalyser;
  *
  *  [Answer = 6857]
  */
-public class Problem3 implements Problem {
+public class Problem3 implements NumericalProblem {
     @Override
     public long solution()
     {

@@ -1,7 +1,8 @@
-package com.rox.problems;
+package com.rox.eauler;
 
-import com.rox.problems.sub.NumberAnalyser;
-import com.rox.problems.sub.Validator;
+import com.rox.eauler.sub.NumberAnalyser;
+import com.rox.eauler.sub.Validator;
+import com.rox.prob.NumericalProblem;
 
 import java.util.HashSet;
 
@@ -14,7 +15,7 @@ import java.util.HashSet;
  *
  * [Answer = 4613732]
  */
-public class Problem2 implements Problem
+public class Problem2 implements NumericalProblem
 {
     private HashSet<Integer> getFibonacciSequenceUntil(int upperLimit, Validator validator)
     {

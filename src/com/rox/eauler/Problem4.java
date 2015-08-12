@@ -1,4 +1,6 @@
-package com.rox.problems;
+package com.rox.eauler;
+
+import com.rox.prob.NumericalProblem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +12,7 @@ import java.util.List;
  *
  * [Answer = 906609]
  */
-public class Problem4 implements Problem
+public class Problem4 implements NumericalProblem
 {
     @Override
     public long solution() {
