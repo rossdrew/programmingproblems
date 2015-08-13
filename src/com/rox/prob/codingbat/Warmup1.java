@@ -180,4 +180,53 @@ public class Warmup1 {
             return str;
         }
      }
+
+    /**
+     * Given a string, we'll say that the front is the first 3 chars of the string. If the string length is less than 3, the front is whatever is there. Return a new string which is 3 copies of the front.
+     *
+     * front3("Java") → "JavJavJav"
+     * front3("Chocolate") → "ChoChoCho"
+     * front3("abc") → "abcabcabc"
+     */
+     public String front3(String str) {
+        String front = (str.length() < 3 ? str : str.substring(0,3));
+
+        return front+front+front;
+     }
+
+    /**
+     * Given a string, take the last char and return a new string with the last char added at the front and back, so "cat" yields "tcatt". The original string will be length 1 or more.
+     *
+     * backAround("cat") → "tcatt"
+     * backAround("Hello") → "oHelloo"
+     * backAround("a") → "aaa"
+     */
+     public String backAround(String str) {
+        String last = str.substring(str.length()-1);
+        return last + str + last;
+     }
+
+    /**
+     * Return true if the given non-negative number is a multiple of 3 or a multiple of 5. Use the % "mod" operator -- see Introduction to Mod
+     *
+     * or35(3) → true
+     * or35(10) → true
+     * or35(8) → false
+     */
+     public boolean or35(int n) {
+        return (n%3==0 || n%5==0);
+     }
+
+    /**
+     * Given a string, take the first 2 chars and return the string with the 2 chars added at both the front and back, so "kitten" yields"kikittenki". If the string length is less than 2, use whatever chars are there.
+     *
+     * front22("kitten") → "kikittenki"
+     * front22("Ha") → "HaHaHa"
+     * front22("abc") → "ababcab"
+     */
+    public String front22(String str) {
+        String first = (str.length() < 2) ? str : str.substring(0,2);
+
+        return first+str+first;
+    }
 }
