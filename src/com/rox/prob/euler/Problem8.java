@@ -95,15 +95,12 @@ public class Problem8 implements NumericalProblem {
         for (int number : numbers) {
             if (number == 0)
             {
-                /*DEBUG*/ System.out.print("X");
                 newProduct *= 1;
                 break;
             }
-            /*DEBUG*/ System.out.print(number);
             newProduct *= number;
         }
-
-        /*DEBUG*/System.out.println(":" + newProduct );
+        
         return newProduct;
     }
 }
