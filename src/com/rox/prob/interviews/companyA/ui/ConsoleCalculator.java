@@ -10,7 +10,7 @@ import com.rox.prob.interviews.companyA.err.InvalidExpressionException;
 
 
 /**
- * A console interface to {@link ross.ExpressionParser ExpressionParser}
+ * A console interface to {@link com.rox.prob.interviews.companyA.ExpressionParser ExpressionParser}
  * 
  * @author Ross W. Drew
  */

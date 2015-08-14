@@ -4,8 +4,8 @@ import com.rox.prob.interviews.companyA.token.*;
 
 /**
  * Essentially a basic tree data structure representing an expression which 
- * can evaluate all sub {@link ross.token.NumeralValue NumeralValues} and 
- * {@link ross.Expression Expressions} ergo, itself via <tt>getValue()</tt>
+ * can evaluate all sub {@link com.rox.prob.interviews.companyA.token.NumeralValue NumeralValues} and
+ * {@link com.rox.prob.interviews.companyA.Expression Expressions} ergo, itself via <tt>getValue()</tt>
  * 
  * @author Ross W. Drew
  *
