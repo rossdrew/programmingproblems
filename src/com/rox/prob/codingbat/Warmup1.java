@@ -1,7 +1,10 @@
 package com.rox.prob.codingbat;
 
 /**
- * Simple warmup problems from CodingBat
+ * Simple warmup problems from CodingBat.
+ *
+ * Problems are tiny, two minute things so I wont be properly
+ * splitting them into submmethods such as inRange()
  *
  * http://codingbat.com/java/Warmup-1
  */
