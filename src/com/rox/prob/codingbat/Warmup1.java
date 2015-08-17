@@ -185,7 +185,8 @@ public class Warmup1 {
      }
 
     /**
-     * Given a string, we'll say that the front is the first 3 chars of the string. If the string length is less than 3, the front is whatever is there. Return a new string which is 3 copies of the front.
+     * Given a string, we'll say that the front is the first 3 chars of the string. If the string length is
+     * less than 3, the front is whatever is there. Return a new string which is 3 copies of the front.
      *
      * front3("Java") → "JavJavJav"
      * front3("Chocolate") → "ChoChoCho"
@@ -198,7 +199,8 @@ public class Warmup1 {
      }
 
     /**
-     * Given a string, take the last char and return a new string with the last char added at the front and back, so "cat" yields "tcatt". The original string will be length 1 or more.
+     * Given a string, take the last char and return a new string with the last char added at the front and back,
+     * so "cat" yields "tcatt". The original string will be length 1 or more.
      *
      * backAround("cat") → "tcatt"
      * backAround("Hello") → "oHelloo"
@@ -210,7 +212,8 @@ public class Warmup1 {
      }
 
     /**
-     * Return true if the given non-negative number is a multiple of 3 or a multiple of 5. Use the % "mod" operator -- see Introduction to Mod
+     * Return true if the given non-negative number is a multiple of 3 or a multiple of 5.
+     * Use the % "mod" operator -- see Introduction to Mod
      *
      * or35(3) → true
      * or35(10) → true
@@ -221,7 +224,9 @@ public class Warmup1 {
      }
 
     /**
-     * Given a string, take the first 2 chars and return the string with the 2 chars added at both the front and back, so "kitten" yields"kikittenki". If the string length is less than 2, use whatever chars are there.
+     * Given a string, take the first 2 chars and return the string with the 2 chars added at both the
+     * front and back, so "kitten" yields"kikittenki". If the string length is less than 2, use whatever
+     * chars are there.
      *
      * front22("kitten") → "kikittenki"
      * front22("Ha") → "HaHaHa"
@@ -329,7 +334,8 @@ public class Warmup1 {
      }
 
     /**
-     * Return true if the given string begins with "mix", except the 'm' can be anything, so "pix", "9ix" .. all count.
+     * Return true if the given string begins with "mix", except the 'm' can be anything,
+     * so "pix", "9ix" .. all count.
      *
      * mixStart("mix snacks") → true
      * mixStart("pix snacks") → true
@@ -340,7 +346,9 @@ public class Warmup1 {
     }
 
     /**
-     * Given a string, return a string made of the first 2 chars (if present), however include first char only if it is 'o' and include the second only if it is 'z', so "ozymandias" yields "oz".
+     * Given a string, return a string made of the first 2 chars (if present), however include
+     * first char only if it is 'o' and include the second only if it is 'z', so "ozymandias"
+     * yields "oz".
      *
      * startOz("ozymandias") → "oz"
      * startOz("bzoo") → "z"
@@ -371,7 +379,8 @@ public class Warmup1 {
      }
 
     /**
-     * Given 2 int values, return whichever value is nearest to the value 10, or return 0 in the event of a tie. Note that Math.abs(n) returns the absolute value of a number.
+     * Given 2 int values, return whichever value is nearest to the value 10, or return 0 in
+     * the event of a tie. Note that Math.abs(n) returns the absolute value of a number.
      *
      * close10(8, 13) → 8
      * close10(13, 8) → 8
@@ -390,7 +399,8 @@ public class Warmup1 {
      }
 
     /**
-     * Given 2 int values, return true if they are both in the range 30..40 inclusive, or they are both in the range 40..50 inclusive.
+     * Given 2 int values, return true if they are both in the range 30..40 inclusive, or they
+     * are both in the range 40..50 inclusive.
      *
      * in3050(30, 31) → true
      * in3050(30, 41) → false
@@ -402,7 +412,8 @@ public class Warmup1 {
     }
 
     /**
-     * Given 2 positive int values, return the larger value that is in the range 10..20 inclusive, or return 0 if neither is in that range.
+     * Given 2 positive int values, return the larger value that is in the range 10..20 inclusive,
+     * or return 0 if neither is in that range.
      *
      * max1020(11, 19) → 19
      * max1020(19, 11) → 19
@@ -440,7 +451,8 @@ public class Warmup1 {
     }
 
     /**
-     * Given two non-negative int values, return true if they have the same last digit, such as with 27 and 57. Note that the % "mod" operator computes remainders, so 17 % 10 is 7.
+     * Given two non-negative int values, return true if they have the same last digit, such as with 27
+     * and 57. Note that the % "mod" operator computes remainders, so 17 % 10 is 7.
      *
      * lastDigit(7, 17) → true
      * lastDigit(6, 17) → false
@@ -448,5 +460,43 @@ public class Warmup1 {
      */
     public boolean lastDigit(int a, int b) {
         return (a%10) == (b%10);
+    }
+
+    /**
+     * Given a string, return a new string where the last 3 chars are now in upper case. If the string
+     * has less than 3 chars, uppercase whatever is there. Note that str.toUpperCase() returns the
+     * uppercase version of a string.
+     *
+     * endUp("Hello") → "HeLLO"
+     * endUp("hi there") → "hi thERE"
+     * endUp("hi") → "HI"
+     */
+    public String endUp(String str) {
+        if (str.length() < 3)
+            return str.toUpperCase();
+
+        int pivot = str.length()-3;
+        return str.substring(0, pivot) +
+               str.substring(pivot).toUpperCase();
+    }
+
+    /**
+     * Given a non-empty string and an int N, return the string made starting with char 0,
+     * and then every Nth char of the string. So if N is 3, use char 0, 3, 6, ... and so
+     * on. N is 1 or more.
+     *
+     * everyNth("Miracle", 2) → "Mrce"
+     * everyNth("abcdefg", 2) → "aceg"
+     * everyNth("abcdefg", 3) → "adg"
+     */
+    public String everyNth(String str, int n) {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i=0; i<str.length(); i+=n)
+        {
+            sb.append(str.charAt(i));
+        }
+
+        return sb.toString();
     }
 }
