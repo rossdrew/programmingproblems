@@ -11,8 +11,6 @@ import com.rox.prob.NumericalProblem;
  * There exists exactly one Pythagorean triplet for which a + b + c = 1000.
  * Find the product abc.
  *
- * XXX This could be done much faster with Euclids Formula but it runs at an acceptable speed as is
- *
  * [Answer : 31875000]
  */
 public class Problem9 implements NumericalProblem {
@@ -22,6 +20,11 @@ public class Problem9 implements NumericalProblem {
     }
 
     public long solution(long result)
+    {
+        return bruteForce(result);
+    }
+    
+    private long bruteForce(long result)
     {
         long c = 1;
         for (int a=1; a<result; a++)
@@ -38,6 +41,21 @@ public class Problem9 implements NumericalProblem {
             }
         }
 
-        return 0;
+        return -1;
+    }
+
+    /**
+     * Euclids Formula
+     *
+     * With 2 positive integers m and n, with m < n then
+     *
+     *        (n^2 - m^2), (2mn) and (n^2 + m^2)
+     *
+     * is a primitive triple
+     */
+    private long euclidsFormula(long result)
+    {
+        //XXX This could be done much faster with Euclids Formula but it runs at an acceptable speed as is
+        return -1;
     }
 }
