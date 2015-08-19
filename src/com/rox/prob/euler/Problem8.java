@@ -100,7 +100,7 @@ public class Problem8 implements NumericalProblem {
             }
             newProduct *= number;
         }
-        
+
         return newProduct;
     }
 }

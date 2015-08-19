@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 /**
  * Top Search Term
- * -Bad formatting due to HackerRanks ugly online interface restrictions-   
+ * -Bad formatting due to HackerRanks ugly online interface restrictions-
  *
  * Input a number to standard out which defines the number of  following inputs.
  * Then a series of destinations as "search terms".

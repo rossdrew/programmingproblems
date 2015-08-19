@@ -1,5 +1,7 @@
 package com.rox.prob.codingbat;
 
+import com.rox.prob.StringProblem;
+
 /**
  * Simple warmup problems from CodingBat.
  *
@@ -8,7 +10,7 @@ package com.rox.prob.codingbat;
  *
  * http://codingbat.com/java/Warmup-1
  */
-public class Warmup1 {
+public class Warmup1{
 
     /**
      * The parameter weekday is true if it is a weekday, and the parameter vacation is true if
