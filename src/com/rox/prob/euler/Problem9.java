@@ -23,7 +23,7 @@ public class Problem9 implements NumericalProblem {
     {
         return bruteForce(result);
     }
-    
+
     private long bruteForce(long result)
     {
         long c = 1;
