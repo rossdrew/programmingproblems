@@ -11,7 +11,7 @@ public class NumberAnalyser
     /**
      * Is <code>number</code> divisable by <code>divisor</code>
      */
-    public static boolean divisableBy(int number, int divisor)
+    public static boolean divisableBy(long number, long divisor)
     {
         return (number % divisor == 0);
     }
@@ -33,5 +33,21 @@ public class NumberAnalyser
         }
 
         return n;
+    }
+
+    public static boolean isPrime(long n)
+    {
+        long min = 2;
+        double max = Math.sqrt((double)n);
+
+        for (long i=min; i<=max; i++)
+        {
+            if (divisableBy(n, i))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
