@@ -15,6 +15,6 @@ public class Main {
         /*DEBUG*/System.out.println(p.solution());
 
         Warmup2 w = new Warmup2();
-        /*DEBUG*/System.out.println(w.stringSplosion("Hello"));
+        /*DEBUG*/System.out.println(w.last2("hixxhi"));
     }
 }
