@@ -56,11 +56,154 @@ public class Problem11 implements NumericalProblem {
                 {20, 73, 35, 29, 78, 31, 90, 1, 74, 31, 49, 71, 48, 86, 81, 16, 23, 57, 5, 54},
                 {1, 70, 54, 71, 83, 51, 54, 69, 16, 92, 33, 48, 61, 43, 52, 1, 89, 19, 67, 48}};
 
-        return solution(grid);
+        return solution(grid, 4);
     }
 
-    private long solution (int[][] grid)
+    private long solution (int[][] grid, int size)
     {
-        return -1;
+        /*DEBUG*/System.out.println("Finding max " + size + " digit product from [" + grid.length + "," + grid[0].length + "] grid");
+
+        long max = 0;
+
+        if (grid.length == grid[0].length)
+        {
+            max = Math.max(max, getMaxFromSquare(grid, size));
+        }
+        else
+        {
+            max = Math.max(max, getMaxFromRectangle(grid, size));
+        }
+
+        max = Math.max(max, maxForwardDiagonal(grid, size));
+
+        return max;
+    }
+
+    /**
+     * From a square, only one loop is needed
+     */
+    private long getMaxFromSquare(int[][] grid, int size) {
+        long max = 0;
+
+        for (int i=0; i<grid[0].length; i++)
+        {
+            max = Math.max(max, maxHorizontal(grid, size, i));
+            max = Math.max(max, maxVertical(grid, size, i));
+        }
+
+        return max;
+    }
+
+    /**
+     * A rectangle requires two loops.
+     * For the sake of this problem, it's irrelevant however.
+     */
+    private long getMaxFromRectangle(int[][] grid, int size) {
+        long max = 0;
+
+        for (int i=0; i<grid.length; i++)
+        {
+            long maxForThisRow = maxHorizontal(grid, size, i);
+            /*DEBUG*///System.out.println("Max for row " + i + " = " + maxForThisRow);
+
+            max = Math.max(max, maxForThisRow);
+        }
+
+        for (int i=0; i<grid[0].length; i++)
+        {
+            long maxForThisCol = maxVertical(grid, size, i);
+            /*DEBUG*///System.out.println("Max for column " + i + " = " + maxForThisCol);
+
+            max = Math.max(max, maxForThisCol);
+        }
+
+        return max;
+    }
+
+    private long maxHorizontal(int[][] grid, int size, int n)
+    {
+        long max = 0;
+
+        for (int i=0; i<(grid[n].length-size); i++)
+        {
+            long product = 1;
+            for (int o=0; o<size; o++)
+            {
+                int cell = i+o;
+                //Check for multiplication by zero and stop
+                if (grid[n][cell] == 0)
+                    return 0;
+
+                product *= grid[n][cell];
+            }
+
+            max = Math.max(max, product);
+        }
+
+        return max;
+    }
+
+    private long maxVertical(int[][] grid, int size, int n)
+    {
+        long max = 0;
+
+        for (int i=0; i<(grid.length-size); i++)
+        {
+            long product = 1;
+            for (int o=0; o<size; o++)
+            {
+                int cell = i+o;
+                //Check for multiplication by zero and stop
+                if (grid[cell][n] == 0)
+                    return 0;
+
+                product *= grid[cell][n];
+            }
+
+            max = Math.max(max, product);
+        }
+
+        return max;
+    }
+
+    /**
+     * Max from lower-left to upper-rught diagonal
+     *
+     * XXX clean up and clarify, just cos it works doesn't make it good
+     */
+    private long maxForwardDiagonal(int[][] grid, int size)
+    {
+        long max = 0;
+        int xStartPoint = size-1; //first squares are not diagonally long enough
+
+        /*DEBUG*/System.out.println("Starting point: " + xStartPoint);
+        for (int upperHalfI = xStartPoint; upperHalfI<grid.length; upperHalfI++)
+        {
+            int diagonalPossibilities = upperHalfI - xStartPoint;
+            int lowerHalfI = grid.length - upperHalfI;
+
+            for (int groupingI=0; groupingI < diagonalPossibilities; groupingI++)
+            {
+                long upperHalfProduct = 1;
+                long lowerHalfProduct = 1;
+
+                for (int numberI=0; numberI<size; numberI++)
+                {
+                    int x = upperHalfI - groupingI - numberI - 1;
+                    int y = 0 + groupingI + numberI;
+                    upperHalfProduct *= grid[x][y];
+
+                    y = lowerHalfI + groupingI + numberI;
+                    x = 19 - groupingI - numberI;
+                    lowerHalfProduct *= grid[x][y];
+
+                }
+
+                max = Math.max(max, lowerHalfProduct);
+                max = Math.max(max, upperHalfProduct);
+            }
+        }
+
+        return max;
     }
 }

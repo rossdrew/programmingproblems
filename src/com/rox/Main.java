@@ -12,7 +12,7 @@ import com.rox.prob.spoj.Example;
 public class Main {
 
     public static void main(String[] args) {
-        NumericalProblem p = new Problem10();
+        NumericalProblem p = new Problem11();
         /*DEBUG*/System.out.println(p.solution());
 
         Warmup2 w = new Warmup2();
