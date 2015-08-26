@@ -30,6 +30,8 @@ import com.rox.prob.NumericalProblem;
  *
  * What is the greatest product of four adjacent numbers in the same direction (up, down, left, right,
  * or diagonally) in the 20×20 grid?
+ *
+ * [Answer = 70600674]
  */
 public class Problem11 implements NumericalProblem {
     @Override
@@ -63,166 +65,60 @@ public class Problem11 implements NumericalProblem {
     {
         /*DEBUG*/System.out.println("Finding max " + size + " digit product from [" + grid.length + "," + grid[0].length + "] grid");
 
-        long max = 0;
-
-        if (grid.length == grid[0].length)
-        {
-            max = Math.max(max, getMaxFromSquare(grid, size));
-        }
-        else
-        {
-            max = Math.max(max, getMaxFromRectangle(grid, size));
-        }
-
-        max = Math.max(max, getMaxOfForwardDiagonals(grid, size));
-
-        return max;
+        return getMaxByIteration(grid, 4);
     }
 
-    /**
-     * From a square, only one loop is needed
-     */
-    private long getMaxFromSquare(int[][] grid, int size) {
-        long max = 0;
-
-        for (int i=0; i<grid[0].length; i++)
-        {
-            max = Math.max(max, maxHorizontal(grid, size, i));
-            max = Math.max(max, maxVertical(grid, size, i));
-        }
-
-        return max;
-    }
-
-    /**
-     * A rectangle requires two loops.
-     * For the sake of this problem, it's irrelevant however.
-     */
-    private long getMaxFromRectangle(int[][] grid, int size) {
-        long max = 0;
-
-        for (int i=0; i<grid.length; i++)
-        {
-            long maxForThisRow = maxHorizontal(grid, size, i);
-            /*DEBUG*///System.out.println("Max for row " + i + " = " + maxForThisRow);
-
-            max = Math.max(max, maxForThisRow);
-        }
-
-        for (int i=0; i<grid[0].length; i++)
-        {
-            long maxForThisCol = maxVertical(grid, size, i);
-            /*DEBUG*///System.out.println("Max for column " + i + " = " + maxForThisCol);
-
-            max = Math.max(max, maxForThisCol);
-        }
-
-        return max;
-    }
-
-    private long maxHorizontal(int[][] grid, int size, int n)
+    private long getMaxByIteration(int[][] grid, int size)
     {
         long max = 0;
 
-        for (int i=0; i<(grid[n].length-size); i++)
+        for (int y=0; y<grid.length; y++)
         {
-            long product = 1;
-            for (int o=0; o<size; o++)
+            for (int x=0; x<grid[0].length; x++)
             {
-                int cell = i+o;
-                //Check for multiplication by zero and stop
-                if (grid[n][cell] == 0)
-                    return 0;
+                max = Math.max(max, getMaxProductFromCell(grid, x, y, size));
 
-                product *= grid[n][cell];
+            }
+        }
+
+        return max;
+    }
+
+    private long getMaxProductFromCell(int[][] grid, int x, int y, int size)
+    {
+        long slideUpProduct = 1;
+        long rightProduct = 1;
+        long slideDownProduct = 1;
+        long downProduct = 1;
+
+        for (int i = 0; i < size; i++) {
+            boolean xSmallEnough = x+i < grid.length;
+            boolean ySmallEnough = y+i < grid[0].length;
+            boolean yLargeEnough = y+i > 0;
+
+            if (xSmallEnough)
+            {
+                if (yLargeEnough) {
+                    slideUpProduct *= grid[x + i][y - i];
+                }
+
+                rightProduct *= grid[x+i][y];
+
+                if (ySmallEnough) {
+                    slideDownProduct *= grid[x + i][y + i];
+                }
             }
 
-            max = Math.max(max, product);
-        }
-
-        return max;
-    }
-
-    private long maxVertical(int[][] grid, int size, int n)
-    {
-        long max = 0;
-
-        for (int i=0; i<(grid.length-size); i++)
-        {
-            long product = 1;
-            for (int o=0; o<size; o++)
-            {
-                int cell = i+o;
-                //Check for multiplication by zero and stop
-                if (grid[cell][n] == 0)
-                    return 0;
-
-                product *= grid[cell][n];
+            if (ySmallEnough) {
+                downProduct *= grid[x][y + i];
             }
-
-            max = Math.max(max, product);
         }
 
-        return max;
-    }
-
-    /**
-     * Max from lower-left to upper-rught diagonal
-     *
-     * XXX clarify! just cos it works doesn't make it good
-     */
-    private long getMaxOfForwardDiagonals(int[][] grid, int size)
-    {
         long max = 0;
-        int xStartPoint = size-1; //first squares are not diagonally long enough
-
-        for (int upperHalfI = xStartPoint; upperHalfI<grid.length; upperHalfI++)
-        {
-            max = getMaxOfForwardDiagonal(grid, size, xStartPoint, upperHalfI);
-        }
-
+        max = Math.max(max, slideUpProduct);
+        max = Math.max(max, rightProduct);
+        max = Math.max(max, slideDownProduct);
+        max = Math.max(max, downProduct);
         return max;
-    }
-
-    private long getMaxOfForwardDiagonal(int[][] grid,
-                                         int size,
-                                         int xStartPoint,
-                                         int startingSquareIndex) {
-        long max = 0;
-
-        int diagonalPossibilities = startingSquareIndex - xStartPoint;
-        int lowerStartingSquareIndex = grid.length - startingSquareIndex;
-
-        for (int groupingI=0; groupingI < diagonalPossibilities; groupingI++)
-        {
-            max = getForwardDiagonalGroupMax(grid, size, startingSquareIndex, lowerStartingSquareIndex, groupingI);
-        }
-        return max;
-    }
-
-    /**
-     * Return the max of forward diagonal group and it's mirror image at the other end of the grid
-     */
-    private long getForwardDiagonalGroupMax(int[][] grid,
-                                            int size,
-                                            int upperStartingSquareIndex,
-                                            int lowerStartingSquareIndex,
-                                            int groupingI) {
-        long upperHalfProduct = 1;
-        long lowerHalfProduct = 1;
-
-        for (int numberI=0; numberI<size; numberI++)
-        {
-            int x = upperStartingSquareIndex - groupingI - numberI - 1;
-            int y = 0 + groupingI + numberI;
-            upperHalfProduct *= grid[x][y];
-
-            y = lowerStartingSquareIndex + groupingI + numberI;
-            x = 19 - groupingI - numberI;
-            lowerHalfProduct *= grid[x][y];
-
-        }
-
-        return Math.max(upperHalfProduct, lowerHalfProduct);
     }
 }
