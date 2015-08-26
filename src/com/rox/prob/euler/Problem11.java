@@ -74,7 +74,7 @@ public class Problem11 implements NumericalProblem {
             max = Math.max(max, getMaxFromRectangle(grid, size));
         }
 
-        max = Math.max(max, maxForwardDiagonal(grid, size));
+        max = Math.max(max, getMaxOfForwardDiagonals(grid, size));
 
         return max;
     }
@@ -169,41 +169,60 @@ public class Problem11 implements NumericalProblem {
     /**
      * Max from lower-left to upper-rught diagonal
      *
-     * XXX clean up and clarify, just cos it works doesn't make it good
+     * XXX clarify! just cos it works doesn't make it good
      */
-    private long maxForwardDiagonal(int[][] grid, int size)
+    private long getMaxOfForwardDiagonals(int[][] grid, int size)
     {
         long max = 0;
         int xStartPoint = size-1; //first squares are not diagonally long enough
 
-        /*DEBUG*/System.out.println("Starting point: " + xStartPoint);
         for (int upperHalfI = xStartPoint; upperHalfI<grid.length; upperHalfI++)
         {
-            int diagonalPossibilities = upperHalfI - xStartPoint;
-            int lowerHalfI = grid.length - upperHalfI;
-
-            for (int groupingI=0; groupingI < diagonalPossibilities; groupingI++)
-            {
-                long upperHalfProduct = 1;
-                long lowerHalfProduct = 1;
-
-                for (int numberI=0; numberI<size; numberI++)
-                {
-                    int x = upperHalfI - groupingI - numberI - 1;
-                    int y = 0 + groupingI + numberI;
-                    upperHalfProduct *= grid[x][y];
-
-                    y = lowerHalfI + groupingI + numberI;
-                    x = 19 - groupingI - numberI;
-                    lowerHalfProduct *= grid[x][y];
-
-                }
-
-                max = Math.max(max, lowerHalfProduct);
-                max = Math.max(max, upperHalfProduct);
-            }
+            max = getMaxOfForwardDiagonal(grid, size, xStartPoint, upperHalfI);
         }
 
         return max;
+    }
+
+    private long getMaxOfForwardDiagonal(int[][] grid,
+                                         int size,
+                                         int xStartPoint,
+                                         int startingSquareIndex) {
+        long max = 0;
+
+        int diagonalPossibilities = startingSquareIndex - xStartPoint;
+        int lowerStartingSquareIndex = grid.length - startingSquareIndex;
+
+        for (int groupingI=0; groupingI < diagonalPossibilities; groupingI++)
+        {
+            max = getForwardDiagonalGroupMax(grid, size, startingSquareIndex, lowerStartingSquareIndex, groupingI);
+        }
+        return max;
+    }
+
+    /**
+     * Return the max of forward diagonal group and it's mirror image at the other end of the grid
+     */
+    private long getForwardDiagonalGroupMax(int[][] grid,
+                                            int size,
+                                            int upperStartingSquareIndex,
+                                            int lowerStartingSquareIndex,
+                                            int groupingI) {
+        long upperHalfProduct = 1;
+        long lowerHalfProduct = 1;
+
+        for (int numberI=0; numberI<size; numberI++)
+        {
+            int x = upperStartingSquareIndex - groupingI - numberI - 1;
+            int y = 0 + groupingI + numberI;
+            upperHalfProduct *= grid[x][y];
+
+            y = lowerStartingSquareIndex + groupingI + numberI;
+            x = 19 - groupingI - numberI;
+            lowerHalfProduct *= grid[x][y];
+
+        }
+
+        return Math.max(upperHalfProduct, lowerHalfProduct);
     }
 }
