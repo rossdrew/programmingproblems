@@ -1,5 +1,8 @@
 package com.rox.prob.sub;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Class for analysing numbers
  *
@@ -43,6 +46,45 @@ public class NumberAnalyser
         for (long i=min; i<=max; i++)
         {
             if (divisableBy(n, i))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static List<Long> seperateDigits(long number)
+    {
+        int NUMBER_BASE = 10;
+
+        ArrayList<Long> explodedNumbers = new ArrayList<>();
+
+        long explodingNumber = number;
+        long remainder = 0;
+        while (explodingNumber > 0)
+        {
+            remainder = explodingNumber % NUMBER_BASE;
+            explodingNumber /= NUMBER_BASE;
+
+            explodedNumbers.add(remainder);
+            if (explodingNumber < NUMBER_BASE)
+            {
+                explodedNumbers.add(explodingNumber);
+                explodingNumber = 0;
+            }
+        }
+
+        return explodedNumbers;
+    }
+
+    public static boolean isPallindrome(long number)
+    {
+        List<Long> digits = seperateDigits(number);
+
+        for (int i=0; i<digits.size() / 2; i++)
+        {
+            if (!digits.get(i).equals(digits.get(digits.size()-i-1)))
             {
                 return false;
             }

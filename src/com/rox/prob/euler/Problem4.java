@@ -1,6 +1,7 @@
 package com.rox.prob.euler;
 
 import com.rox.prob.NumericalProblem;
+import com.rox.prob.sub.NumberAnalyser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +62,7 @@ public class Problem4 implements NumericalProblem
             for (long b=min; b <= max; b++)
             {
                 long v = a * b;
-                if (isPallindrome(v))
+                if (NumberAnalyser.isPallindrome(v))
                 {
                     highestPallindrome = Math.max(v, highestPallindrome);
                 }
@@ -69,44 +70,5 @@ public class Problem4 implements NumericalProblem
         }
 
         return highestPallindrome;
-    }
-
-    private List<Long> explodeDigits(long number)
-    {
-        int NUMBER_BASE = 10;
-
-        ArrayList<Long> explodedNumbers = new ArrayList<>();
-
-        long explodingNumber = number;
-        long remainder = 0;
-        while (explodingNumber > 0)
-        {
-            remainder = explodingNumber % NUMBER_BASE;
-            explodingNumber /= NUMBER_BASE;
-
-            explodedNumbers.add(remainder);
-            if (explodingNumber < NUMBER_BASE)
-            {
-                explodedNumbers.add(explodingNumber);
-                explodingNumber = 0;
-            }
-        }
-
-        return explodedNumbers;
-    }
-
-    private boolean isPallindrome(long number)
-    {
-        List<Long> digits = explodeDigits(number);
-
-        for (int i=0; i<digits.size() / 2; i++)
-        {
-            if (!digits.get(i).equals(digits.get(digits.size()-i-1)))
-            {
-                return false;
-            }
-        }
-
-        return true;
     }
 }
