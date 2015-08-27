@@ -78,28 +78,32 @@ public class FizzBuzz {
 
         for (int i=1; i<=count; i++)
         {
-            boolean divByFizz = (i % fizzDivisor)==0;
-            boolean divByBuzz = (i % buzzDivisor)==0;
-
-            if (divByFizz && divByBuzz)
-            {
-                sb.append(" FB");
-            }
-            else if (divByFizz)
-            {
-                sb.append(" F");
-            }
-            else if (divByBuzz)
-            {
-                sb.append(" B");
-            }
-            else
-            {
-                sb.append(" " + i);
-            }
+            getFizzBuzzStringFor(i);
         }
 
         return sb.toString();
+    }
+
+    private String getFizzBuzzStringFor(int i) {
+        boolean divByFizz = (i % fizzDivisor)==0;
+        boolean divByBuzz = (i % buzzDivisor)==0;
+
+        if (divByFizz && divByBuzz)
+        {
+            return " FB";
+        }
+        else if (divByFizz)
+        {
+            return " F";
+        }
+        else if (divByBuzz)
+        {
+            return " B";
+        }
+        else
+        {
+            return " " + i;
+        }
     }
 
     public static void main(String[] args)
