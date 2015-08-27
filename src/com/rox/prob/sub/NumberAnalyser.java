@@ -1,4 +1,4 @@
-package com.rox.prob.euler.sub;
+package com.rox.prob.sub;
 
 /**
  * Class for analysing numbers

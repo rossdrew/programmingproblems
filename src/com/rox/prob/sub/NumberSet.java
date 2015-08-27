@@ -1,4 +1,4 @@
-package com.rox.prob.euler.sub;
+package com.rox.prob.sub;
 
 import java.util.ArrayList;
 import java.util.List;

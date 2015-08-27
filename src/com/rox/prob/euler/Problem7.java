@@ -1,6 +1,6 @@
 package com.rox.prob.euler;
 
-import com.rox.prob.euler.sub.NumberAnalyser;
+import com.rox.prob.sub.NumberAnalyser;
 import com.rox.prob.NumericalProblem;
 
 /**
