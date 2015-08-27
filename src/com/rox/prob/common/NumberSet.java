@@ -1,4 +1,4 @@
-package com.rox.prob.sub;
+package com.rox.prob.common;
 
 import java.util.ArrayList;
 import java.util.List;

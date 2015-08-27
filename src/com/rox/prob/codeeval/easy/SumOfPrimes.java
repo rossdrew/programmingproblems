@@ -1,6 +1,6 @@
 package com.rox.prob.codeeval.easy;
 
-import com.rox.prob.sub.NumberAnalyser;
+import com.rox.prob.common.NumberAnalyser;
 
 /**
  * Write a program which determines the sum of the first 1000 prime numbers.

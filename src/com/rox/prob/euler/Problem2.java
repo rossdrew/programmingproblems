@@ -1,7 +1,7 @@
 package com.rox.prob.euler;
 
-import com.rox.prob.sub.NumberAnalyser;
-import com.rox.prob.sub.Validator;
+import com.rox.prob.common.NumberAnalyser;
+import com.rox.prob.common.Validator;
 import com.rox.prob.NumericalProblem;
 
 import java.util.HashSet;

@@ -1,4 +1,4 @@
-package com.rox.prob.sub;
+package com.rox.prob.common;
 
 /**
  * Created by Ross W. Drew on 29/07/15.

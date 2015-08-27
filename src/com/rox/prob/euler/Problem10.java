@@ -1,7 +1,7 @@
 package com.rox.prob.euler;
 
 import com.rox.prob.NumericalProblem;
-import com.rox.prob.sub.NumberAnalyser;
+import com.rox.prob.common.NumberAnalyser;
 
 /**
  * The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.

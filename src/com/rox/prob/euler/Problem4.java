@@ -1,10 +1,7 @@
 package com.rox.prob.euler;
 
 import com.rox.prob.NumericalProblem;
-import com.rox.prob.sub.NumberAnalyser;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.rox.prob.common.NumberAnalyser;
 
 /**
  * A palindromic number reads the same both ways. The largest palindrome made from the product of two 2-digit numbers is 9009 = 91 × 99.
