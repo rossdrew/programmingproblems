@@ -54,42 +54,51 @@ public class NumberAnalyser
         return true;
     }
 
-    public static List<Long> seperateDigits(long number)
+    public static long[] getDigits(long number)
     {
         int NUMBER_BASE = 10;
 
-        ArrayList<Long> explodedNumbers = new ArrayList<>();
+        int length = getDigitCountInNumber(number);
+        long[] digits = new long[length];
 
         long explodingNumber = number;
         long remainder = 0;
+        int i=digits.length-1;
+
         while (explodingNumber > 0)
         {
             remainder = explodingNumber % NUMBER_BASE;
             explodingNumber /= NUMBER_BASE;
 
-            explodedNumbers.add(remainder);
+            digits[i--] = remainder;
             if (explodingNumber < NUMBER_BASE)
             {
-                explodedNumbers.add(explodingNumber);
+                digits[i--] = explodingNumber;
                 explodingNumber = 0;
             }
         }
 
-        return explodedNumbers;
+        return digits;
     }
 
     public static boolean isPallindrome(long number)
     {
-        List<Long> digits = seperateDigits(number);
+        long[] d = getDigits(number);
 
-        for (int i=0; i<digits.size() / 2; i++)
+        for (int i=0; i<d.length / 2; i++)
         {
-            if (!digits.get(i).equals(digits.get(digits.size()-i-1)))
+            if (!(d[i] == d[d.length-i-1]))
             {
                 return false;
             }
         }
 
         return true;
+    }
+
+    public static int getDigitCountInNumber(long number)
+    {
+        int length = (int)(Math.log10(number)+1);
+        return length;
     }
 }
