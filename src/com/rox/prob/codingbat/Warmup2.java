@@ -199,9 +199,11 @@ public class Warmup2 {
     public boolean array123(int[] nums) {
         for (int i=0; i<nums.length; i++)
         {
+            System.out.println(i);
             if (nums[i] == 1)
             {
-                if (i+2 > nums.length)
+                System.out.println(":" + (i+2));
+                if (i+2 >= nums.length)
                 {
                     return false;
                 }

@@ -13,6 +13,6 @@ public class Main {
         /*DEBUG*/System.out.println(p.solution());
 
         Warmup2 w = new Warmup2();
-        /*DEBUG*/System.out.println(w.array123(new int[] {1,9,1,2,3,3,2,5,7,2}));
+        /*DEBUG*/System.out.println(w.array123(new int[] {1,2}));
     }
 }
