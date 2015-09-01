@@ -17,6 +17,6 @@ public class Main {
         /*DEBUG*/System.out.println(w.stringMatch("xxcaazz", "xxbaaz"));
 
         Recursion1 r = new Recursion1();
-        /*DEBUG*/System.out.println(r.factorial(10));
+        /*DEBUG*/System.out.println(r.bunnyEars(0));
     }
 }
