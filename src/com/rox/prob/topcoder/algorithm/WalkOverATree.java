@@ -1,5 +1,8 @@
 package com.rox.prob.topcoder.algorithm;
 
+import com.rox.prob.common.struct.Graph;
+import com.rox.prob.common.struct.Vertice;
+
 /**
  * Problem Statement (SRM666 - 25/08/2015)
  *
@@ -71,7 +74,25 @@ package com.rox.prob.topcoder.algorithm;
 public class WalkOverATree {
     public static int maxNodesVisited(int[] parent, int L)
     {
+        Graph<String> tree = new Graph<>();
+
         //So essentially parent[i] connects to node (i+1)
+        for (int i=0; i<parent.length; i++)
+        {
+            Vertice<String> a = tree.addVertice("V" + parent[i]);
+            Vertice<String> b = tree.addVertice("V" + (i+1));
+            tree.addEdge(a, b);
+        }
+
+        //TODO how many unique nodes can be visited in L steps
+
+        System.out.println("Tree...\n" + tree.toString());
+
+
         return -1;
+    }
+
+    public static void main(String[] args){
+        maxNodesVisited(new int[] {0, 1, 2, 3}, 2);
     }
 }
