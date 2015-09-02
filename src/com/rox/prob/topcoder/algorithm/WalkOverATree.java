@@ -84,10 +84,11 @@ public class WalkOverATree {
             tree.addEdge(a, b);
         }
 
-        //TODO how many unique nodes can be visited in L steps
+        //TODO how many unique nodes can be visited in L steps?
 
         System.out.println("Tree...\n" + tree.toString());
-
+        Vertice<String> walkingVertice = tree.getVertice("V0");
+    
 
         return -1;
     }

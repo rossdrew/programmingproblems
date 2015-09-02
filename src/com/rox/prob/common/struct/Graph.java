@@ -33,6 +33,10 @@ public class Graph<V> {
         return vertices.get(vertice.getIdentity());
     }
 
+    public Vertice<V> getVertice(V vertice){
+        return vertices.get(vertice);
+    }
+
     public String toString(){
         StringBuilder sb = new StringBuilder();
 
