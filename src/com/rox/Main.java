@@ -11,12 +11,15 @@ public class Main {
 
     public static void main(String[] args) {
         NumericalProblem p = new Problem4();
-        /*DEBUG*/System.out.println(p.solution());
+        /*DEBUG*///System.out.println(p.solution());
 
         Warmup2 w = new Warmup2();
-        /*DEBUG*/System.out.println(w.stringMatch("xxcaazz", "xxbaaz"));
+        /*DEBUG*///System.out.println(w.stringMatch("xxcaazz", "xxbaaz"));
 
         Recursion1 r = new Recursion1();
-        /*DEBUG*/System.out.println(r.bunnyEars(0));
+        for (int i=0; i<10; i++)
+        {
+            /*DEBUG*/System.out.println(r.fibonacci(i));
+        }
     }
 }
