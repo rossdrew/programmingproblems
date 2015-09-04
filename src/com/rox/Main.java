@@ -17,9 +17,6 @@ public class Main {
         /*DEBUG*///System.out.println(w.stringMatch("xxcaazz", "xxbaaz"));
 
         Recursion1 r = new Recursion1();
-        for (int i=0; i<10; i++)
-        {
-            /*DEBUG*/System.out.println(r.fibonacci(i));
-        }
+        /*DEBUG*/System.out.println(r.bunnyEars2(2));
     }
 }
