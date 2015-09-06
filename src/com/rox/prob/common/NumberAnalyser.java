@@ -38,6 +38,32 @@ public class NumberAnalyser
         return n;
     }
 
+    /**
+     * Count the number of values n is divisible by
+     *
+     * XXX Possible improvement with prime factorisation or coprime property
+     */
+    public static long factorCount(long n)
+    {
+        long count = 0;
+        long ceiling = (long)Math.sqrt(n);
+
+        for (int i = 1; i <= ceiling; i++)
+        {
+            if (n % i == 0)
+            {
+                //Count 1 divisor for each end of the squared root
+                count+=2;
+            }
+        }
+
+        //Perfect square includes last number so remove duplicate
+        if (ceiling * ceiling == n)
+            count--;
+
+        return count;
+    }
+
     public static boolean isPrime(long n)
     {
         long min = 2;
@@ -62,7 +88,7 @@ public class NumberAnalyser
         long[] digits = new long[length];
 
         long explodingNumber = number;
-        long remainder = 0;
+        long remainder;
         int i=digits.length-1;
 
         while (explodingNumber > 0)
@@ -98,7 +124,6 @@ public class NumberAnalyser
 
     public static int getDigitCountInNumber(long number)
     {
-        int length = (int)(Math.log10(number)+1);
-        return length;
+        return (int)(Math.log10(number)+1);
     }
 }
