@@ -17,6 +17,6 @@ public class Main {
         /*DEBUG*///System.out.println(w.stringMatch("xxcaazz", "xxbaaz"));
 
         Recursion1 r = new Recursion1();
-        /*DEBUG*/System.out.println(r.triangle(3));
+        /*DEBUG*/System.out.println(r.sumDigits(333));
     }
 }
