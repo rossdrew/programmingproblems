@@ -35,17 +35,11 @@ public class Problem12 implements NumericalProblem{
         long triangleNumber = 0;
         long divisorCount = 0;
 
-        long topCountSoFar = 0;
-
         while (divisorCount < requiredDivisorCount)
         {
             triangleNumber += index++;
 
             divisorCount = NumberAnalyser.factorCount(triangleNumber);
-            if (divisorCount > topCountSoFar)
-            {
-                topCountSoFar = divisorCount;
-            }
         }
 
         return triangleNumber;
