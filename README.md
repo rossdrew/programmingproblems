@@ -8,3 +8,13 @@ My personal solutions for various programming problems I find.  Each problem sou
  RosettaCode : http://rosettacode.org/wiki/Rosetta_Code<br/>
  InterviewCake : https://www.interviewcake.com/question/stock-price<br/>
  LeetCode : https://leetcode.com<br/>
+<br/>
+
+<h3>Current Sources</h3>
+
+ The current sources I use are of different levels of difficulties and require different time commitments.  I try to do a little coding every day here so quick problems are handy when I'm busy, long problems when I have much more time to spare.<br/>
+ <br/>
+ Coding Bat - Single method, < 5 minute problems.<br/>
+ Euler - Project Euler is a bit more involved, requiring some thought, time and average amount of code.<br/>
+ CodeEval - Requires probably not as much thought but more boiler plate code than Euler as the actual code is sumbmitted.<br/>
+ TopCoder - Much more involved coding, often requiring more advanced algorithms and data structures.<br/>
