@@ -1,11 +1,10 @@
 package com.rox;
 
 
+import com.rox.prob.NumericalProblem;
 import com.rox.prob.codingbat.Recursion1;
 import com.rox.prob.codingbat.Warmup2;
-import com.rox.prob.common.NumberAnalyser;
-import com.rox.prob.euler.*;
-import com.rox.prob.NumericalProblem;
+import com.rox.prob.euler.Problem4;
 
 public class Main {
 
@@ -17,6 +16,6 @@ public class Main {
         /*DEBUG*///System.out.println(w.stringMatch("xxcaazz", "xxbaaz"));
 
         Recursion1 r = new Recursion1();
-        /*DEBUG*/System.out.println(r.sumDigits(333));
+        /*DEBUG*/System.out.println(r.count7(737));
     }
 }
