@@ -10,6 +10,12 @@ My personal solutions for various programming problems I find.  Each problem sou
  LeetCode : https://leetcode.com<br/>
 <br/>
 
+<h3>Other Avenues</h3>
+ Some avenues for code exercise which may or be not be commitable:-<br/>
+ <br/>
+ Eudyptula Challenge (Linux Kernel) : http://eudyptula-challenge.org/
+ Matasano Crypto Challenges : http://www.matasano.com/articles/crypto-challenges/
+
 <h3>Current Sources</h3>
 
  The current sources I use are of different levels of difficulties and require different time commitments.  I try to do a little coding every day here so quick problems are handy when I'm busy, long problems when I have much more time to spare.<br/>
