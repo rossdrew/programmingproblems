@@ -1,11 +1,10 @@
 #programmingproblems
 
-My personal solutions for various programming problems I find such as:- 
+My personal solutions for various programming problems I find.  Each problem source is in it's own package with it's own README.md description.  Some locations I plan to also look at are...
 
- Project Euler: https://projecteuler.net <br/>
- HackerRank: https://www.hackerrank.com/domains <br/>
- CodingBat: http://codingbat.com <br/>
  Sphere Online Judge: http://www.spoj.com
-
-Each problem implements the a *Problem interface meaning they can all be called the same way to simple return the answer as a number/string.
-Every Problem/Question is then a class with the problem statement in it's class JavaDoc.  Those which I have solved also contain the final answer if the problem has set data, ideally these would be in accompanying unit tests, which I may add later.
+ CoderByte : http://coderbyte.com
+ CodeWars : http://www.codewars.com/?language=java
+ RosettaCode : http://rosettacode.org/wiki/Rosetta_Code
+ InterviewCake : https://www.interviewcake.com/question/stock-price
+ LeetCode : https://leetcode.com
