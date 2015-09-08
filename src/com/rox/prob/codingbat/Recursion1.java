@@ -126,4 +126,34 @@ public class Recursion1 {
 
         return ((n%10==7) ? 1 : 0) + count7(n/10);
     }
+
+    /**
+     * Given a non-negative int n, compute recursively (no loops) the count of the
+     * occurrences of 8 as a digit, except that an 8 with another 8 immediately to its
+     * left counts double, so 8818 yields 4. Note that mod (%) by 10 yields the rightmost
+     * digit (126 % 10 is 6), while divide (/) by 10 removes the rightmost digit
+     * (126 / 10 is 12).
+     *
+     * count8(8) → 1
+     * count8(818) → 2
+     * count8(8818) → 4
+     */
+    public int count8(int n) {
+        if (n < 10)
+        {
+            return (n==8 ? 1 : 0);
+        }
+
+        int left = n / 10;
+        int count = 0;
+
+        if (n % 10 == 8)
+        {
+            //Double?
+            count = (left % 10 == 8) ? 2  : 1;
+        }
+
+        //Recurse with 1 or two rightmost digits removed
+        return count + count8(left);
+    }
 }
