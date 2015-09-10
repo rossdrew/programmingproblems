@@ -24,7 +24,7 @@ import java.util.Scanner;
  *  World Hello
  *  CodeEval Hello
  *
- *  TODO need to add common CodeEVal boiler plater class
+ *  TODO need to add common CodeEval boiler plate class
  */
 public class ReverseWords {
     private Scanner fileScanner;
