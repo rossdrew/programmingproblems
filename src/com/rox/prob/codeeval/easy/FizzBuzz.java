@@ -108,7 +108,7 @@ public class FizzBuzz {
 
     public static void main(String[] args)
     {
-        FizzBuzz problem = new FizzBuzz(args[0]);
+        FizzBuzz problem = new FizzBuzz("resources/codeeval.easy.fizzbuzz.txt");
         problem.start();
     }
 }
