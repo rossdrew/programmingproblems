@@ -16,8 +16,6 @@ public class Main {
         /*DEBUG*///System.out.println(w.stringMatch("xxcaazz", "xxbaaz"));
 
         Recursion1 r = new Recursion1();
-        /*DEBUG*/System.out.println(r.powerN(3, 1));
-        /*DEBUG*/System.out.println(r.powerN(3,2));
-        /*DEBUG*/System.out.println(r.powerN(3,3));
+        /*DEBUG*/System.out.println(r.countX("this xxis a x test"));
     }
 }

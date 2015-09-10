@@ -174,4 +174,21 @@ public class Recursion1 {
         return base * powerN(base, n-1);
     }
 
+    /**
+     * Given a string, compute recursively (no loops) the number of lowercase 'x' chars
+     * in the string.
+     *
+     * countX("xxhixx") → 4
+     * countX("xhixhix") → 3
+     * countX("hi") → 0
+     */
+    public int countX(String str) {
+        if (str.length() < 2)
+        {
+            return str.equals("x") ? 1 : 0;
+        }
+
+        int isX = (str.substring(0, 1).equals("x") ? 1 : 0);
+        return isX + countX(str.substring(1));
+    }
 }
