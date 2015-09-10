@@ -1,11 +1,26 @@
 #programmingproblems
 
-My personal solutions for various programming problems I find such as:- 
+My personal solutions for various programming problems I find.  Each problem source is in it's own package with it's own README.md description.  Some locations I plan to also look at are...
 
- Project Euler: https://projecteuler.net <br/>
- HackerRank: https://www.hackerrank.com/domains <br/>
- CodingBat: http://codingbat.com <br/>
- Sphere Online Judge: http://www.spoj.com
+ Sphere Online Judge: http://www.spoj.com<br/>
+ CoderByte : http://coderbyte.com<br/>
+ CodeWars : http://www.codewars.com/?language=java<br/>
+ RosettaCode : http://rosettacode.org/wiki/Rosetta_Code<br/>
+ InterviewCake : https://www.interviewcake.com/question/stock-price<br/>
+ LeetCode : https://leetcode.com<br/>
+<br/>
 
-Each problem implements the a *Problem interface meaning they can all be called the same way to simple return the answer as a number/string.
-Every Problem/Question is then a class with the problem statement in it's class JavaDoc.  Those which I have solved also contain the final answer if the problem has set data, ideally these would be in accompanying unit tests, which I may add later.
+<h3>Other Avenues</h3>
+ Some avenues for code exercise which may or be not be commitable:-<br/>
+ <br/>
+ Eudyptula Challenge (Linux Kernel) : http://eudyptula-challenge.org/
+ Matasano Crypto Challenges : http://www.matasano.com/articles/crypto-challenges/
+
+<h3>Current Sources</h3>
+
+ The current sources I use are of different levels of difficulties and require different time commitments.  I try to do a little coding every day here so quick problems are handy when I'm busy, long problems when I have much more time to spare.<br/>
+ <br/>
+ Coding Bat - Single method, < 5 minute problems.<br/>
+ Euler - Project Euler is a bit more involved, requiring some thought, time and average amount of code.<br/>
+ CodeEval - Requires probably not as much thought but more boiler plate code than Euler as the actual code is sumbmitted.<br/>
+ TopCoder - Much more involved coding, often requiring more advanced algorithms and data structures.<br/>
