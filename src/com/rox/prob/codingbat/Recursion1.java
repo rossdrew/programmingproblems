@@ -191,4 +191,27 @@ public class Recursion1 {
         int isX = (str.substring(0, 1).equals("x") ? 1 : 0);
         return isX + countX(str.substring(1));
     }
+
+    /**
+     * Given a string, compute recursively (no loops) the number of times lowercase "hi"
+     * appears in the string.
+     *
+     * countHi("xxhixx") → 1
+     * countHi("xhixhix") → 2
+     * countHi("hi") → 1
+     */
+    public int countHi(String str) {
+        if (str.length() < 3){
+            return (str!=null && str.equals("hi") ? 1 : 0);
+        }
+
+        int i=0;
+        if (str.startsWith("hi")){
+            //1 "hi" is found, also use i as index offset to skip hi
+            i=1;
+        }
+
+        return i + countHi(str.substring(1+i));
+
+    }
 }
