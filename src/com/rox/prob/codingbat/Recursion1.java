@@ -171,7 +171,7 @@ public class Recursion1 {
             return 1;
         }
 
-        return base * powerN(base, n-1);
+        return base * powerN(base, n - 1);
     }
 
     /**
@@ -211,7 +211,28 @@ public class Recursion1 {
             i=1;
         }
 
-        return i + countHi(str.substring(1+i));
+        return i + countHi(str.substring(1 + i));
 
+    }
+
+    /**
+     * Given a string, compute recursively (no loops) a new string where all the
+     * lowercase 'x' chars have been changed to 'y' chars.
+     *
+     * changeXY("codex") → "codey"
+     * changeXY("xxhixx") → "yyhiyy"
+     * changeXY("xhixhix") → "yhiyhiy"
+     */
+    public String changeXY(String str) {
+        if (str.length() < 2){
+            return (str.equals("x") ? "y" : str);
+        }
+
+        String thisChar = str.substring(0,1);
+        if (thisChar.equals("x")){
+            thisChar = "y";
+        }
+
+        return thisChar + changeXY(str.substring(1));
     }
 }
