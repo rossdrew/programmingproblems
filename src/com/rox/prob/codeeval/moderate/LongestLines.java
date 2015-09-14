@@ -37,56 +37,42 @@ import java.util.List;
 public class LongestLines extends FileLineReader{
     int outputSize = 0;
     String currentLine = null;
+    String [] topRankingLines;
 
     @Override
     public void loadNextLine() {
-        if (outputSize > 0)
-        {
-            currentLine = fileScanner.nextLine();
-        }
-        else
-        {
-            outputSize = Integer.parseInt(fileScanner.nextLine());
-        }
+        currentLine = fileScanner.nextLine();
     }
 
     @Override
     public void process() {
-        List<String> fileContents = new ArrayList<String>();
-
         while (fileScanner.hasNext()){
             loadNextLine();
-            fileContents.add(currentLine);
-        }
 
-        fileContents = bubbleSort(fileContents);
-
-        for (int i=0; i<outputSize; i++){
-            System.out.println(fileContents.get(i));
-        }
-    }
-
-    /**
-     * <b>Bubble Sort</b>
-     * Compare two elements through the list, swap if one is greater
-     * then do over with the end element (now sorted) exluded.
-     * Repeat until sorted.
-     */
-    private List<String> bubbleSort(List<String> list){
-        for (int lastIndex=list.size()-1; lastIndex >= 0; lastIndex--){
-            for (int i=0; i<lastIndex; i++){
-                String first = list.get(i);
-                String second = list.get(i+1);
-
-                //Swap?
-                if (first.length() < second.length()){
-                    list.set(i, second);
-                    list.set(i+1, first);
-                }
+            if (outputSize == 0){
+                outputSize = Integer.parseInt(currentLine);
+                topRankingLines = new String[outputSize];
+            }else{
+                rankLine();
             }
         }
 
-        return list;
+        for (String line : topRankingLines){
+            System.out.println(line);
+        }
+    }
+
+    private void rankLine(){
+        String tmp;
+        String entry = currentLine;
+
+        for (int i=0; i<topRankingLines.length; i++){
+            if (topRankingLines[i] == null || entry.length() > topRankingLines[i].length()){
+                tmp = topRankingLines[i];
+                topRankingLines[i] = entry;
+                entry = tmp;
+            }
+        }
     }
 
     public LongestLines(String filename){

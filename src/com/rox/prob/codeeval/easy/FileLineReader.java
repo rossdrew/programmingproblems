@@ -24,7 +24,6 @@ public abstract class FileLineReader {
     public void start()
     {
         while (fileScanner.hasNext()) {
-            loadNextLine();
             process();
         }
     }
