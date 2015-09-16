@@ -11,12 +11,12 @@ public class Main {
 
     public static void main(String[] args) {
         NumericalProblem p = new Problem12();
-        /*DEBUG*/System.out.println(p.solution());
+        /*DEBUG*///System.out.println(p.solution());
 
         Warmup2 w = new Warmup2();
         /*DEBUG*///System.out.println(w.stringMatch("xxcaazz", "xxbaaz"));
 
         Recursion1 r = new Recursion1();
-        /*DEBUG*///System.out.println(r.sumDigits(333));
+        /*DEBUG*/System.out.println(r.noX("xpix"));
     }
 }

@@ -258,4 +258,21 @@ public class Recursion1 {
             return str.substring(0,1) + changePi(str.substring(1));
         }
     }
+
+    /**
+     * Given a string, compute recursively a new string where all
+     * the 'x' chars have been removed.
+     *
+     * noX("xaxb") → "ab"
+     * noX("abc") → "abc"
+     * noX("xx") → ""
+     */
+    public String noX(String str) {
+        if (str.length() < 2){
+            return ((!str.equals("x")) ? str : "");
+        }
+
+        String thisChar = str.substring(0,1);
+        return (thisChar.equals("x") ? "" : thisChar) + noX(str.substring(1));
+    }
 }
