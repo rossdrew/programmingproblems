@@ -17,6 +17,6 @@ public class Main {
         /*DEBUG*///System.out.println(w.stringMatch("xxcaazz", "xxbaaz"));
 
         Recursion1 r = new Recursion1();
-        /*DEBUG*/System.out.println(r.noX("xpix"));
+        /*DEBUG*/System.out.println(r.array6 (new int[] {1,2,3,4,5,7,8,9,0,6}, 0));
     }
 }
