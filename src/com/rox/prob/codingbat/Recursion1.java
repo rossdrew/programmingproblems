@@ -288,9 +288,8 @@ public class Recursion1 {
      * array6({6}, 0) → true
      */
     public boolean array6(int[] nums, int index) {
-        if (index == nums.length-1){
-            return (nums[index] == 6);
-        }
+        if (index >= nums.length)
+            return false;
 
         if (nums[index] == 6){
             return true;
