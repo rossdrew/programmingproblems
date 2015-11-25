@@ -10,13 +10,13 @@ import com.rox.prob.NumericalProblem;
 public class Main {
 
     public static void main(String[] args) {
-        NumericalProblem p = new Problem12();
+        //NumericalProblem p = new Problem12();
         /*DEBUG*///System.out.println(p.solution());
 
-        Warmup2 w = new Warmup2();
-        /*DEBUG*///System.out.println(w.stringMatch("xxcaazz", "xxbaaz"));
+        //Warmup2 w = new Warmup2();
+        /*DEBUG*///System.out.println(w.stringX("xxHxix"));
 
         Recursion1 r = new Recursion1();
-        /*DEBUG*/System.out.println(r.array6 (new int[] {1,2,3,4,5,7,8,9,0,6}, 0));
+        /*DEBUG*/System.out.println(r.array11 (new int[] {1,2,11}, 0));
     }
 }
