@@ -24,9 +24,9 @@ import com.rox.prob.common.NumberAnalyser;
  *
  * [Answer : 76576500]
  */
-public class Problem12 implements NumericalProblem{
+public class Problem12 implements NumericalProblem <Long>{
     @Override
-    public long solution() {
+    public Long solution() {
         return solution(500);
     }
 

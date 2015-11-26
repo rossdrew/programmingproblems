@@ -13,9 +13,9 @@ import com.rox.prob.NumericalProblem;
  *
  * [Answer : 31875000]
  */
-public class Problem9 implements NumericalProblem {
+public class Problem9 implements NumericalProblem<Long> {
     @Override
-    public long solution() {
+    public Long solution() {
         return solution(1000L);
     }
 

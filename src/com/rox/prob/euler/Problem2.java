@@ -15,7 +15,7 @@ import java.util.HashSet;
  *
  * [Answer = 4613732]
  */
-public class Problem2 implements NumericalProblem
+public class Problem2 implements NumericalProblem<Long>
 {
     private HashSet<Integer> getFibonacciSequenceUntil(int upperLimit, Validator validator)
     {
@@ -53,7 +53,7 @@ public class Problem2 implements NumericalProblem
     }
 
     @Override
-    public long solution()
+    public Long solution()
     {
         return solution(4000000);
     }

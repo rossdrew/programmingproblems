@@ -1,5 +1,9 @@
 package com.rox.prob.euler;
 
+import com.rox.prob.NumericalProblem;
+
+import java.math.BigInteger;
+
 /**
  * Work out the first ten digits of the sum of the following one-hundred 50-digit numbers.
  37107287533902102798797998220837590246510135740250
@@ -103,7 +107,12 @@ package com.rox.prob.euler;
  20849603980134001723930671666823555245252804609722
  53503534226472524250874054075591789781264330331690
  */
-public class Problem13 {
+public class Problem13 implements NumericalProblem<Long>
+{
+    @Override
+    public Long solution() {
+        return 0l;
+    }
 
-     //TODO redo this, I've did it but lost the solution?!
+    //TODO redo this, I've did it but lost the solution?!
 }

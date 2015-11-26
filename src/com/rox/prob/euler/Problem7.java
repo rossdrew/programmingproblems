@@ -10,9 +10,9 @@ import com.rox.prob.NumericalProblem;
  *
  * [Answer = 104743]
  */
-public class Problem7 implements NumericalProblem {
+public class Problem7 implements NumericalProblem<Long> {
     @Override
-    public long solution() {
+    public Long solution() {
         return solution(10001L);
     }
 

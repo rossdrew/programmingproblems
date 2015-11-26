@@ -18,7 +18,7 @@ import java.util.HashSet;
  *
  *  [Answer = 233168]
  */
-public class Problem1 implements NumericalProblem
+public class Problem1 implements NumericalProblem<Long>
 {
     /**
      * Get next number divisable by <code>divisor</code> on or after given <code>number</code>
@@ -61,7 +61,7 @@ public class Problem1 implements NumericalProblem
     }
 
     @Override
-    public long solution()
+    public Long solution()
     {
         return solution(0,1000);
     }

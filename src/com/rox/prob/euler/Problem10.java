@@ -19,9 +19,9 @@ import com.rox.prob.common.NumberAnalyser;
  * 4. Go to 2.
  * 5. The numbers not crossed out are the primes not exceeding N.
  */
-public class Problem10 implements NumericalProblem {
+public class Problem10 implements NumericalProblem<Long> {
     @Override
-    public long solution() {
+    public Long solution() {
         return solution(2000000L);
     }
 

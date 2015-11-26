@@ -18,9 +18,9 @@ import com.rox.prob.NumericalProblem;
  *
  *  [Answer = 232792560]
  */
-public class Problem5 implements NumericalProblem {
+public class Problem5 implements NumericalProblem<Long> {
     @Override
-    public long solution() {
+    public Long solution() {
         return solution(1, 20);
     }
 

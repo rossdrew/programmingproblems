@@ -34,9 +34,9 @@ import com.rox.prob.NumericalProblem;
  *
  * XXX [FAIL : I cannot get this to return the correct answer]
  */
-public class Problem8 implements NumericalProblem {
+public class Problem8 implements NumericalProblem<Long> {
     @Override
-    public long solution() {
+    public Long solution() {
         String numberString = "73167176531330624919225119674426574742355349194934"
                             + "96983520312774506326239578318016984801869478851843"
                             + "85861560789112949495459501737958331952853208805511"

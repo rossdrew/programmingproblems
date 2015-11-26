@@ -10,10 +10,10 @@ import com.rox.prob.common.NumberAnalyser;
  *
  * [Answer = 906609]
  */
-public class Problem4 implements NumericalProblem
+public class Problem4 implements NumericalProblem<Long>
 {
     @Override
-    public long solution() {
+    public Long solution() {
         return solution(3);
     }
 

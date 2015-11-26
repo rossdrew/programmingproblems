@@ -21,10 +21,10 @@ import com.rox.prob.NumericalProblem;
  *
  *   - Sum of squares of natural numbers = n(n+1)(2n+1) / 6
  */
-public class Problem6 implements NumericalProblem {
+public class Problem6 implements NumericalProblem<Long> {
 
     @Override
-    public long solution()
+    public Long solution()
     {
         return solution(1, 100);
     }

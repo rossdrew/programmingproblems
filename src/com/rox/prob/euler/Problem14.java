@@ -19,9 +19,9 @@ import com.rox.prob.NumericalProblem;
  *
  * NOTE: Once the chain starts the terms are allowed to go above one million.
  */
-public class Problem14 implements NumericalProblem {
+public class Problem14 implements NumericalProblem<Long> {
     @Override
-    public long solution() {
+    public Long solution() {
         return solution(1000000);
     }
 
