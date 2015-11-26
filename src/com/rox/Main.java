@@ -17,6 +17,6 @@ public class Main {
         /*DEBUG*///System.out.println(w.stringX("xxHxix"));
 
         Recursion1 r = new Recursion1();
-        /*DEBUG*/System.out.println(r.array11 (new int[] {1,2,11}, 0));
+        /*DEBUG*/System.out.println(r.array220(new int[] {1,10}, 0));
     }
 }
