@@ -18,6 +18,8 @@ import com.rox.prob.NumericalProblem;
  * Which starting number, under one million, produces the longest chain?
  *
  * NOTE: Once the chain starts the terms are allowed to go above one million.
+ *
+ * [Answer : 837799]
  */
 public class Problem14 implements NumericalProblem<Long> {
     @Override
@@ -26,6 +28,35 @@ public class Problem14 implements NumericalProblem<Long> {
     }
 
     public long solution(long limit){
-        return -1;
+        long highestTermSource = 1;
+        long highestTerms = 1;
+
+        for (int i=1; i<=limit; i++){
+            long termCount = bruteForceCollatzConjectureTerms(i);
+            if (termCount > highestTerms){
+                highestTerms = termCount;
+                highestTermSource = i;
+            }
+        }
+
+        return highestTermSource;
+    }
+
+    private long bruteForceCollatzConjectureTerms(long start){
+        if (start == 1){
+            return 1;
+        }
+
+        if (isEven(start)){
+            return 1 + bruteForceCollatzConjectureTerms(start/2);
+        }
+        else
+        {
+            return 1 + bruteForceCollatzConjectureTerms((start*3) + 1);
+        }
+    }
+
+    private boolean isEven(long n){
+        return (n & 1) == 0;
     }
 }
