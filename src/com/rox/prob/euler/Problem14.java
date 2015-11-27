@@ -56,7 +56,7 @@ public class Problem14 implements NumericalProblem<Long> {
         }
 
         long modifiedNumber = isEven(start) ? (start / 2) : ((start * 3) + 1);
-        long terms = bruteForceCollatzConjectureTerms(modifiedNumber);
+        long terms = collatzConjectureTerms(modifiedNumber);
 
         solvedTermSources.put(start, terms);
 
