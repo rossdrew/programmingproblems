@@ -2,6 +2,8 @@ package com.rox.prob.euler;
 
 import com.rox.prob.NumericalProblem;
 
+import java.util.HashMap;
+
 /**
  * The following iterative sequence is defined for the set of positive integers:
  *
@@ -22,6 +24,8 @@ import com.rox.prob.NumericalProblem;
  * [Answer : 837799]
  */
 public class Problem14 implements NumericalProblem<Long> {
+    private HashMap<Long, Long> solvedTermSources = new HashMap<>();
+
     @Override
     public Long solution() {
         return solution(1000000);
@@ -32,7 +36,7 @@ public class Problem14 implements NumericalProblem<Long> {
         long highestTerms = 1;
 
         for (int i=1; i<=limit; i++){
-            long termCount = bruteForceCollatzConjectureTerms(i);
+            long termCount = collatzConjectureTerms(i);
             if (termCount > highestTerms){
                 highestTerms = termCount;
                 highestTermSource = i;
@@ -42,18 +46,21 @@ public class Problem14 implements NumericalProblem<Long> {
         return highestTermSource;
     }
 
-    private long bruteForceCollatzConjectureTerms(long start){
+    private long collatzConjectureTerms(long start){
         if (start == 1){
             return 1;
         }
 
-        if (isEven(start)){
-            return 1 + bruteForceCollatzConjectureTerms(start/2);
+        if (solvedTermSources.containsKey(start)){
+            return solvedTermSources.get(start);
         }
-        else
-        {
-            return 1 + bruteForceCollatzConjectureTerms((start*3) + 1);
-        }
+
+        long modifiedNumber = isEven(start) ? (start / 2) : ((start * 3) + 1);
+        long terms = bruteForceCollatzConjectureTerms(modifiedNumber);
+
+        solvedTermSources.put(start, terms);
+
+        return 1 + terms;
     }
 
     private boolean isEven(long n){
