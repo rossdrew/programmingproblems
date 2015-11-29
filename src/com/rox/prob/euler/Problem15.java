@@ -13,14 +13,14 @@ import com.rox.prob.common.struct.Vertice;
  *
  * [Answer : 407575348]
  */
-public class Problem15 implements NumericalProblem<Integer>{
+public class Problem15 implements NumericalProblem<Long>{
     @Override
-    public Integer solution() {
-        return solution(10);
+    public Long solution() {
+        return solution(20);
     }
 
-    public Integer solution(int squareSize){
-        int[][] square = new int[squareSize+1][squareSize+1];
+    public Long solution(int squareSize){
+        long[][] square = new long[squareSize+1][squareSize+1];
 
         for (int x=0; x <= squareSize; x++){
             for (int y=0; y <= squareSize; y++){
