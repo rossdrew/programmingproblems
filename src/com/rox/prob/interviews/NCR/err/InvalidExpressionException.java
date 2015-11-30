@@ -1,4 +1,4 @@
-package com.rox.prob.interviews.companyA.err;
+package com.rox.prob.interviews.NCR.err;
 
 public class InvalidExpressionException extends Exception 
 {

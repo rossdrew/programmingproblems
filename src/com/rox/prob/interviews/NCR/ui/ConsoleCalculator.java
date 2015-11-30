@@ -1,16 +1,16 @@
-package com.rox.prob.interviews.companyA.ui;
+package com.rox.prob.interviews.NCR.ui;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import com.rox.prob.interviews.companyA.Expression;
-import com.rox.prob.interviews.companyA.ExpressionParser;
-import com.rox.prob.interviews.companyA.err.InvalidExpressionException;
+import com.rox.prob.interviews.NCR.Expression;
+import com.rox.prob.interviews.NCR.ExpressionParser;
+import com.rox.prob.interviews.NCR.err.InvalidExpressionException;
 
 
 /**
- * A console interface to {@link com.rox.prob.interviews.companyA.ExpressionParser ExpressionParser}
+ * A console interface to {@link com.rox.prob.interviews.NCR.ExpressionParser ExpressionParser}
  * 
  * @author Ross W. Drew
  */

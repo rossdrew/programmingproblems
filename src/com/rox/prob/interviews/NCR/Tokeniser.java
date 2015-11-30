@@ -1,10 +1,10 @@
-package com.rox.prob.interviews.companyA;
+package com.rox.prob.interviews.NCR;
 
-import com.rox.prob.interviews.companyA.err.UnknownTokenException;
-import com.rox.prob.interviews.companyA.token.ExpressionToken;
-import com.rox.prob.interviews.companyA.token.NonTerminalToken;
-import com.rox.prob.interviews.companyA.token.Numeral;
-import com.rox.prob.interviews.companyA.token.Operator;
+import com.rox.prob.interviews.NCR.err.UnknownTokenException;
+import com.rox.prob.interviews.NCR.token.ExpressionToken;
+import com.rox.prob.interviews.NCR.token.NonTerminalToken;
+import com.rox.prob.interviews.NCR.token.Numeral;
+import com.rox.prob.interviews.NCR.token.Operator;
 
 import java.util.StringTokenizer;
 

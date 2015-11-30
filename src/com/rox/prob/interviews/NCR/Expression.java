@@ -1,11 +1,11 @@
-package com.rox.prob.interviews.companyA;
+package com.rox.prob.interviews.NCR;
 
-import com.rox.prob.interviews.companyA.token.*;
+import com.rox.prob.interviews.NCR.token.*;
 
 /**
  * Essentially a basic tree data structure representing an expression which 
- * can evaluate all sub {@link com.rox.prob.interviews.companyA.token.NumeralValue NumeralValues} and
- * {@link com.rox.prob.interviews.companyA.Expression Expressions} ergo, itself via <tt>getValue()</tt>
+ * can evaluate all sub {@link com.rox.prob.interviews.NCR.token.NumeralValue NumeralValues} and
+ * {@link com.rox.prob.interviews.NCR.Expression Expressions} ergo, itself via <tt>getValue()</tt>
  * 
  * @author Ross W. Drew
  *

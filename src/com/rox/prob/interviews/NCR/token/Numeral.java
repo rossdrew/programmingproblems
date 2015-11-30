@@ -1,4 +1,4 @@
-package com.rox.prob.interviews.companyA.token;
+package com.rox.prob.interviews.NCR.token;
 
 
 public enum Numeral implements ExpressionToken, NumeralValue

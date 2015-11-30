@@ -1,15 +1,15 @@
-package com.rox.prob.interviews.companyA;
+package com.rox.prob.interviews.NCR;
 
-import com.rox.prob.interviews.companyA.err.InvalidExpressionException;
-import com.rox.prob.interviews.companyA.err.UnknownTokenException;
-import com.rox.prob.interviews.companyA.token.*;
+import com.rox.prob.interviews.NCR.err.InvalidExpressionException;
+import com.rox.prob.interviews.NCR.err.UnknownTokenException;
+import com.rox.prob.interviews.NCR.token.*;
 
 import java.util.Stack;
 
 
 /**
  * Parse <tt>expressionString</tt> into a very basic AST like data structure in 
- * {@link com.rox.prob.interviews.companyA.Expression Expression} and provide it through
+ * {@link com.rox.prob.interviews.NCR.Expression Expression} and provide it through
  * <tt>getExpression()</tt>
  * 
  * @author Ross W. Drew
@@ -121,7 +121,7 @@ public class ExpressionParser
 	}
 	
 	/**
-	 * @return {@link com.rox.prob.interviews.companyA.Expression Expression} containing entire expression as data structure
+	 * @return {@link com.rox.prob.interviews.NCR.Expression Expression} containing entire expression as data structure
 	 * @throws InvalidExpressionException if provided textual expression is invalid
 	 */
 	public Expression getExpression() throws InvalidExpressionException
