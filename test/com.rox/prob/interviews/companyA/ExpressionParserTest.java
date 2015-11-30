@@ -1,11 +1,11 @@
-package com.rox.prob.interviews.companyA;
+package com.rox.prob.interviews.NCR;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import com.rox.prob.interviews.companyA.err.InvalidExpressionException;
+import com.rox.prob.interviews.NCR.err.InvalidExpressionException;
 
 /**
  * Write a tex-based console application to perform simple natural language calculations.
