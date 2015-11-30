@@ -19,6 +19,16 @@ public class Problem15 implements NumericalProblem<Long>{
         return solution(20);
     }
 
+    /**
+     * Dynamic programming solution O(mn)
+     * ----------------------------------
+     * At every point in the square there will be x routes to the end.
+     * Starting at the top left edge of the bottom right square this is 2,
+     * which happens to be a sum of the bottom left edge and the top right edge.
+     * This is true for all sub squares in the grid.  All other points can be
+     * calculated from this and knowing all left and bottom edge squares have
+     * only one route.
+     */
     public Long solution(int squareSize){
         long[][] square = new long[squareSize+1][squareSize+1];
 
