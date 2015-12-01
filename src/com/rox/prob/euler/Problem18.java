@@ -1,6 +1,12 @@
 package com.rox.prob.euler;
 
 import com.rox.prob.NumericalProblem;
+import com.rox.prob.common.struct.Graph;
+import com.rox.prob.common.struct.Vertice;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 /**
  * By starting at the top of the triangle below and moving to adjacent numbers on
@@ -59,6 +65,40 @@ public class Problem18 implements NumericalProblem<Long> {
     }
 
     public Long solution(String triangleDefinition){
+        Scanner defScanner = new Scanner(triangleDefinition);
+
+        int row = 1;
+        Graph<Integer> triangle = new Graph<>();
+        Vertice<Integer>[] previousRow = null;
+        Vertice<Integer>[] currentRow = null;
+
+        while (defScanner.hasNext()){
+            currentRow = new Vertice[row];
+
+            for (int col = 0; col < row; col++){
+                Integer value = Integer.parseInt(defScanner.next());
+                currentRow[col] = triangle.addVertice(value);
+
+                //start connecting on the second row
+                if (row > 1) {
+                    if (col > 0) {
+                        triangle.addEdge(previousRow[col - 1], currentRow[col]);
+                    }
+
+                    if (col < row-1) {
+                        triangle.addEdge(previousRow[col], currentRow[col]);
+                    }
+                }
+            }
+            row++;
+
+            previousRow = currentRow;
+        }
+
+        return solution(triangle);
+    }
+
+    public Long solution(Graph triangle){
         return -1l;
     }
 }
