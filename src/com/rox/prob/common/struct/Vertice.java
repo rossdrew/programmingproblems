@@ -5,24 +5,30 @@ import java.util.HashMap;
 /**
  * A simple connectable vertice/Node implementation
  */
-public class Vertice<V> {
+public class Vertice<I, V> {
+    private I myIdentity = null;
     private V myValue = null;
-    private HashMap<V, Vertice> connections = new HashMap<>();
+    private HashMap<I, Vertice> connections = new HashMap<>();
 
-    public Vertice(V myValue){
+    public Vertice(I myIdentity, V myValue){
+        this.myIdentity = myIdentity;
         this.myValue = myValue;
     }
 
-    public V getIdentity(){
+    public I getIdentity(){
+        return myIdentity;
+    }
+
+    public V getValue() {
         return myValue;
     }
 
-    public void twoWayConnectTo(Vertice<V> vertice){
+    public void twoWayConnectTo(Vertice<I, V> vertice){
         connections.put(vertice.getIdentity(), vertice);
         vertice.oneWayConnectTo(this);
     }
 
-    public void oneWayConnectTo(Vertice<V> vertice){
+    public void oneWayConnectTo(Vertice<I, V> vertice){
         connections.put(vertice.getIdentity(), vertice);
     }
 
@@ -30,7 +36,7 @@ public class Vertice<V> {
         StringBuilder sb = new StringBuilder();
 
         String seperator = this.getIdentity() + " [";
-        for (V verticeIdentity : connections.keySet()){
+        for (I verticeIdentity : connections.keySet()){
             sb.append(seperator + verticeIdentity);
             seperator = ", ";
         }

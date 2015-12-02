@@ -74,20 +74,20 @@ import com.rox.prob.common.struct.Vertice;
 public class WalkOverATree {
     public static int maxNodesVisited(int[] parent, int L)
     {
-        Graph<String> tree = new Graph<>();
+        Graph<String, String> tree = new Graph<>();
 
         //So essentially parent[i] connects to node (i+1)
         for (int i=0; i<parent.length; i++)
         {
-            Vertice<String> a = tree.addVertice("V" + parent[i]);
-            Vertice<String> b = tree.addVertice("V" + (i+1));
+            Vertice<String, String> a = tree.addVertice("V" + parent[i], null);
+            Vertice<String, String> b = tree.addVertice("V" + (i+1), null);
             tree.addEdge(a, b);
         }
 
         //TODO how many unique nodes can be visited in L steps?
 
         System.out.println("Tree...\n" + tree.toString());
-        Vertice<String> walkingVertice = tree.getVertice("V0");
+        Vertice<String, String> walkingVertice = tree.getVertice("V0");
     
 
         return -1;
