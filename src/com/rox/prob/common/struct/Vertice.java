@@ -45,4 +45,14 @@ public class Vertice<I, V> {
         return sb.toString();
     }
 
+    public Vertice<I ,V>[] getConnections(){
+        Vertice<I, V>[] vertices = new Vertice[connections.size()];
+
+        int i=0;
+        for (I id : connections.keySet()){
+            vertices[i] = connections.get(id);
+        }
+
+        return vertices;
+    }
 }
