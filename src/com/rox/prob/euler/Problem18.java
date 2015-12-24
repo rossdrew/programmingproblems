@@ -1,11 +1,10 @@
 package com.rox.prob.euler;
 
 import com.rox.prob.NumericalProblem;
-import com.rox.prob.common.struct.Graph;
-import com.rox.prob.common.struct.Vertice;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
-import java.util.Vector;
 
 /**
  * By starting at the top of the triangle below and moving to adjacent numbers on
@@ -66,55 +65,63 @@ public class Problem18 implements NumericalProblem<Long> {
     public Long solution(String triangleDefinition){
         Scanner defScanner = new Scanner(triangleDefinition);
 
-        Graph<Integer, Integer> triangle = buildTriangleGraph(defScanner);
+        int[][] triangle = buildTriangleArray(defScanner);
 
         return solution(triangle);
     }
 
-    private Graph<Integer, Integer> buildTriangleGraph(Scanner defScanner) {
-        Graph<Integer, Integer> triangle = new Graph<>();
-        Vertice<Integer, Integer>[] previousRow = null;
-        Vertice<Integer, Integer>[] currentRow = null;
+    /**
+     * Compile the triangle array into highest sum paths
+     */
+    private int[][] largestPathSum(int[][] triangleArray){
+        for (int y = triangleArray.length - 2; y >= 0; y--){
+            for (int x = 0; x <= y; x++){
+                triangleArray[x][y] = triangleArray[x][y];
+                triangleArray[x][y] += Math.max(triangleArray[x][y+1], triangleArray[x+1][y+1]);
+            }
+        }
 
-        int row = 1;
+        return triangleArray;
+    }
+
+    /**
+     * Build a triangle representation as an array from defScanner
+     */
+    private int[][] buildTriangleArray(Scanner defScanner) {
+        List<Integer> numbers = new ArrayList<>();
+
+        int col = 1;
+        int row = 0;
         while (defScanner.hasNext()){
-            currentRow = new Vertice[row];
-            previousRow = compileTriangleGraphRow(defScanner, triangle, previousRow, currentRow, row);
+            numbers.add(defScanner.nextInt());
             row++;
+            if (row >= col){
+                col++;
+                row = 0;
+            }
+        }
+
+        col--;
+        int[][] triangle = new int[col][col];
+        col = 1;
+        row = 0;
+        for (Integer num : numbers){
+            triangle[row][col-1] = num;
+            row++;
+            if (row >= col){
+                col++;
+                row = 0;
+            }
         }
         return triangle;
     }
 
-    private Vertice<Integer, Integer>[] compileTriangleGraphRow(Scanner defScanner,
-                                                                Graph<Integer, Integer> triangle,
-                                                                Vertice<Integer, Integer>[] previousRow,
-                                                                Vertice<Integer, Integer>[] currentRow,
-                                                                int row) {
-        int id = 0;
-        for (int col = 0; col < row && defScanner.hasNext(); col++){
-            int s = defScanner.nextInt();
-            currentRow[col] = triangle.addVertice(id++, s);
 
-            //start connecting on the second row
-            if (row > 1) {
-                if (col > 0) {
-                    triangle.addVector(previousRow[col - 1], currentRow[col]);
-                }
+    public Long solution(int[][] triangle){
+        triangle = largestPathSum(triangle);
 
-                if (col < row-1) {
-                    triangle.addVector(previousRow[col], currentRow[col]);
-                }
-            };
-        }
-
-        return currentRow;
-    }
-
-    public Long solution(Graph triangle){
-        Vertice<Integer,Integer> root = triangle.getRootNode();
-
-        System.out.println(root.getValue());
-
-        return -1l;
+        int answer = triangle[0][0];
+        long convertedAnswer = answer;
+        return convertedAnswer;
     }
 }
