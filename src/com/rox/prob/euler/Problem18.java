@@ -64,7 +64,10 @@ public class Problem18 implements NumericalProblem<Long> {
 
     public Long solution(String triangleDefinition){
         Scanner defScanner = new Scanner(triangleDefinition);
+        return solution(defScanner);
+    }
 
+    public Long solution(Scanner defScanner){
         int[][] triangle = buildTriangleArray(defScanner);
 
         return solution(triangle);
