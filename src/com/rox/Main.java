@@ -10,7 +10,7 @@ import com.rox.prob.NumericalProblem;
 public class Main {
 
     public static void main(String[] args) {
-        NumericalProblem p = new Problem67();
+        NumericalProblem p = new Problem19();
         /*DEBUG*/System.out.println(p.solution());
 
         //Warmup2 w = new Warmup2();
