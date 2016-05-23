@@ -3,8 +3,8 @@ package com.rox.prob.interviews.himex;
 import com.rox.prob.interviews.himex.cards.BlackjackHand;
 import com.rox.prob.interviews.himex.cards.Deck;
 import com.rox.prob.interviews.himex.player.Player;
-import com.rox.prob.interviews.himex.player.PokerDealer;
-import com.rox.prob.interviews.himex.player.PokerPlayer;
+import com.rox.prob.interviews.himex.player.BlackjackDealer;
+import com.rox.prob.interviews.himex.player.BlackjackPlayer;
 
 import java.util.Scanner;
 
@@ -52,9 +52,9 @@ public class HimexBlackjack {
     public static final int minorVersion = 0;
 
     private Deck[] decks = new Deck[4];
-    private PokerPlayer player;
+    private BlackjackPlayer player;
     private int playingDeck = 1;
-    private PokerPlayer dealer = new PokerDealer();
+    private BlackjackPlayer dealer = new BlackjackDealer();
 
     public HimexBlackjack(){
         printHeader();
@@ -113,7 +113,7 @@ public class HimexBlackjack {
         player.giveWinnings(winnings);
     }
 
-    private void playerCycle(PokerPlayer player){
+    private void playerCycle(BlackjackPlayer player){
         System.out.println("\nTurn = " + player.getName() + "...");
         player.reset();
         player.dealCard(decks[playingDeck].deal());

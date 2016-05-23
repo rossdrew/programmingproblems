@@ -3,10 +3,10 @@ package com.rox.prob.interviews.himex.player;
 import com.rox.prob.interviews.himex.cards.BlackjackHand;
 import com.rox.prob.interviews.himex.cards.Card;
 
-public class PokerDealer implements PokerPlayer {
+public class BlackjackDealer implements BlackjackPlayer {
     private BlackjackHand hand;
 
-    public PokerDealer(){
+    public BlackjackDealer(){
         reset();
     }
 

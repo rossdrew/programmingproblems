@@ -3,7 +3,7 @@ package com.rox.prob.interviews.himex.player;
 import com.rox.prob.interviews.himex.cards.BlackjackHand;
 import com.rox.prob.interviews.himex.cards.Card;
 
-public interface PokerPlayer {
+public interface BlackjackPlayer {
     enum PlayerStatus {HIT, STICK};
 
     void reset();

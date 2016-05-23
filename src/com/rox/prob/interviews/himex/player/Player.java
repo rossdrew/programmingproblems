@@ -8,7 +8,7 @@ import java.util.Scanner;
 /**
  * TODO Make getUserInput() method injectable for unit testing
  */
-public class Player implements PokerPlayer {
+public class Player implements BlackjackPlayer {
     private BlackjackHand hand;
     private int chips;
     private String name;
