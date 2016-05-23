@@ -21,10 +21,10 @@ For example, if the user enters the text ‘```two plus four```’ the program w
 
 | Operator            | Permitted Aliases     |
 | ------------------- |:---------------------:|
-| Add (```+```)       | add, plus             |
-| Subtract (```-```)  | subtract, minus, less |
-| Multiply (```*```)  | multiply-by, times    |
-| Divide (```/```)    | divide-by, over       |
+| Add (```+```)       | ```add```, ```plus```             |
+| Subtract (```-```)  | ```subtract```, ```minus```, ```less``` |
+| Multiply (```*```)  | ```multiply-by```, ```times```    |
+| Divide (```/```)    | ```divide-by```, ```over```       |
 
 
 #### Operation Chaining
