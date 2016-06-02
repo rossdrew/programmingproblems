@@ -1,6 +1,6 @@
 #NCR
 
-It comes with unit tests to test.  Main class is ExpressionParser with it's test at ExpressionParserTest
+It comes with unit tests to test.  Main class is `ExpressionParser` with it's test at `ExpressionParserTest`
 
 ## Description
 
