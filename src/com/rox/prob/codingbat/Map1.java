@@ -45,4 +45,18 @@ public class Map1 {
         return map;
     }
 
+    /**
+     * Modify and return the given map as follows: for this problem the map may or may
+     * not contain the "a" and "b" keys. If both keys are present, append their 2 string
+     * values together and store the result under the key "ab".
+     *
+     * mapAB({"b": "There", "a": "Hi"}) → {"b": "There", "a": "Hi", "ab": "HiThere"}
+     * mapAB({"a": "Hi"}) → {"a": "Hi"}
+     * mapAB({"b": "There"}) → {"b": "There"}
+     */
+    public Map<String, String> mapAB(Map<String, String> map) {
+        return null; //TODO
+    }
+
+
 }
