@@ -25,11 +25,10 @@ public class Main {
 
         Map1 m = new Map1();
         Map<String, String> testMap = new HashMap<>();
-        testMap.put("b","bbb");  //{"b": "bbb", "c": "ccc", "a": "aaa"}
+        testMap.put("b","bbb");
         testMap.put("c","ccc");
         testMap.put("a","aaa");
         m.mapShare(testMap);
-        /*DEBUG*/
-        System.out.println(testMap.toString());
+        /*DEBUG*/System.out.println(testMap.toString());
     }
 }
