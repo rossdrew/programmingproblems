@@ -55,7 +55,14 @@ public class Map1 {
      * mapAB({"b": "There"}) → {"b": "There"}
      */
     public Map<String, String> mapAB(Map<String, String> map) {
-        return null; //TODO
+        String a = map.get("a");
+        String b = map.get("b");
+
+        if (a != null && b != null){
+            map.put("ab", a+b);
+        }
+
+        return map;
     }
 
 
