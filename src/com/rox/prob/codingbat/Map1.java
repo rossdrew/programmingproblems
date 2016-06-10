@@ -75,7 +75,13 @@ public class Map1 {
      * topping1({"pancake": "syrup"}) → {"bread": "butter", "pancake": "syrup"}
      */
     public Map<String, String> topping1(Map<String, String> map) {
-        return null; //TODO
+        if (map.containsKey("ice cream")){
+            map.put("ice cream", "cherry");
+        }
+
+        map.put("bread", "butter");
+
+        return map;
     }
 
 
