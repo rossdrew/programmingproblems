@@ -24,3 +24,4 @@ My personal solutions for various programming problems I find.  Each problem sou
  Euler - Project Euler is a bit more involved, requiring some thought, time and average amount of code.<br/>
  CodeEval - Requires probably not as much thought but more boiler plate code than Euler as the actual code is sumbmitted.<br/>
  TopCoder - Much more involved coding, often requiring more advanced algorithms and data structures.<br/>
+ Google Foobar - Level (1-5) based, difficulty increasing coding challenges by [Google](http://www.google.com/).  
