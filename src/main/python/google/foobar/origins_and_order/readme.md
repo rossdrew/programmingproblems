@@ -22,17 +22,20 @@ To provide a Java solution, edit solution.java
 
 Test cases
 ==========
-
+~~~~
 Inputs:
     (int) x = 19
     (int) y = 19
     (int) z = 3
 Output:
     (string) "03/19/19"
+~~~~
 
+~~~~
 Inputs:
     (int) x = 2
     (int) y = 30
     (int) z = 3
 Output:
     (string) "Ambiguous"
+~~~~

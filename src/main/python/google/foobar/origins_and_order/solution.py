@@ -9,7 +9,7 @@ def answer(x, y, z):
     for perm in perms:
         month = perm[0]
         day_of_month = perm[1]
-        year = perm[3]
+        year = perm[2]
 
         if month <= 12:
             days_in_current_month = days_in_month[month - 1]
