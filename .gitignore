@@ -1,1 +1,4 @@
 .idea/
+out
+*.pyc
+*.iml
