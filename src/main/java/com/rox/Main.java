@@ -20,15 +20,15 @@ public class Main {
         //Warmup2 w = new Warmup2();
         //DEBUG*///System.out.println(w.stringX("xxHxix"));
 
-        //Recursion1 r = new Recursion1();
-        /*DEBUG*///System.out.println(r.allStar("Thisisatest"));
+        Recursion1 r = new Recursion1();
+        /*DEBUG*/System.out.println(r.pairStar("aaaa"));
 
-        Map1 m = new Map1();
-        Map<String, String> testMap = new HashMap<>();
-        testMap.put("b","bbb");
-        testMap.put("c","ccc");
-        testMap.put("a","aaa");
-        m.mapShare(testMap);
-        /*DEBUG*/System.out.println(testMap.toString());
+//        Map1 m = new Map1();
+//        Map<String, String> testMap = new HashMap<>();
+//        testMap.put("b","bbb");
+//        testMap.put("c","ccc");
+//        testMap.put("a","aaa");
+//        m.mapShare(testMap);
+        /*DEBUG*///System.out.println(testMap.toString());
     }
 }
