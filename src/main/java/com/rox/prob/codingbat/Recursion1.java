@@ -381,6 +381,13 @@ public class Recursion1 {
      * endX("xhixhix") → "hihixxx"
      */
     public String endX(String str) {
-        return str;
+        if (str.length() < 2)
+            return str;
+
+        String start = ((str.charAt(0) != 'x') ? str.substring(0,1) : "");
+        String middle = endX(str.substring(1));
+        String end = ((str.charAt(0) == 'x') ? "x" : "");
+
+        return start + middle + end;
     }
 }
