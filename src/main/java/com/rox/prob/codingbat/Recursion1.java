@@ -384,15 +384,8 @@ public class Recursion1 {
         if (str.length() < 2)
             return str;
 
-        String start = "";
-        String end = "";
+        boolean isX = str.charAt(0) == 'x';
 
-        if (str.charAt(0) == 'x'){
-            end = "x";
-        }else{
-            start = str.substring(0,1);
-        }
-
-        return start + endX(str.substring(1)) + end;
+        return (isX ? "" : str.substring(0,1)) + endX(str.substring(1)) + (isX ? "x" : "");
     }
 }
