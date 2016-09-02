@@ -384,10 +384,15 @@ public class Recursion1 {
         if (str.length() < 2)
             return str;
 
-        String start = ((str.charAt(0) != 'x') ? str.substring(0,1) : "");
-        String middle = endX(str.substring(1));
-        String end = ((str.charAt(0) == 'x') ? "x" : "");
+        String start = "";
+        String end = "";
 
-        return start + middle + end;
+        if (str.charAt(0) == 'x'){
+            end = "x";
+        }else{
+            start = str.substring(0,1);
+        }
+
+        return start + endX(str.substring(1)) + end;
     }
 }
