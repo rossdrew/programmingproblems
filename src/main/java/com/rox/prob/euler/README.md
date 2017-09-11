@@ -1,4 +1,4 @@
-#projecteuler
+# Project Euler
 
 Project Euler Problems
 https://projecteuler.net/
