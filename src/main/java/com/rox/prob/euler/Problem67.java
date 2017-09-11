@@ -25,13 +25,15 @@ import java.util.Scanner;
  * solve this problem, as there are 299 altogether! If you could check one trillion (1012) routes every
  * second it would take over twenty billion years to check them all. There is an efficient algorithm to
  * solve it. ;o)
+ *
+ * [Answer: 7273]
  */
 public class Problem67 implements NumericalProblem<Long> {
     private Scanner fileScanner;
 
     @Override
     public Long solution() {
-        return solution("resources/euler_p067_triangle.txt");
+        return solution("src/main/resources/euler_p067_triangle.txt");
     }
 
     public Long solution(String filename){
