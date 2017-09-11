@@ -1,4 +1,4 @@
-package com.rox.prob.interviews.symphonic;
+package com.rox.prob.interviews.companyX;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,10 +9,10 @@ import org.springframework.context.ApplicationContext;
  * @Created 12/07/16.
  */
 @SpringBootApplication
-public class SymphonicAuthorisation {
+public class CompanyXAuthorisation {
     public static void main(String[] args) {
-        System.out.println("Starting SymphonicAuthorisation via Spring Boot...");
+        System.out.println("Starting CompanyXAuthorisation via Spring Boot...");
 
-        ApplicationContext ctx = SpringApplication.run(SymphonicAuthorisation.class, args);
+        ApplicationContext ctx = SpringApplication.run(CompanyXAuthorisation.class, args);
     }
 }

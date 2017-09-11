@@ -1,4 +1,4 @@
-package com.rox.prob.interviews.symphonic.web;
+package com.rox.prob.interviews.companyX.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

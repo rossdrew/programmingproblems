@@ -1,4 +1,4 @@
-package com.rox.prob.interviews.symphonic.conf;
+package com.rox.prob.interviews.companyX.conf;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

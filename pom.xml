@@ -10,7 +10,7 @@
         <version>1.3.3.RELEASE</version>
     </parent>
 
-    <groupId>com.rox.prob.interview.symphonic</groupId>
+    <groupId>com.rox.prob.interview.companyX</groupId>
     <artifactId>SymphonicTrust</artifactId>
     <version>1.0-SNAPSHOT</version>
 
