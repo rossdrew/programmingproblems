@@ -39,6 +39,8 @@ import java.util.Scanner;
  * trying every route. However, Problem 67, is the same challenge with a triangle
  * containing one-hundred rows; it cannot be solved by brute force, and requires
  * a clever method! ;o)
+ *
+ * [Answer : 1074]
  */
 public class Problem18 implements NumericalProblem<Long> {
     private String triangleDefinition = "75\n" +
