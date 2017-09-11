@@ -24,7 +24,7 @@ dealer. To reduce the complexity we have simplified the rules:<br/>
 
 # The Game
  Cards are shown as codes, e.g.:-<br/>
-  As (<i>Ace of Spaces</i>)<br/>
+  As (<i>Ace of Spades</i>)<br/>
   Kc (<i>King of Clubs</i><br/>
   10h (<i>Ten of Hearts</i>)<br/>
   <br/>
