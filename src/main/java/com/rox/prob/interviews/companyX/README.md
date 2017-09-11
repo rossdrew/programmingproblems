@@ -1,4 +1,4 @@
-#Authorisation Application
+# Authorisation Application
 
 ### Problem
 The customer’s system produces simple JSON files that describe a request for some resource (resource request). The customer needs a console application that can read these files, and produce a __PERMIT__ or __DENY__ response for each one, based on some authorisation rules specified in a configuration file.
