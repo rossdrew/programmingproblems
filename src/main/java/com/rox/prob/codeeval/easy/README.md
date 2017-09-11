@@ -1,6 +1,6 @@
-#codeEval
+# CodeEval
 
-Solutions from the 'easy' catergory on CodeEval at https://www.codeeval.com/
+Solutions from the 'easy' category on [CodeEval](https://www.codeeval.com/)
 
 This site has some annoying quirks.  It is evaluated online and therefore the online
 editor has to be used so only one class allowed and it needs to be called 'Main'
