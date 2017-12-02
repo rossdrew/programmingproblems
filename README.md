@@ -23,4 +23,5 @@ My personal solutions for various programming problems I find.  Each problem sou
  - [Euler](https://github.com/rossdrew/programmingproblems/tree/master/src/main/java/com/rox/prob/euler) - Project Euler is a bit more involved, requiring some thought, time and average amount of code.
  - [CodeEval](https://github.com/rossdrew/programmingproblems/tree/master/src/main/java/com/rox/prob/codeeval) - Requires probably not as much thought but more boiler plate code than Euler as the actual code is sumbmitted.
  - [TopCoder](https://github.com/rossdrew/programmingproblems/tree/master/src/main/java/com/rox/prob/topcoder) - Much more involved coding, often requiring more advanced algorithms and data structures.
- - Google Foobar - Level (1-5) based, difficulty increasing coding challenges by [Google](http://www.google.com/).  
+ - Google Foobar - Level (1-5) based, difficulty increasing coding challenges by [Google](http://www.google.com/).
+ - [Advent of Code](https://adventofcode.com)  
