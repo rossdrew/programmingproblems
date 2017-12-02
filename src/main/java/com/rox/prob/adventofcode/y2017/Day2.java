@@ -55,20 +55,17 @@ import java.util.function.Function;
  * In this example, the sum of the results would be 4 + 3 + 2 = 9.
  */
 public class Day2 {
-    /**
-     * Parse the unformatted problem string into int[][] spreadsheet data before running the part1Solution code on it
-     */
     public static long part1Solution(String spreadsheetDataAsString){
         return solution(spreadsheetDataAsString, Day2::part1Solution);
     }
 
-    /**
-     * Parse the unformatted problem string into int[][] spreadsheet data before running the part2Solution code on it
-     */
     public static long part2Solution(String spreadsheetDataAsString){
         return solution(spreadsheetDataAsString, Day2::part2Solution);
     }
 
+    /**
+     * Parse the unformatted problem string into int[][] spreadsheet data before running the selected solution method on it
+     */
     private static long solution(String spreadsheetDataAsString, SpreadsheetOperation function){
         final String[] rows = spreadsheetDataAsString.split("\\R");
 
