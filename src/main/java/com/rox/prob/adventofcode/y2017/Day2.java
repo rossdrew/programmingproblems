@@ -28,6 +28,9 @@ import java.util.Arrays;
  * What is the checksum for the spreadsheet in your puzzle input?
  */
 public class Day2 {
+    /**
+     * Parse the unformatted problem string into int[][] spreadsheet data before running the solution code on it
+     */
     public static long solution(String spreadsheetDataAsString){
         final String[] rows = spreadsheetDataAsString.split("\\R");
 
@@ -50,6 +53,9 @@ public class Day2 {
         return solution(spreadsheetData);
     }
 
+    /**
+     * Run the solution code over int[][] spreadsheet data
+     */
     public static long solution(int[][] spreadsheetData){
         int sum = 0;
 
