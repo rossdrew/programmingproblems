@@ -1,6 +1,8 @@
 package com.rox.prob.adventofcode.y2017;
 
 
+import java.util.Arrays;
+
 /**
  * --- Day 2: Corruption Checksum ---
  *
@@ -29,25 +31,20 @@ public class Day2 {
     public static long solution(String spreadsheetDataAsString){
         final String[] rows = spreadsheetDataAsString.split("\\R");
 
-        String[] columnsOfThisRow = rows[0].split("\\s+");
-        int[][] spreadsheetData = new int[columnsOfThisRow.length][rows.length];
-        for (int row=1; row<rows.length; row++){
+        int columnCount = rows[0].split("\\s+").length;
+        int[][] spreadsheetData = new int[rows.length][columnCount];
+        for (int row=0; row<rows.length; row++){
+            String[] columnsOfThisRow = rows[row].split("\\s+");
 
             for (int column=0; column<columnsOfThisRow.length; column++){
-                //XXX This doesn't make sense
-                spreadsheetData[row-1][column] = Integer.parseInt(columnsOfThisRow[column]);
+                spreadsheetData[row][column] = Integer.parseInt(columnsOfThisRow[column]);
             }
-
-            columnsOfThisRow = rows[row].split("\\s+");
         }
 
-        //Debug output
-//        for (int col=0; col<spreadsheetData[0].length; col++) {
-//            for (int row = 0; row < rows.length; row++){
-//                System.out.print(spreadsheetData[col][row] + " ");
-//            }
-//            System.out.print("\n");
-//        }
+        System.out.println("Generated spreadsheet...");
+        for (int row=0; row<spreadsheetData.length; row++) {
+            System.out.println(Arrays.toString(spreadsheetData[row]));
+        }
 
 
         return solution(spreadsheetData);
@@ -56,13 +53,13 @@ public class Day2 {
     public static long solution(int[][] spreadsheetData){
         int sum = 0;
 
-        for (int column = 0; column < spreadsheetData.length; column++){
-            int rowMax = spreadsheetData[column][0];
-            int rowMin = spreadsheetData[column][0];
+        for (int row = 0; row < spreadsheetData.length; row++){
+            int rowMax = spreadsheetData[row][0];
+            int rowMin = spreadsheetData[row][0];
 
-            for (int row = 1; row < spreadsheetData[column].length; row++){
-                rowMax = Math.max(rowMax, spreadsheetData[column][row]);
-                rowMin = Math.min(rowMin, spreadsheetData[column][row]);
+            for (int column = 1; column < spreadsheetData[row].length; column++){
+                rowMax = Math.max(rowMax, spreadsheetData[row][column]);
+                rowMin = Math.min(rowMin, spreadsheetData[row][column]);
             }
 
             sum += (rowMax - rowMin);
