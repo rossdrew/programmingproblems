@@ -2,6 +2,8 @@ package com.rox.prob.adventofcode.y2017;
 
 
 import java.util.Arrays;
+import java.util.concurrent.Callable;
+import java.util.function.Function;
 
 /**
  * --- Day 2: Corruption Checksum ---
@@ -54,9 +56,20 @@ import java.util.Arrays;
  */
 public class Day2 {
     /**
-     * Parse the unformatted problem string into int[][] spreadsheet data before running the solution code on it
+     * Parse the unformatted problem string into int[][] spreadsheet data before running the part1Solution code on it
      */
-    public static long solution(String spreadsheetDataAsString){
+    public static long part1Solution(String spreadsheetDataAsString){
+        return solution(spreadsheetDataAsString, Day2::part1Solution);
+    }
+
+    /**
+     * Parse the unformatted problem string into int[][] spreadsheet data before running the part2Solution code on it
+     */
+    public static long part2Solution(String spreadsheetDataAsString){
+        return solution(spreadsheetDataAsString, Day2::part2Solution);
+    }
+
+    private static long solution(String spreadsheetDataAsString, SpreadsheetOperation function){
         final String[] rows = spreadsheetDataAsString.split("\\R");
 
         int columnCount = rows[0].split("\\s+").length;
@@ -74,14 +87,18 @@ public class Day2 {
             System.out.println(Arrays.toString(spreadsheetData[row]));
         }
 
+        return function.perform(spreadsheetData);
+    }
 
-        return solution(spreadsheetData);
+    @FunctionalInterface
+    private interface SpreadsheetOperation{
+        long perform(int[][] spreadsheetData);
     }
 
     /**
-     * Run the solution code over int[][] spreadsheet data
+     * Run the part1Solution code over int[][] spreadsheet data
      */
-    public static long solution(int[][] spreadsheetData){
+    public static long part1Solution(int[][] spreadsheetData){
         int sum = 0;
 
         for (int row = 0; row < spreadsheetData.length; row++){
@@ -96,5 +113,26 @@ public class Day2 {
             sum += (rowMax - rowMin);
         }
         return sum;
+    }
+
+    /**
+     * Run the part2Solution code over int[][] spreadsheet data
+     */
+    public static long part2Solution(int[][] spreadsheetData){
+//        int sum = 0;
+//
+//        for (int row = 0; row < spreadsheetData.length; row++){
+//            int rowMax = spreadsheetData[row][0];
+//            int rowMin = spreadsheetData[row][0];
+//
+//            for (int column = 1; column < spreadsheetData[row].length; column++){
+//                rowMax = Math.max(rowMax, spreadsheetData[row][column]);
+//                rowMin = Math.min(rowMin, spreadsheetData[row][column]);
+//            }
+//
+//            sum += (rowMax - rowMin);
+//        }
+//        return sum;
+        return 0;
     }
 }

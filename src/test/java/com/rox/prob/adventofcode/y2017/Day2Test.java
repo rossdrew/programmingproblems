@@ -1,5 +1,6 @@
 package com.rox.prob.adventofcode.y2017;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -9,15 +10,15 @@ import static org.junit.Assert.assertEquals;
  */
 public class Day2Test {
     @Test
-    public void testExample(){
+    public void testPart1Example(){
         int[][] speadsheet = new int[][] {{5,1,9,5},
                                           {7,5,3},
                                           {2,4,6,8}};
-        assertEquals(18, Day2.solution(speadsheet));
+        assertEquals(18, Day2.part1Solution(speadsheet));
     }
 
     @Test
-    public void testSimpleSolution(){
+    public void testPart1SimpleSolution(){
         int[][] spreadsheet = new int[][] {  {116,1470,2610,179,2161,2690,831,1824,2361,1050,2201,118,145,2275,2625,2333},
                                              {976,220,1129,553,422,950,332,204,1247,1092,1091,159,174,182,984,713},
                                              {84,78,773,62,808,83,1125,1110,1184,145,1277,982,338,1182,75,679},
@@ -36,12 +37,12 @@ public class Day2Test {
                                              {571,547,160,237,256,30,496,592,385,576,183,692,192,387,647,233}
                                           };
 
-        assertEquals(32020, Day2.solution(spreadsheet));
+        assertEquals(32020, Day2.part1Solution(spreadsheet));
 
     }
 
     @Test
-    public void testSolution(){
+    public void testPart1Solution(){
         String questionAsString = "116	1470	2610	179	2161	2690	831	1824	2361	1050	2201	118	145	2275	2625	2333\n" +
                                   "976	220	1129	553	422	950	332	204	1247	1092	1091	159	174	182	984	713\n" +
                                   "84	78	773	62	808	83	1125	1110	1184	145	1277	982	338	1182	75	679\n" +
@@ -59,6 +60,16 @@ public class Day2Test {
                                   "73	1620	81	1137	812	75	1326	1355	1545	1666	1356	1681	1732	85	128	902\n" +
                                   "571	547	160	237	256	30	496	592	385	576	183	692	192	387	647	233\n";
 
-        assertEquals(32020, Day2.solution(questionAsString));
+        assertEquals(32020, Day2.part1Solution(questionAsString));
+    }
+
+    @Test
+    @Ignore
+    public void testPart2Example(){
+        int[][] speadsheet = new int[][] {{5,9,2,8},
+                                          {9,4,7,3},
+                                          {3,8,6,5}};
+
+        assertEquals(9, Day2.part1Solution(speadsheet));
     }
 }
