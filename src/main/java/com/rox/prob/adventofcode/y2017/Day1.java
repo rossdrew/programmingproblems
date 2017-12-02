@@ -84,7 +84,7 @@ public class Day1 {
 
         for (int i=0; i<digit.length; i++){
             int compareDigit = (i+rotation) % digit.length ;
-            System.out.println(i + " + " + rotation + " % " + digit.length + " = " + compareDigit);
+            //System.out.println(i + " + " + rotation + " % " + digit.length + " = " + compareDigit + " -> " + digit[i] + "==" + digit[compareDigit]);
             if (digit[i] == digit[compareDigit])
                 sum += digit[i];
         }

@@ -6,6 +6,14 @@ import static org.junit.Assert.assertEquals;
 
 public class Day1Test {
     @Test
+    public void testExtensionExamples(){
+        final Day1 day = new Day1(5);
+        assertEquals(15, day.solution(new int[] {1,2,3,4,5,1,2,3,4,5,6}));
+        assertEquals(30, day.solution(new int[] {1,2,3,4,5,1,2,3,4,5}));
+        assertEquals(5, day.solution(new int[] {1,1,1,1,1}));
+    }
+
+    @Test
     public void testPart1Examples(){
         final Day1 day = new Day1(1);
         assertEquals(3, day.solution(new int[] {1,1,2,2}));
