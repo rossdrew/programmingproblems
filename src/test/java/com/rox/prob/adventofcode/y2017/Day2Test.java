@@ -1,6 +1,5 @@
 package com.rox.prob.adventofcode.y2017;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -64,12 +63,11 @@ public class Day2Test {
     }
 
     @Test
-    @Ignore
     public void testPart2Example(){
         int[][] speadsheet = new int[][] {{5,9,2,8},
                                           {9,4,7,3},
                                           {3,8,6,5}};
 
-        assertEquals(9, Day2.part1Solution(speadsheet));
+        assertEquals(9, Day2.part2Solution(speadsheet));
     }
 }

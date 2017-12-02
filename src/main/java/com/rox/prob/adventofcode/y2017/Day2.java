@@ -119,20 +119,21 @@ public class Day2 {
      * Run the part2Solution code over int[][] spreadsheet data
      */
     public static long part2Solution(int[][] spreadsheetData){
-//        int sum = 0;
-//
-//        for (int row = 0; row < spreadsheetData.length; row++){
-//            int rowMax = spreadsheetData[row][0];
-//            int rowMin = spreadsheetData[row][0];
-//
-//            for (int column = 1; column < spreadsheetData[row].length; column++){
-//                rowMax = Math.max(rowMax, spreadsheetData[row][column]);
-//                rowMin = Math.min(rowMin, spreadsheetData[row][column]);
-//            }
-//
-//            sum += (rowMax - rowMin);
-//        }
-//        return sum;
-        return 0;
+        int sum = 0;
+
+        for (int row = 0; row < spreadsheetData.length; row++){
+            for (int column = 0; column < spreadsheetData[row].length; column++){
+                for (int searchColumn = 0; searchColumn < spreadsheetData[row].length; searchColumn++){
+                    if (column != searchColumn){
+                        if (spreadsheetData[row][column] % spreadsheetData[row][searchColumn] == 0){
+                            sum += spreadsheetData[row][column] / spreadsheetData[row][searchColumn];
+                            continue;
+                        }
+                    }
+                }
+            }
+        }
+
+        return sum;
     }
 }
