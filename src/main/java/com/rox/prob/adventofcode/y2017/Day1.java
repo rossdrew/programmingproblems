@@ -39,7 +39,34 @@ import java.util.Arrays;
  * Solution: 1069
  */
 public class Day1 {
-    public static long solution(String digitString){
+    /**
+     * Rotation calculation method.
+     */
+    private enum RotationMethod {
+        /** An integer based rotation. e.g. 'rotate 5 steps' to rotate 5 modular steps */
+        INTEGER,
+        /** A division based rotation. e.g. 'rotate by size x 0.5' for a complete half rotation */
+        DIVISION
+    }
+
+    private RotationMethod rotationMethod;
+    private int integerRotation;
+    private float divisionalRotation;
+
+    public Day1(final int rotation){
+        this.integerRotation = rotation;
+        rotationMethod = RotationMethod.INTEGER;
+    }
+
+    public Day1(final float rotation){
+        if (rotation > 1)
+            throw new RuntimeException("Fractional integer rotation (" + rotation + ") not possible");
+
+        this.rotationMethod = RotationMethod.DIVISION;
+        this.divisionalRotation = rotation;
+    }
+
+    public long solution(String digitString){
         char[] characterDigits = digitString.toCharArray();
         int[] digits = new int[characterDigits.length];
         for (int i=0; i<characterDigits.length; i++)
@@ -50,11 +77,15 @@ public class Day1 {
         return solution(digits);
     }
 
-    public static long solution(int[] digit){
-        long sum = digit[digit.length-1] == digit[0] ? digit[0] : 0;
+    public long solution(int[] digit){
+        final int rotation = rotationMethod == RotationMethod.DIVISION ? (int)Math.floor(digit.length * divisionalRotation) : integerRotation;
 
-        for (int i=0; i<digit.length-1; i++){
-            if (digit[i] == digit[i+1])
+        long sum = 0;
+
+        for (int i=0; i<digit.length; i++){
+            int compareDigit = (i+rotation) % digit.length ;
+            System.out.println(i + " + " + rotation + " % " + digit.length + " = " + compareDigit);
+            if (digit[i] == digit[compareDigit])
                 sum += digit[i];
         }
 
