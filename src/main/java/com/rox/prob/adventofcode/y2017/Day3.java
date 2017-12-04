@@ -96,7 +96,7 @@ public class Day3 {
 
             case LEFT:
                 x -= (spiralValue-1);
-                y -= (stepsAlongArm);
+                y -= stepsAlongArm;
                 break;
 
             case TOP:
