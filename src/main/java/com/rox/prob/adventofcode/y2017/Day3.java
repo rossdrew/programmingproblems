@@ -57,6 +57,10 @@ package com.rox.prob.adventofcode.y2017;
  *
  */
 public class Day3 {
+    private static final int BOTTOM = 0;
+    private static final int LEFT = 1;
+    private static final int TOP = 2;
+    private static final int RIGHT = 3;
     /**
      * - Find the nth odd square above our number (the spiral ceiling)
      * - Step back along the spiral to the given cellNumber, creating a square
@@ -66,7 +70,7 @@ public class Day3 {
         if (cellNumber == 1)
             return 0;
 
-        /** Which ring of the spiral we are on (1,3,5,7...), also the size of the arm */
+        /** Which ring of the spiral we are on (1,3,5,7...), also the size of the arm/edge of that ring */
         int spiralValue = 1;
         /** The ceiling of the ring (highest value) */
         int spiralCeiling = 1;
@@ -86,25 +90,21 @@ public class Day3 {
         int x = spiralValue-1;
         int y = spiralValue-1;
         switch (armNumber){
-            case 0: //bottom arm
-                System.out.println("Bottom arm...");
+            case BOTTOM:
                 x -= stepsAlongArm;
                 break;
 
-            case 1: //left arm
-                System.out.println("Left arm...");
+            case LEFT:
                 x -= (spiralValue-1);
                 y -= (stepsAlongArm);
                 break;
 
-            case 2: //top arm
-                System.out.println("Top arm...");
+            case TOP:
                 x += (stepsAlongArm-(spiralValue-1));
                 y -= ((spiralValue-1));
                 break;
 
-            case 3: //right arm
-                System.out.println("Right arm...");
+            case RIGHT:
                 y += (stepsAlongArm-(spiralValue-1));
                 break;
         }
@@ -123,9 +123,13 @@ public class Day3 {
         return manhattanDistance;
     }
 
-    public long part2Solution(){
-        //TODO
-        return -1;
+    public long part2Solution(int inputValue){
+        int cellValue = 1;
+        while (cellValue < inputValue){
+            cellValue += 1; //TODO every other cell
+        }
+
+        return cellValue;
     }
 
 }
