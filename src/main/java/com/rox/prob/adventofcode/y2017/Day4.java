@@ -35,6 +35,9 @@ import java.util.Set;
  * Under this new system policy, how many passphrases are valid?
  */
 public class Day4 {
+    /**
+     * Does the given passphrase contain two identicle words
+     */
     public boolean hasDuplicateWord(String passphrase) {
         final String[] words = passphrase.split("\\s+");
         final Set<String> usedWords = new HashSet<>();
@@ -49,6 +52,9 @@ public class Day4 {
         return true;
     }
 
+    /**
+     * Does the given passphrase contain two words that are anagrams of each other
+     */
     public boolean hasAnagramPair(String passphrase) {
         final String[] words = passphrase.split("\\s+");
         final Set<String> usedWords = new HashSet<>();
