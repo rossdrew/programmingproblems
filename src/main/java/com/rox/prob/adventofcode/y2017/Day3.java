@@ -62,7 +62,7 @@ public class Day3 {
      * - Step back along the spiral to the given cellNumber, creating a square
      * - Find the manhattan distance from the centre of the created square (cell 1) to the cellNumber
      */
-    public long solution(int cellNumber){
+    public long part1Solution(int cellNumber){
         if (cellNumber == 1)
             return 0;
 
@@ -121,6 +121,11 @@ public class Day3 {
         //System.out.println("Distance from (" + sourceY + "," + sourceX + ") is (" + yDistance + ", " + xDistance + ") -> " + manhattanDistance);
 
         return manhattanDistance;
+    }
+
+    public long part2Solution(){
+        //TODO
+        return -1;
     }
 
 }
