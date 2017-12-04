@@ -35,6 +35,34 @@ import java.util.Set;
  * Under this new system policy, how many passphrases are valid?
  */
 public class Day4 {
+    /**
+     * Adjust a String to be a new String which contains the old strings characters, in order
+     */
+    private String orderString(String unorderedString){
+        char[] ordered = unorderedString.toCharArray();
+        Arrays.sort(ordered);
+        return new String(ordered);
+    }
+
+    public int part1Solution(final String passphraseList){
+        return solution(passphraseList, this::hasDuplicateWord);
+    }
+
+    public int part2Solution(final String passphraseList){
+        return solution(passphraseList, this::hasAnagramPair);
+    }
+
+    private int solution(final String passphraseList, final PassphraseValidator validator){
+        final String[] passphrases = passphraseList.split("\\R");
+
+        int validPassphrases = 0;
+        for (String passphrase : passphrases) {
+            validPassphrases += validator.isInvalid(passphrase) ? 0 : 1;
+        }
+
+        return validPassphrases;
+    }
+
     @FunctionalInterface
     private interface PassphraseValidator{
         boolean isInvalid(String passphrase);
@@ -74,33 +102,5 @@ public class Day4 {
         }
 
         return false;
-    }
-
-    /**
-     * Adjust a String to be a new String which contains the old strings characters, in order
-     */
-    private String orderString(String unorderedString){
-        char[] ordered = unorderedString.toCharArray();
-        Arrays.sort(ordered);
-        return new String(ordered);
-    }
-
-    public int part1Solution(final String passphraseList){
-        return solution(passphraseList, this::hasDuplicateWord);
-    }
-
-    public int part2Solution(final String passphraseList){
-        return solution(passphraseList, this::hasAnagramPair);
-    }
-
-    private int solution(final String passphraseList, final PassphraseValidator validator){
-        final String[] passphrases = passphraseList.split("\\R");
-
-        int validPassphrases = 0;
-        for (String passphrase : passphrases) {
-            validPassphrases += validator.isInvalid(passphrase) ? 0 : 1;
-        }
-
-        return validPassphrases;
     }
 }
