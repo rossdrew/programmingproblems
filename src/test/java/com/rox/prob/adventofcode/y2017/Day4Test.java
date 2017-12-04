@@ -532,4 +532,14 @@ public class Day4Test {
                                                     "spjb xkkak anuvk ejoklh nyerw bsjp zxuq vcwitnd xxtjmjg zfgq xkpf\n" +
                                                     "juo pmiyoh xxk myphio ogfyf dovlmwm moevao qqxidn"));
     }
+
+    @Test
+    public void testPart2Example(){
+        Day4 day = new Day4();
+        assertTrue(day.hasDuplicateWord("abcde fghij"));
+        assertFalse(day.hasDuplicateWord("abcde xyz ecdab"));       //the letters from the third word can be rearranged to form the first word.
+        assertTrue(day.hasDuplicateWord("a ab abc abd abf abj"));   //all letters need to be used when forming another word.
+        assertFalse(day.hasDuplicateWord("oiii ioii iioi iiio"));   //any of these words can be rearranged to form any other word.
+    }
+
 }
