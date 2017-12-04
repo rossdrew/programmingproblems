@@ -35,6 +35,11 @@ import java.util.Set;
  * Under this new system policy, how many passphrases are valid?
  */
 public class Day4 {
+    @FunctionalInterface
+    private interface PassphraseValidator{
+        boolean isInvalid(String passphrase);
+    }
+
     /**
      * Does the given passphrase contain two identicle words
      */
@@ -81,22 +86,19 @@ public class Day4 {
     }
 
     public int part1Solution(final String passphraseList){
-        final String[] passphrases = passphraseList.split("\\R");
-
-        int validPassphrases = 0;
-        for (String passphrase : passphrases) {
-            validPassphrases += hasDuplicateWord(passphrase) ? 0 : 1;
-        }
-
-        return validPassphrases;
+        return solution(passphraseList, this::hasDuplicateWord);
     }
 
     public int part2Solution(final String passphraseList){
+        return solution(passphraseList, this::hasAnagramPair);
+    }
+
+    private int solution(final String passphraseList, final PassphraseValidator validator){
         final String[] passphrases = passphraseList.split("\\R");
 
         int validPassphrases = 0;
         for (String passphrase : passphrases) {
-            validPassphrases += hasAnagramPair(passphrase) ? 0 : 1;
+            validPassphrases += validator.isInvalid(passphrase) ? 0 : 1;
         }
 
         return validPassphrases;
