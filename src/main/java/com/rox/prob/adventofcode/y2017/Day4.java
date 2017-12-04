@@ -35,15 +35,6 @@ import java.util.Set;
  * Under this new system policy, how many passphrases are valid?
  */
 public class Day4 {
-    /**
-     * Adjust a String to be a new String which contains the old strings characters, in order
-     */
-    private String orderString(String unorderedString){
-        char[] ordered = unorderedString.toCharArray();
-        Arrays.sort(ordered);
-        return new String(ordered);
-    }
-
     public int part1Solution(final String passphraseList){
         return solution(passphraseList, this::hasDuplicateWord);
     }
@@ -102,5 +93,14 @@ public class Day4 {
         }
 
         return false;
+    }
+
+    /**
+     * Adjust a String to be a new String which contains the old strings characters, in order
+     */
+    private String orderString(String unorderedString){
+        char[] ordered = unorderedString.toCharArray();
+        Arrays.sort(ordered);
+        return new String(ordered);
     }
 }
