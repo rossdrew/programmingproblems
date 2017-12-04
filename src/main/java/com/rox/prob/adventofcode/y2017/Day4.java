@@ -90,8 +90,7 @@ public class Day4 {
 
         int validPassphrases = 0;
         for (String passphrase : passphrases) {
-            validPassphrases += hasAnagramPair(passphrase) ? 1 : 0;
-            //TODO no anagrams
+            validPassphrases += hasAnagramPair(passphrase) ? 0 : 1;
         }
 
         return validPassphrases;

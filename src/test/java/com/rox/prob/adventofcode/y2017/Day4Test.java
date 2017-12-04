@@ -548,7 +548,7 @@ public class Day4Test {
     public void testPart2Solution(){
         Day4 day = new Day4();
 
-        assertEquals(261, day.part2Solution(INPUT));//TODO Answer is too high
+        assertEquals(251, day.part2Solution(INPUT));
     }
 
 }
