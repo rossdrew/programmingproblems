@@ -10,9 +10,9 @@ public class Day4Test {
     @Test
     public void testPart1Example(){
         Day4 day = new Day4();
-        assertTrue(day.validPassphrase("aa bb cc dd ee"));
-        assertFalse(day.validPassphrase("aa bb cc dd aa"));
-        assertTrue(day.validPassphrase("aa bb cc dd aaa"));
+        assertTrue(day.hasDuplicateWord("aa bb cc dd ee"));
+        assertFalse(day.hasDuplicateWord("aa bb cc dd aa"));
+        assertTrue(day.hasDuplicateWord("aa bb cc dd aaa"));
     }
 
     @Test

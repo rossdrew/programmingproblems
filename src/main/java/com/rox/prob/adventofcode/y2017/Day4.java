@@ -34,7 +34,7 @@ import java.util.Set;
  * Under this new system policy, how many passphrases are valid?
  */
 public class Day4 {
-    public boolean validPassphrase(String passphrase) {
+    public boolean hasDuplicateWord(String passphrase) {
         final String[] words = passphrase.split("\\s+");
         final Set<String> usedWords = new HashSet<>();
 
@@ -53,7 +53,19 @@ public class Day4 {
 
         int validPassphrases = 0;
         for (String passphrase : passphrases) {
-            validPassphrases += validPassphrase(passphrase) ? 1 : 0;
+            validPassphrases += hasDuplicateWord(passphrase) ? 1 : 0;
+        }
+
+        return validPassphrases;
+    }
+
+    public int part2Solution(final String passphraseList){
+        final String[] passphrases = passphraseList.split("\\R");
+
+        int validPassphrases = 0;
+        for (String passphrase : passphrases) {
+            validPassphrases += hasDuplicateWord(passphrase) ? 1 : 0;
+            //TODO no anagrams
         }
 
         return validPassphrases;
