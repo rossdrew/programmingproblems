@@ -1,5 +1,6 @@
 package com.rox.prob.adventofcode.y2017;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -48,6 +49,31 @@ public class Day4 {
         return true;
     }
 
+    public boolean hasAnagramPair(String passphrase) {
+        final String[] words = passphrase.split("\\s+");
+        final Set<String> usedWords = new HashSet<>();
+
+        //Generate dictionary, halt if a duplicate anagram is added
+        for (String word : words) {
+            String orderedWord = orderString(word);
+            System.out.println("Adding '" + word + "' to dictionary as '" + orderedWord + "'");
+            if (usedWords.contains(orderedWord))
+                return true;
+            usedWords.add(orderedWord);
+        }
+
+        return false;
+    }
+
+    /**
+     * Adjust a String to be a new String which contains the old strings characters, in order
+     */
+    private String orderString(String unorderedString){
+        char[] ordered = unorderedString.toCharArray();
+        Arrays.sort(ordered);
+        return new String(ordered);
+    }
+
     public int part1Solution(final String passphraseList){
         final String[] passphrases = passphraseList.split("\\R");
 
@@ -64,7 +90,7 @@ public class Day4 {
 
         int validPassphrases = 0;
         for (String passphrase : passphrases) {
-            validPassphrases += hasDuplicateWord(passphrase) ? 1 : 0;
+            validPassphrases += hasAnagramPair(passphrase) ? 1 : 0;
             //TODO no anagrams
         }
 
