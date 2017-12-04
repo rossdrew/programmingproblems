@@ -523,9 +523,9 @@ public class Day4Test {
     @Test
     public void testPart1Example(){
         Day4 day = new Day4();
-        assertTrue(day.hasDuplicateWord("aa bb cc dd ee"));
-        assertFalse(day.hasDuplicateWord("aa bb cc dd aa"));
-        assertTrue(day.hasDuplicateWord("aa bb cc dd aaa"));
+        assertFalse(day.hasDuplicateWord("aa bb cc dd ee"));
+        assertTrue(day.hasDuplicateWord("aa bb cc dd aa"));
+        assertFalse(day.hasDuplicateWord("aa bb cc dd aaa"));
     }
 
     @Test

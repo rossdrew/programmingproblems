@@ -44,12 +44,12 @@ public class Day4 {
 
         for (String word : words) {
             if (usedWords.contains(word)) {
-                return false;
+                return true;
             }
             usedWords.add(word);
         }
 
-        return true;
+        return false;
     }
 
     /**
@@ -85,7 +85,7 @@ public class Day4 {
 
         int validPassphrases = 0;
         for (String passphrase : passphrases) {
-            validPassphrases += hasDuplicateWord(passphrase) ? 1 : 0;
+            validPassphrases += hasDuplicateWord(passphrase) ? 0 : 1;
         }
 
         return validPassphrases;
