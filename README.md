@@ -8,6 +8,7 @@ My personal solutions for various programming problems I find.  Each problem sou
  - [RosettaCode](http://rosettacode.org/wiki/Rosetta_Code)
  - [InterviewCake](https://www.interviewcake.com/question/stock-price)
  - [LeetCode](https://leetcode.com)
+ - [CodeChef](https://www.codechef.com/) 
 
 
 ### Other Avenues
