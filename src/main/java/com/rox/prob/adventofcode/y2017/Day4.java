@@ -1,5 +1,8 @@
 package com.rox.prob.adventofcode.y2017;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * --- Day 4: High-Entropy Passphrases ---
  *
@@ -17,7 +20,27 @@ package com.rox.prob.adventofcode.y2017;
  */
 public class Day4 {
     public boolean validPassphrase(String passphrase) {
-        //TODO
-        return false;
+        final String[] words = passphrase.split("\\s+");
+        final Set<String> usedWords = new HashSet<>();
+
+        for (String word : words) {
+            if (usedWords.contains(word)) {
+                return false;
+            }
+            usedWords.add(word);
+        }
+
+        return true;
+    }
+
+    public int part1Solution(final String passphraseList){
+        final String[] passphrases = passphraseList.split("\\R");
+
+        int validPassphrases = 0;
+        for (String passphrase : passphrases) {
+            validPassphrases += validPassphrase(passphrase) ? 1 : 0;
+        }
+
+        return validPassphrases;
     }
 }
