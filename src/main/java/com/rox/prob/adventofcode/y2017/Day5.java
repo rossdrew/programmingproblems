@@ -79,6 +79,9 @@ public class Day5 {
         return jumpCount;
     }
 
+    /**
+     * Extract a list of jumps from a newline separated list
+     */
     private int[] extractJumpArray(String program) {
         final String [] instructions = program.split("\\R");
         final int[] jumps = new int[instructions.length];
