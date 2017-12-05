@@ -48,29 +48,21 @@ package com.rox.prob.adventofcode.y2017;
  */
 public class Day5 {
     public int part1Solution(String program) {
-        int [] jumps = extractJumpArray(program);
-
-        int jumpCount = 0;
-        int programCounter = 0;
-        while (programCounter >= 0 && programCounter < jumps.length){
-            final int nextJump = jumps[programCounter];
-            jumps[programCounter]++;
-            //System.out.println(programCounter + ": JMP(" + nextJump + "), ++=" + jumps[programCounter]);
-            programCounter += nextJump;
-            jumpCount++;
-        }
-
-        return jumpCount;
+        return solution(program, this::part1Adjustment);
     }
 
     public int part2Solution(String program) {
+        return solution(program, this::part2Adjustment);
+    }
+
+    public int solution(String program, Adjustment adjustment) {
         int [] jumps = extractJumpArray(program);
 
         int jumpCount = 0;
         int programCounter = 0;
         while (programCounter >= 0 && programCounter < jumps.length){
             final int nextJump = jumps[programCounter];
-            jumps[programCounter] += (jumps[programCounter] >= 3) ? -1 : 1;
+            jumps[programCounter] = adjustment.adjust(jumps[programCounter]);
             //System.out.println(programCounter + ": JMP(" + nextJump + "), ++=" + jumps[programCounter]);
             programCounter += nextJump;
             jumpCount++;
@@ -90,5 +82,18 @@ public class Day5 {
             jumps[i] = Integer.decode(instructions[i]);
 
         return jumps;
+    }
+
+    @FunctionalInterface
+    private interface Adjustment {
+        int adjust(int value);
+    }
+
+    private int part2Adjustment(int value){
+        return value + ((value >= 3) ? -1 : 1);
+    }
+
+    private int part1Adjustment(int value){
+        return value + 1;
     }
 }
