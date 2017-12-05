@@ -35,6 +35,16 @@ package com.rox.prob.adventofcode.y2017;
  * In this example, the exit is reached in 5 steps.
  *
  * How many steps does it take to reach the exit?
+ *
+ * --- Part Two ---
+ *
+ * Now, the jumps are even stranger: after each jump, if the offset was three or more, instead decrease it by 1.
+ * Otherwise, increase it by 1 as before.
+ *
+ * Using this rule with the above example, the process now takes 10 steps, and the offset values after finding the exit
+ * are left as 2 3 2 3 -1.
+ *
+ * How many steps does it now take to reach the exit?
  */
 public class Day5 {
     public int part1Solution(String program) {
@@ -45,6 +55,22 @@ public class Day5 {
         while (programCounter >= 0 && programCounter < jumps.length){
             final int nextJump = jumps[programCounter];
             jumps[programCounter]++;
+            //System.out.println(programCounter + ": JMP(" + nextJump + "), ++=" + jumps[programCounter]);
+            programCounter += nextJump;
+            jumpCount++;
+        }
+
+        return jumpCount;
+    }
+
+    public int part2Solution(String program) {
+        int [] jumps = extractJumpArray(program);
+
+        int jumpCount = 0;
+        int programCounter = 0;
+        while (programCounter >= 0 && programCounter < jumps.length){
+            final int nextJump = jumps[programCounter];
+            jumps[programCounter] += (jumps[programCounter] >= 3) ? -1 : 1;
             //System.out.println(programCounter + ": JMP(" + nextJump + "), ++=" + jumps[programCounter]);
             programCounter += nextJump;
             jumpCount++;

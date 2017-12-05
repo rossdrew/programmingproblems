@@ -1082,4 +1082,16 @@ public class Day5Test {
         Day5 day = new Day5();
         assertEquals(376976, day.part1Solution(INPUT));
     }
+
+    @Test
+    public void testPart2Example(){
+        Day5 day = new Day5();
+        assertEquals(10, day.part2Solution("0\n3\n0\n1\n-3"));
+    }
+
+    @Test
+    public void testPart2Solution(){
+        Day5 day = new Day5();
+        assertEquals(29227751, day.part2Solution(INPUT));
+    }
 }
