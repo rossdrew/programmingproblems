@@ -6,10 +6,11 @@ import static org.junit.Assert.assertEquals;
 
 public class Day3Test {
     @Test
-    public void testPart1part1Solution(){
+    public void testPart1Solution(){
         Day3 day = new Day3();
         assertEquals(552, day.part1Solution(325489));
     }
+
     @Test
     public void testPart1Examples(){
         Day3 day = new Day3();
@@ -51,5 +52,11 @@ public class Day3Test {
         Day3 day = new Day3();
         assertEquals(2, day.part1Solution(5));
         assertEquals(1, day.part1Solution(2));
+    }
+
+    @Test
+    public void testPart2Solution(){
+        Day3 day = new Day3();
+        assertEquals(-1, day.part2Solution(325489));
     }
 }

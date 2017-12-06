@@ -124,12 +124,81 @@ public class Day3 {
     }
 
     public long part2Solution(int inputValue){
-        int cellValue = 1;
+        long[][] bruteForceGrid = new long[81][81];
+        Coord cell = new Coord(40,40);//the center of the brute force grid
+        long cellValue = 1;
+        bruteForceGrid[cell.y][cell.x] = cellValue;
+
+        int edgeCount = 0;
+        int edgeSize = 1;
+        int pathIndex = 0;
         while (cellValue < inputValue){
-            cellValue += 1; //TODO every other cell
+            //step along the edge
+            for (int step=0; step<edgeSize; step++) {
+                cell = path[pathIndex % path.length].manipulate(cell);
+                cellValue = calculateCellValue(cell, bruteForceGrid);
+                System.out.println("[" + cell.y + ", " + cell.x + "] = " +cellValue);
+                bruteForceGrid[cell.y][cell.x] = cellValue;
+                if (cellValue > inputValue) {
+                    System.out.println(cellValue + " is larger than " + inputValue);
+                    break;
+                }
+            }
+            edgeCount++;
+            if (edgeCount==2){
+                edgeSize++;
+                edgeCount=0;
+            }
+
+            pathIndex++;
         }
 
         return cellValue;
+    }
+
+    private long calculateCellValue(Coord coord, long[][] gridSoFar){
+        return gridSoFar[coord.y-1][coord.x-1] //Top row
+              +gridSoFar[coord.y-1][coord.x]
+              +gridSoFar[coord.y-1][coord.x+1]
+
+              +gridSoFar[coord.y][coord.x-1]  //Same row
+              +gridSoFar[coord.y][coord.x+1]
+
+              +gridSoFar[coord.y+1][coord.x-1]//Bottom row
+              +gridSoFar[coord.y+1][coord.x]
+              +gridSoFar[coord.y+1][coord.x+1];
+    }
+
+    CoordManipulation[] path = new CoordManipulation[] {this::right, this::up, this::left, this::down};
+
+    class Coord{
+        Coord(int y, int x){
+            this.y=y; this.x=x;
+        }
+
+        int x;
+        int y;
+    }
+
+    @FunctionalInterface
+    interface CoordManipulation{
+        Coord manipulate(Coord coord);
+    }
+
+    private Coord right(Coord coord){
+        return new Coord(coord.y, coord.x+1);
+    }
+
+    private Coord left(Coord coord){
+        return new Coord(coord.y, coord.x-1);
+    }
+
+    private Coord up(Coord coord){
+        return new Coord(coord.y-1, coord.x);
+    }
+
+    private Coord down(Coord coord){
+        return new Coord(coord.y+1, coord.x);
     }
 
 }
