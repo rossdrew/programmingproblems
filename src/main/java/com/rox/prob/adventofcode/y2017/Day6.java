@@ -1,5 +1,9 @@
 package com.rox.prob.adventofcode.y2017;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * --- Day 6: Memory Reallocation ---
  *
@@ -37,6 +41,99 @@ package com.rox.prob.adventofcode.y2017;
  * Given the initial block counts in your puzzle input, how many redistribution cycles must be completed before a
  * configuration is produced that has been seen before?
  *
+ * --- Part Two ---
+ *
+ * Out of curiosity, the debugger would also like to know the size of the loop: starting from a state that has already
+ * been seen, how many block redistribution cycles must be performed before that same state is seen again?
+ *
+ * In the example above, 2 4 1 2 is seen again after four cycles, and so the answer in that example would be 4.
+ *
+ * How many cycles are in the infinite loop that arises from the configuration in your puzzle input?
  */
 public class Day6 {
+    public int part1Solution(String memoryStateAsString){
+        String[] memoryStateStrings = memoryStateAsString.split("\\s");
+        int[] memoryState = new int[memoryStateStrings.length];
+        for (int i=0; i<memoryState.length; i++)
+            memoryState[i] = Integer.parseInt(memoryStateStrings[i]);
+        return part1Solution(memoryState);
+    }
+
+    public int part1Solution(int[] memoryState){
+        final List<int[]> states = new ArrayList<>();
+        int iterationCount = 0;
+
+        int[] newState = Arrays.copyOf(memoryState, memoryState.length);
+
+        //check if we have seen this state before, if not loop
+        while (true) {
+            if (contains(states, newState) > -1) {
+                return iterationCount;
+            }else {
+                newState = getNextPart1State(newState, states);
+            }
+            iterationCount++;
+        }
+    }
+
+    public int part2Solution(String memoryStateAsString){
+        String[] memoryStateStrings = memoryStateAsString.split("\\s");
+        int[] memoryState = new int[memoryStateStrings.length];
+        for (int i=0; i<memoryState.length; i++)
+            memoryState[i] = Integer.parseInt(memoryStateStrings[i]);
+        return part2Solution(memoryState);
+    }
+
+    public int part2Solution(int[] memoryState){
+        final List<int[]> states = new ArrayList<>();
+
+        int[] newState = Arrays.copyOf(memoryState, memoryState.length);
+
+        //check if we have seen this state before, if not loop
+        while (true) {
+            int previousOccurrence = contains(states, newState);
+            if (previousOccurrence > -1) {
+                return states.size() - previousOccurrence;
+            }else {
+                newState = getNextPart1State(newState, states);
+            }
+        }
+    }
+
+    /**
+     * Get the next state of memoryState then add it to states and return it
+     */
+    private int[] getNextPart1State(int[] memoryState, List<int[]> states) {
+        int indexOfMax = 0;
+        for (int i=1; i<memoryState.length; i++){
+            if (memoryState[indexOfMax] < memoryState[i])
+                indexOfMax = i;
+        }
+
+        //store for future comparisons
+        int[] oldState = Arrays.copyOf(memoryState, memoryState.length);
+        states.add(oldState);
+
+        //share it between banks
+        int blocksToDistribute = memoryState[indexOfMax];
+        memoryState[indexOfMax] = 0;
+        int indexOfRedistribution = indexOfMax + 1;
+        while (blocksToDistribute > 0){
+            memoryState[indexOfRedistribution++ % memoryState.length]++;
+            blocksToDistribute--;
+        }
+
+        return memoryState;
+    }
+
+    /**
+     * Do the pastStates contain an array equal to the current state
+     */
+    private int contains(List<int[]> pastStates, int[] state){
+        for (int i=0; i<pastStates.size(); i++){
+            if (Arrays.equals(state, pastStates.get(i)))
+                return i;
+        }
+        return -1;
+    }
 }
