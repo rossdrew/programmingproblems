@@ -1,5 +1,6 @@
 package com.rox.prob.adventofcode.y2017;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -89,17 +90,20 @@ public class Day7 {
 
         //Build the program list
         for (int programIndex = 0; programIndex < call.length;  programIndex++){
-            final String[] statement = call[programIndex].split("\\s");
+            //Remove spaces after commas seperating children to avoid unintentional split
+            final String[] statement = call[programIndex].replaceAll(", ", ",").split("\\s");
             String name = statement[0];
             int weight = Integer.parseInt(statement[1].substring(1, statement[1].length()-1));
             String[] children = new String[0];
-            if (statement.length > 3)
+            if (statement.length > 3) {
                 children = statement[3].split(",");
+            }
 
             Program newProgram = new Program(name, weight, children);
             programList.put(newProgram.name, newProgram);
         }
 
+        //Figure out each programs parent
         for (String programName : programList.keySet()) {
             Program program = programList.get(programName);
             for (String child : program.children) {
@@ -107,8 +111,10 @@ public class Day7 {
             }
         }
 
+        //Find the program that has no parent
         for (String programName : programList.keySet()) {
             Program program = programList.get(programName);
+            System.out.println((program.parent == null ? "NO PARENT" : program.parent.name) + " <- " + program.name + " -> " + Arrays.toString(program.children));
             if (program.parent == null)
                 return programName;
         }
