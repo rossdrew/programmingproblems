@@ -115,16 +115,7 @@ public class Day7 {
 
         //Build the program list
         for (int programIndex = 0; programIndex < call.length;  programIndex++){
-            //Remove spaces after commas seperating children to avoid unintentional split
-            final String[] statement = call[programIndex].replaceAll(", ", ",").split("\\s");
-            String name = statement[0];
-            int weight = Integer.parseInt(statement[1].substring(1, statement[1].length()-1));
-            String[] children = new String[0];
-            if (statement.length > 3) {
-                children = statement[3].split(",");
-            }
-
-            Program newProgram = new Program(name, weight, children);
+            Program newProgram = buildProgram(call[programIndex]);
             programList.put(newProgram.name, newProgram);
         }
 
@@ -145,6 +136,19 @@ public class Day7 {
         }
 
 
-        return null; //TODO
+        return null;
+    }
+
+    private Program buildProgram(String s) {
+        //Remove spaces after commas seperating children to avoid unintentional split
+        final String[] statement = s.replaceAll(", ", ",").split("\\s");
+        String name = statement[0];
+        int weight = Integer.parseInt(statement[1].substring(1, statement[1].length()-1));
+        String[] children = new String[0];
+        if (statement.length > 3) {
+            children = statement[3].split(",");
+        }
+
+        return new Program(name, weight, children);
     }
 }
