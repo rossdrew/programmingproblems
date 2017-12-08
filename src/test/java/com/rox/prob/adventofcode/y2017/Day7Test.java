@@ -1482,4 +1482,10 @@ public class Day7Test {
         Day7 day = new Day7();
         assertEquals("TODO", day.part1Solution(PROBLEM_INPUT));
     }
+
+    @Test
+    public void testPart2Problem(){
+        Day7 day = new Day7();
+        assertEquals(0, day.part2Solution(PROBLEM_INPUT));
+    }
 }

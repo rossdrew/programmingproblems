@@ -17,7 +17,7 @@ import java.util.Map;
  * disc below them balanced but with no disc of their own.
  *
  * You offer to help, but first you need to understand the structure of these towers. You ask each program to yell out
- * their name, their weight, and (if they're holding a disc) the names of the programs immediately above them balancing
+ * their name, their programWeight, and (if they're holding a disc) the names of the programs immediately above them balancing
  * on that disc. You write this information down (your puzzle input). Unfortunately, in their panic, they don't do this
  * in an orderly fashion; by the time you're done, you're not sure which program gave which information.
  *
@@ -68,18 +68,18 @@ import java.util.Map;
  * --- Part Two ---
  *
  * The programs explain the situation: they can't get down. Rather, they could get down, if they weren't expending all
- * of their energy trying to keep the tower balanced. Apparently, one program has the wrong weight, and until it's
+ * of their energy trying to keep the tower balanced. Apparently, one program has the wrong programWeight, and until it's
  * fixed, they're stuck here.
  *
  * For any program holding a disc, each program standing on that disc forms a sub-tower. Each of those sub-towers are
- * supposed to be the same weight, or the disc itself isn't balanced. The weight of a tower is the sum of the weights
+ * supposed to be the same programWeight, or the disc itself isn't balanced. The programWeight of a tower is the sum of the weights
  * of the programs in that tower.
  *
  * In the example above, this means that for ugml's disc to be balanced, gyxo, ebii, and jptl must all have the same
- * weight, and they do: 61.
+ * programWeight, and they do: 61.
  *
- *  However, for tknk to be balanced, each of the programs standing on its disc and all programs above it must each
- *  match. This means that the following sums must all be the same:
+ * However, for tknk to be balanced, each of the programs standing on its disc and all programs above it must each
+ * match. This means that the following sums must all be the same:
  *
  * ugml + (gyxo + ebii + jptl) = 68 + (61 + 61 + 61) = 251
  * padx + (pbga + havc + qoyq) = 45 + (66 + 66 + 66) = 243
@@ -87,24 +87,35 @@ import java.util.Map;
  *
  * As you can see, tknk's disc is unbalanced: ugml's stack is heavier than the other two. Even though the nodes above
  * ugml are balanced, ugml itself is too heavy: it needs to be 8 units lighter for its stack to weigh 243 and keep the
- * towers balanced. If this change were made, its weight would be 60.
+ * towers balanced. If this change were made, its programWeight would be 60.
  *
- * Given that exactly one program is the wrong weight, what would its weight need to be to balance the entire tower?
+ * Given that exactly one program is the wrong programWeight, what would its programWeight need to be to balance the entire tower?
  */
 public class Day7 {
 
     class Program {
         String name;
-        int weight;
+        int programWeight;
+        int discWeight = 0;
         String[] children;
         Program parent;
 
-        Program(String name, int weight, String[] children){
+        Program(String name, int programWeight, String[] children){
             this.name=name;
-            this.weight=weight;
+            this.programWeight = programWeight;
             for (int childIndex=0; childIndex<children.length; childIndex++)
                 children[childIndex] = children[childIndex].trim();
             this.children=children;
+        }
+
+        int discWeight(Map<String, Program> programList){
+            if (discWeight == 0) {
+                discWeight = programWeight;
+                for (String child : children) {
+                    discWeight += programList.get(child).programWeight;
+                }
+            }
+            return discWeight;
         }
     }
 
@@ -137,6 +148,36 @@ public class Day7 {
 
 
         return null;
+    }
+
+    public int part2Solution(String input){
+        final String[] call = input.split("\\R");
+
+        Map<String, Program> programList = new HashMap<>();
+
+        //Build the program list
+        for (int programIndex = 0; programIndex < call.length;  programIndex++){
+            Program newProgram = buildProgram(call[programIndex]);
+            programList.put(newProgram.name, newProgram);
+        }
+
+        //Figure out each programs parent
+        for (String programName : programList.keySet()) {
+            Program program = programList.get(programName);
+            for (String child : program.children) {
+                programList.get(child).parent = program;
+            }
+        }
+
+        //Figure out which disc is unbalanced
+        for (String programName : programList.keySet()) {
+            Program program = programList.get(programName);
+            //Are all children of the same programWeight?
+            //  if not, its parent programWeight plus all child weights must be the same as others (in tree/at the same level)?
+        }
+
+
+        return -1;
     }
 
     private Program buildProgram(String s) {
