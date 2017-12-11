@@ -1,5 +1,9 @@
 package com.rox.prob.adventofcode.y2017;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * --- Day 8: I Heard You Like Registers ---
  *
@@ -28,8 +32,113 @@ package com.rox.prob.adventofcode.y2017;
  *  What is the largest value in any register after completing the instructions in your puzzle input?
  */
 public class Day8 {
+    enum Operation {
+        INCREMENT("inc", (a,b) -> a+b),
+        DECREMENT("dec", (a,b) -> a-b);
+
+        final String representation;
+        private final MutationOperation operation;
+
+        public Integer resultOf(Integer a, Integer b){
+            return operation.perform(a,b);
+        }
+
+        Operation(String representation, MutationOperation operation){
+            this.representation = representation;
+            this.operation = operation;
+        }
+    }
+
+    enum Condition {
+        GREATER_THAN(">", (a,b)->a>b),
+        LESS_THAN("<", (a,b)->a<b),
+        EQUAL_TO("==", (a,b)->a==b),
+        LESS_THAN_OR_EQUAL_TO("<=", (a,b)->a<=b),
+        GREATER_THAN_OR_EQUAL_TO(">=", (a,b)->a>=b),
+        NOT_EQUAL_TO("!=", (a,b)->a!=b);
+
+        public final String representation;
+        private final Comparison comparison;
+
+        public boolean trueFor(Integer a, Integer b){
+            return comparison.perform(a,b);
+        }
+
+        Condition(String representation, Comparison comparison){
+            this.representation = representation;
+            this.comparison = comparison;
+        }
+    }
+
+    @FunctionalInterface
+    interface Comparison {
+        boolean perform(Integer a, Integer b);
+    }
+
+    @FunctionalInterface
+    interface MutationOperation {
+        Integer perform(Integer a, Integer b);
+    }
+
+    class Command {
+        final String register;
+        final Operation operation;
+        final Integer modifyValue;
+        final String testRegister;
+        final Condition condition;
+        final Integer testValue;
+
+        Command(String commandString){
+            final String[] commandElements = commandString.split("\\s");
+            register = commandElements[0];
+            operation = Arrays.stream(Operation.values()).filter(o -> o.representation.equalsIgnoreCase(commandElements[1].trim()))
+                                                         .findFirst()
+                                                         .orElseThrow(() -> new RuntimeException("Unknown operation " + commandElements[1]));
+            modifyValue = Integer.parseInt(commandElements[2]);
+            testRegister = commandElements[4];
+            condition = Arrays.stream(Condition.values()).filter(c -> c.representation.equalsIgnoreCase(commandElements[5].trim()))
+                                                         .findFirst()
+                                                         .orElseThrow(() -> new RuntimeException("Unknown comparison " + commandElements[5]));
+            testValue = Integer.parseInt(commandElements[6]);
+        }
+    }
+
     public int part1Solution(final String program){
-        //TODO
-        return -1;
+        final String commands[] = program.split("\\R");
+
+        final Map<String, Integer> registers = new HashMap<>();
+
+        for (int commandIndex = 0; commandIndex < commands.length; commandIndex++){
+            Command command = new Command(commands[commandIndex]);
+
+            int changingRegisterValue = registers.containsKey(command.register) ? registers.get(command.register) : 0;
+            int comparingRegisterValue = registers.containsKey(command.testRegister) ? registers.get(command.testRegister) : 0;
+
+            //test if the condition is true
+            if (command.condition.trueFor(comparingRegisterValue, command.testValue)){
+                changingRegisterValue = command.operation.resultOf(changingRegisterValue, command.modifyValue);
+            }
+
+
+            System.out.println("(" + commands[commandIndex] + ") " + format(commands[commandIndex]) + command.register + " -> " + changingRegisterValue + "\t[" + command.testRegister + "=" + comparingRegisterValue + "]");
+            registers.put(command.register, changingRegisterValue);
+        }
+
+        int max = Integer.MIN_VALUE;
+        for (String registerName : registers.keySet()) {
+            //System.out.println(registerName + " = " + registers.get(registerName));
+            max = Math.max(registers.get(registerName), max);
+        }
+
+        return max;
+    }
+
+    String format(String output){
+        if (output.length() < 21)
+            return "\t\t\t";
+        else if (output.length() < 25)
+            return "\t\t";
+        else
+            return "\t";
     }
 }
