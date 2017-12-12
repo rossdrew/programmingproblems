@@ -1,5 +1,10 @@
 package com.rox.prob.adventofcode.y2017;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Stack;
+
 /**
  * --- Day 9: Stream Processing ---
  *
@@ -57,7 +62,48 @@ package com.rox.prob.adventofcode.y2017;
  * What is the total score for all groups in your input?
  */
 public class Day9 {
+    private class Group {
+        List<Group> subGroups;
+
+        Group(int score){
+            subGroups = new ArrayList<>();
+        }
+
+        public void addSubgroup(Group subgroup){
+            subGroups.add(subgroup);
+        }
+    }
+
     public int part1Solution(String stream) {
+        char[] characterStream = stream.toCharArray();
+
+        StringBuilder stringBuilder = new StringBuilder();
+        boolean garbage = false;
+        boolean ignore = false;
+        for (char character : characterStream) {
+            if (!ignore) {
+                switch (character) {
+                    case '!':
+                        ignore = true;
+                        break;
+                    case '<':
+                        garbage = true;
+                        break;
+                    case '>':
+                        garbage = false;
+                        break;
+                }
+
+                if (!garbage){
+                    //TODO
+                }
+
+            }else{
+                ignore = false;
+            }
+
+        }
+
         return 0;
     }
 }
