@@ -101,6 +101,11 @@ public class Day8 {
                                                          .orElseThrow(() -> new RuntimeException("Unknown comparison " + commandElements[5]));
             testValue = Integer.parseInt(commandElements[6]);
         }
+
+        @Override
+        public String toString() {
+            return operation + " '" + register + "' by " + modifyValue + " if '" + testRegister + "' " + condition + " " + testValue;
+        }
     }
 
     public int part1Solution(final String program){
@@ -111,17 +116,17 @@ public class Day8 {
         for (int commandIndex = 0; commandIndex < commands.length; commandIndex++){
             Command command = new Command(commands[commandIndex]);
 
-            int changingRegisterValue = registers.containsKey(command.register) ? registers.get(command.register) : 0;
-            int comparingRegisterValue = registers.containsKey(command.testRegister) ? registers.get(command.testRegister) : 0;
+            int registerValue = registers.containsKey(command.register) ? registers.get(command.register) : 0;
+            int testRegisterValue = registers.containsKey(command.testRegister) ? registers.get(command.testRegister) : 0;
 
-            //test if the condition is true
-            if (command.condition.trueFor(comparingRegisterValue, command.testValue)){
-                changingRegisterValue = command.operation.resultOf(changingRegisterValue, command.modifyValue);
+            if (command.condition.trueFor(testRegisterValue, command.testValue)){
+                registerValue = command.operation.resultOf(registerValue, command.modifyValue);
+                System.out.println("(" + commands[commandIndex] + ") " + format(commands[commandIndex]) + command.register + " -> " + registerValue + "\t[" + command.testRegister + "=" + testRegisterValue + "] ... " + command);
+            }else{
+                System.out.println("\t(" + commands[commandIndex] + ") No operation. [" + command.testRegister + "=" + testRegisterValue + "]");
             }
 
-
-            System.out.println("(" + commands[commandIndex] + ") " + format(commands[commandIndex]) + command.register + " -> " + changingRegisterValue + "\t[" + command.testRegister + "=" + comparingRegisterValue + "]");
-            registers.put(command.register, changingRegisterValue);
+            registers.put(command.register, registerValue);
         }
 
         int max = Integer.MIN_VALUE;
@@ -134,7 +139,9 @@ public class Day8 {
     }
 
     String format(String output){
-        if (output.length() < 21)
+        if (output.length() < 17)
+            return "\t\t\t\t";
+        else if (output.length() < 21)
             return "\t\t\t";
         else if (output.length() < 25)
             return "\t\t";

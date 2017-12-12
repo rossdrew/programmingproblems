@@ -15,6 +15,39 @@ public class Day8Test {
     }
 
     @Test
+    public void testPart1ExtendedExamples(){
+        Day8 day = new Day8();
+        // Increment/Decrement combinations
+        assertEquals(1, day.part1Solution("b inc 1 if a == 0"));
+        assertEquals(-1, day.part1Solution("b dec 1 if a == 0"));
+        assertEquals(-1, day.part1Solution("b inc -1 if a == 0"));
+        assertEquals(1, day.part1Solution("b dec -1 if a == 0"));
+
+        // Operators
+        assertEquals(1, day.part1Solution("b inc 1 if a >= 0"));
+        assertEquals(1, day.part1Solution("b inc 1 if a <= 0"));
+        assertEquals(1, day.part1Solution("b inc 1 if a != 1"));
+        assertEquals(1, day.part1Solution("b inc 1 if a > -1"));
+        assertEquals(1, day.part1Solution("b inc 1 if a < 1"));
+        assertEquals(1, day.part1Solution("b inc 1 if a == 0"));
+    }
+
+    @Test
+    public void testPart1StepwiseExample(){
+        Day8 day = new Day8();
+        assertEquals(24, day.part1Solution("c inc 1 if a < 1\n" +
+                                                             "b inc 2 if c == 1\n" +
+                                                             "d dec 50 if b > 1\n" +
+                                                             "c dec 24 if b == 1000\n" + //X
+                                                             "c dec 24 if b >= 3\n" +    //X
+                                                             "c dec 24 if b <= 1\n" +    //X
+                                                             "c dec 24 if b != 2\n" +    //X
+                                                             "c inc 34 if d <= -50\n" +
+                                                             "c dec 10 if d != 42\n" +
+                                                             "c inc -1 if b >= 2\n"));
+    }
+
+    @Test
     public void testPart1Solution(){
         Day8 day = new Day8();
         //Attempt 1. 4555 too low
