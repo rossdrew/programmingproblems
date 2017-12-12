@@ -52,10 +52,10 @@ public class Day8 {
     enum Condition {
         GREATER_THAN(">", (a,b)->a>b),
         LESS_THAN("<", (a,b)->a<b),
-        EQUAL_TO("==", (a,b)->a==b),
+        EQUAL_TO("==", (a,b)->a.equals(b)),
         LESS_THAN_OR_EQUAL_TO("<=", (a,b)->a<=b),
         GREATER_THAN_OR_EQUAL_TO(">=", (a,b)->a>=b),
-        NOT_EQUAL_TO("!=", (a,b)->a!=b);
+        NOT_EQUAL_TO("!=", (a,b)->!a.equals(b));
 
         public final String representation;
         private final Comparison comparison;
