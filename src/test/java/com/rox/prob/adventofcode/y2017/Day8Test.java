@@ -1086,4 +1086,10 @@ public class Day8Test {
                 "c dec -10 if a >= 1\n" +
                 "c inc -20 if c == 10"));
     }
+
+    @Test
+    public void testPart2Problem(){
+        Day8 day = new Day8();
+        assertEquals(10, day.part2Solution( INPUT));
+    }
 }
