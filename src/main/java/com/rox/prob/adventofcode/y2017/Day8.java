@@ -145,6 +145,32 @@ public class Day8 {
         return max;
     }
 
+    public int part2Solution(String program) {
+        final String commands[] = program.split("\\R");
+
+        final Map<String, Integer> registers = new HashMap<>();
+
+        int max = Integer.MIN_VALUE;
+        for (int commandIndex = 0; commandIndex < commands.length; commandIndex++){
+            Command command = new Command(commands[commandIndex]);
+
+            int registerValue = registers.containsKey(command.register) ? registers.get(command.register) : 0;
+            int testRegisterValue = registers.containsKey(command.testRegister) ? registers.get(command.testRegister) : 0;
+
+            if (command.condition.trueFor(testRegisterValue, command.testValue)){
+                registerValue = command.operation.resultOf(registerValue, command.modifyValue);
+                System.out.println("(" + commands[commandIndex] + ") " + format(commands[commandIndex]) + command.register + " -> " + registerValue + "\t[" + command.testRegister + "=" + testRegisterValue + "] ... " + command);
+            }else{
+                System.out.println("\t(" + commands[commandIndex] + ") No operation. [" + command.testRegister + "=" + testRegisterValue + "]");
+            }
+
+            max = Math.max(registerValue, max);
+            registers.put(command.register, registerValue);
+        }
+
+        return max;
+    }
+
     String format(String output){
         if (output.length() < 17)
             return "\t\t\t\t";

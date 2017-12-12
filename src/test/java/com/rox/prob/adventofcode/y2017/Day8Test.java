@@ -1077,4 +1077,13 @@ public class Day8Test {
         assertEquals(5221, day.part1Solution(INPUT));
 
     }
+
+    @Test
+    public void testPart2Example(){
+        Day8 day = new Day8();
+        assertEquals(10, day.part2Solution( "b inc 5 if a > 1\n" +
+                "a inc 1 if b < 5\n" +
+                "c dec -10 if a >= 1\n" +
+                "c inc -20 if c == 10"));
+    }
 }
