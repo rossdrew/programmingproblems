@@ -21,7 +21,7 @@ public class Main {
         //DEBUG*///System.out.println(w.stringX("xxHxix"));
 
         Recursion1 r = new Recursion1();
-        /*DEBUG*/System.out.println(r.endX("xxhixx"));
+        /*DEBUG*/System.out.println(r.countPairs("axax"));
 
 //        Map1 m = new Map1();
 //        Map<String, String> testMap = new HashMap<>();
