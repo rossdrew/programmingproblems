@@ -14,14 +14,14 @@ import java.util.Map;
 public class Main {
 
     public static void main(String[] args) {
-        //NumericalProblem p = new Problem19();
-        /*DEBUG*///System.out.println(p.solution());
+        NumericalProblem p = new Problem19();
+        /*DEBUG*/System.out.println(p.solution());
 
         //Warmup2 w = new Warmup2();
         //DEBUG*///System.out.println(w.stringX("xxHxix"));
 
-        Recursion1 r = new Recursion1();
-        /*DEBUG*/System.out.println(r.countAbc("abaxxaba"));
+//        Recursion1 r = new Recursion1();
+//        /*DEBUG*/System.out.println(r.countAbc("abaxxaba"));
 
 //        Map1 m = new Map1();
 //        Map<String, String> testMap = new HashMap<>();
