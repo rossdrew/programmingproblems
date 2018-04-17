@@ -404,4 +404,19 @@ public class Recursion1 {
 
         return countPairs(str.substring(1)) + ((str.charAt(0) == str.charAt(2)) ? 1 : 0);
     }
+
+    /**
+     * Count recursively the total number of "abc" and "aba" substrings that appear in
+     * the given string.
+     *
+     *  countAbc("abc") → 1
+     *  countAbc("abcxxabc") → 2
+     *  countAbc("abaxxaba") → 2
+     */
+    public int countAbc(String str) {
+        if (str.length() < 3)
+            return 0;
+
+        return ((str.startsWith("abc") || str.startsWith("aba")) ? 1 : 0) + countAbc(str.substring(1));
+    }
 }
