@@ -25,6 +25,9 @@ public class Problem20 implements NumericalProblem<BigDecimal> {
         return stepTwoSolution(multipliedValue);
     }
 
+    /**
+     * Return the result of adding all digits of value together
+     */
     public BigDecimal stepTwoSolution(BigDecimal value){
         final BigDecimal[] valueAndRemainder = value.divideAndRemainder(BigDecimal.TEN);
 
@@ -34,6 +37,9 @@ public class Problem20 implements NumericalProblem<BigDecimal> {
         return stepTwoSolution(valueAndRemainder[0]).add(valueAndRemainder[1]);
     }
 
+    /**
+     * Return the value of (value - 1) x (value - 2) ... 1
+     */
     public BigDecimal stepOneSolution(BigDecimal value){
         if (value.equals(BigDecimal.ZERO))
             return BigDecimal.ONE;
