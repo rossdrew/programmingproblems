@@ -1,6 +1,10 @@
 package com.rox.prob.euler;
 
 import com.rox.prob.NumericalProblem;
+import com.rox.prob.common.NumberAnalyser;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Let d(n) be defined as the sum of proper divisors of n (numbers less than n which
@@ -13,10 +17,45 @@ import com.rox.prob.NumericalProblem;
  * 142; so d(284) = 220.
  *
  * Evaluate the sum of all the amicable numbers under 10000.
+ *
+ * [Answer: 31626]
  */
 public class Problem21 implements NumericalProblem<Long> {
     @Override
     public Long solution() {
-        return null;
+        return solution(10000);
+    }
+
+    public Long solution(final int limit){
+        Set<Long> found = new HashSet<>();
+
+        for (Long a = 0L; a <= limit; a++){
+            final Long da = sumOfDivisors(a);
+            final Long db = sumOfDivisors(da);
+
+            //amicable?
+            if (a.equals(db) && !a.equals(da)){
+                found.add(da);
+                found.add(db);
+            }
+        }
+
+        Long sum = 0L;
+        for (Long f : found) {
+            sum += f;
+        }
+
+        return sum;
+    }
+
+    public Long sumOfDivisors(final Long n){
+        final Long n2 = n/2;
+        Long sum = 1L;
+        for (Long i=n2; i > 1; i--){
+            if (NumberAnalyser.divisableBy(n, i)){
+                sum += i;
+            }
+        }
+        return sum;
     }
 }
