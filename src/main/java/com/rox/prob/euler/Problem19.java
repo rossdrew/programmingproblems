@@ -22,7 +22,7 @@ import java.util.Date;
  *
  * How many Sundays fell on the first of the month during the twentieth century (1 Jan 1901 to 31 Dec 2000)?
  *
- * Answer: 171
+ * [Answer: 171]
  *
  */
 public class Problem19 implements NumericalProblem<Long> {

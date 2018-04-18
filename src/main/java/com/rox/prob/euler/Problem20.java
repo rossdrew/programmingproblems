@@ -12,7 +12,7 @@ import java.math.BigDecimal;
  *
  * Find the sum of the digits in the number 100!
  *
- * Answer: 648
+ * [Answer: 648]
  */
 public class Problem20 implements NumericalProblem<BigDecimal> {
     @Override
