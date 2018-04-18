@@ -14,7 +14,7 @@ import java.util.Map;
 public class Main {
 
     public static void main(String[] args) {
-        NumericalProblem p = new Problem21();
+        NumericalProblem p = new Problem22();
         /*DEBUG*/System.out.println(p.solution());
 
         //Warmup2 w = new Warmup2();
