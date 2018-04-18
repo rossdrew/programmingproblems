@@ -20,8 +20,6 @@ import java.util.HashMap;
  * Which starting number, under one million, produces the longest chain?
  *
  * NOTE: Once the chain starts the terms are allowed to go above one million.
- *
- * [Answer : 837799]
  */
 public class Problem14 implements NumericalProblem<Long> {
     private HashMap<Long, Long> solvedTermSources = new HashMap<>();

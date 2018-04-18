@@ -15,8 +15,6 @@ import com.rox.prob.NumericalProblem;
  * (one hundred and fifteen) contains 20 letters. The use of
  * "and" when writing out numbers is in compliance with
  * British usage.
- *
- * [Answer : 21124]
  */
 public class Problem17 implements NumericalProblem<Long>{
     private String[] numberals = {"","one","two","three","four","five","six","seven","eight","nine","ten","eleven"};

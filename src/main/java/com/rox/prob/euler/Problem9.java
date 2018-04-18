@@ -10,8 +10,6 @@ import com.rox.prob.NumericalProblem;
  *
  * There exists exactly one Pythagorean triplet for which a + b + c = 1000.
  * Find the product abc.
- *
- * [Answer : 31875000]
  */
 public class Problem9 implements NumericalProblem<Long> {
     @Override

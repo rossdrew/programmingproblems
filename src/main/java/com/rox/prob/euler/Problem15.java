@@ -10,8 +10,6 @@ import com.rox.prob.common.struct.Vertice;
  * bottom right corner.
  *
  * How many such routes are there through a 20×20 grid?
- *
- * [Answer : 407575348]
  */
 public class Problem15 implements NumericalProblem<Long>{
     @Override

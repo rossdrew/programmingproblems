@@ -26,7 +26,6 @@ import java.util.Scanner;
  * second it would take over twenty billion years to check them all. There is an efficient algorithm to
  * solve it. ;o)
  *
- * [Answer: 7273]
  */
 public class Problem67 implements NumericalProblem<Long> {
     private Scanner fileScanner;

@@ -16,7 +16,6 @@ import java.util.HashSet;
  *
  *  Natural Number = Whole, non negative.
  *
- *  [Answer = 233168]
  */
 public class Problem1 implements NumericalProblem<Long>
 {

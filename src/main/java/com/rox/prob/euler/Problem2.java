@@ -13,7 +13,6 @@ import java.util.HashSet;
  *
  * By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.
  *
- * [Answer = 4613732]
  */
 public class Problem2 implements NumericalProblem<Long>
 {

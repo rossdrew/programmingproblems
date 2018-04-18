@@ -13,8 +13,6 @@ import com.rox.prob.NumericalProblem;
  *
  *  Prime = Number only divisible by itself and 1
  *  Factor = A divisor of a given number
- *
- *  [Answer = 6857]
  */
 public class Problem3 implements NumericalProblem<Long> {
     @Override

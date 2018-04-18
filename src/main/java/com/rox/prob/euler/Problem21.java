@@ -17,8 +17,6 @@ import java.util.Set;
  * 142; so d(284) = 220.
  *
  * Evaluate the sum of all the amicable numbers under 10000.
- *
- * [Answer: 31626]
  */
 public class Problem21 implements NumericalProblem<Long> {
     @Override

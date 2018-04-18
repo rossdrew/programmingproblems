@@ -30,8 +30,6 @@ import com.rox.prob.NumericalProblem;
  *
  * What is the greatest product of four adjacent numbers in the same direction (up, down, left, right,
  * or diagonally) in the 20×20 grid?
- *
- * [Answer = 70600674]
  */
 public class Problem11 implements NumericalProblem<Long> {
     @Override
