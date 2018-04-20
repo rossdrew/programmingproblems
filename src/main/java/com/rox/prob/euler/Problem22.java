@@ -6,6 +6,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * Using names.txt ('euler_p022_names.txt'), a 46K text file containing over
@@ -29,19 +32,14 @@ public class Problem22 implements NumericalProblem<BigDecimal> {
     public BigDecimal solution(final String filename){
         BigDecimal result = BigDecimal.ZERO;
 
-        final String[] names = getNames(filename);
-
         final Map<String, BigDecimal> sortedNames = new TreeMap<>();
-        for (String name : names) {
+        for (String name : getNames(filename)) {
             sortedNames.put(name.replaceAll("\"", "").trim(), BigDecimal.ZERO);
         }
 
         int nameIndex = 1;
         for (final String sortedName : sortedNames.keySet()) {
-            char[] nameChars = sortedName.toCharArray();
-            int charSum = 0;
-            for (char nameChar : nameChars)
-                charSum += Character.getNumericValue(nameChar) - 9; // 'A' == 10
+            int charSum = numericalValueSum(sortedName);
 
             final BigDecimal value = BigDecimal.valueOf(charSum * nameIndex++);
             sortedNames.put(sortedName, value);
@@ -49,6 +47,16 @@ public class Problem22 implements NumericalProblem<BigDecimal> {
         }
 
         return result;
+    }
+
+    private int numericalValueSum(final String name){
+        char[] nameChars = name.toCharArray();
+
+        int sum = IntStream.range(0, nameChars.length)
+                           .map(i -> Character.getNumericValue(nameChars[i]) - 9)
+                           .sum();
+
+        return sum;
     }
 
     private String[] getNames(String filename) {
