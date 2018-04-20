@@ -43,7 +43,7 @@ public class Problem22 implements NumericalProblem<BigDecimal> {
             for (char nameChar : nameChars)
                 charSum += Character.getNumericValue(nameChar) - 9; // 'A' == 10
 
-            final BigDecimal value = BigDecimal.valueOf(((long)nameIndex++) * charSum);
+            final BigDecimal value = BigDecimal.valueOf(charSum * nameIndex++);
             sortedNames.put(sortedName, value);
             result = result.add(value);
         }
