@@ -3,7 +3,6 @@
 My personal solutions for various programming problems I find.  Each problem source is in it's own package with it's own README.md description.  Some locations I plan to also look at are...
 
  - [Sphere Online Judge](http://www.spoj.com)
- - [CoderByte](http://coderbyte.com)
  - [CodeWars](http://www.codewars.com/?language=java)
  - [RosettaCode](http://rosettacode.org/wiki/Rosetta_Code)
  - [InterviewCake](https://www.interviewcake.com/question/stock-price)
@@ -27,3 +26,4 @@ My personal solutions for various programming problems I find.  Each problem sou
  - [TopCoder](https://github.com/rossdrew/programmingproblems/tree/master/src/main/java/com/rox/prob/topcoder) - Much more involved coding, often requiring more advanced algorithms and data structures.
  - Google Foobar - Level (1-5) based, difficulty increasing coding challenges by [Google](http://www.google.com/) - A festive challenge running two similar challenges every day in December.  Ranging from simple to relatively complex.
  - [Advent of Code](https://adventofcode.com) - 25 groups of 2 festive challenges released each day in December ranging from easy to intermediate
+ - [CoderByte](http://coderbyte.com) - I only looked at the example on their website, whose problem description and examples didn't match.  It took about 20 minutes to write.
