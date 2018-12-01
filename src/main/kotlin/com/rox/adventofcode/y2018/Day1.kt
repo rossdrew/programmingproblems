@@ -1047,15 +1047,8 @@ fun main(args: Array<String>) {
  * Answer: 543
  */
 fun solutionA(input : String) : Any {
-    var frequency = 0
-
-    val deltas = input.split("\n")
-
-    deltas.forEach{
-        frequency += Integer.parseInt(it.trim())
-    }
-
-    return frequency
+    val deltas = inputA.split('\n').map { it.toInt() }
+    return deltas.sum()
 }
 
 /**
@@ -1089,14 +1082,14 @@ fun solutionA(input : String) : Any {
  * Answer: 621
  */
 fun solutionB(input : String) : Any {
-    val deltas = input.split("\n")
+    val deltas = inputA.split('\n').map { it.toInt() }
     var frequency = 0
     val frequencyHistory = mutableSetOf(0)
 
     var deltaIndex = 0
 
     while (true) {
-        val delta = Integer.parseInt(deltas[deltaIndex])
+        val delta = deltas[deltaIndex]
         frequency += delta
 
         if (frequencyHistory.contains(frequency))
