@@ -1,6 +1,6 @@
 package com.rox.adventofcode.y2018
 
-val inputA = """
+private val inputA = """
 +5
 -11
 +17
@@ -1046,7 +1046,7 @@ fun main(args: Array<String>) {
  *
  * Answer: 543
  */
-fun solutionA(input : String) : Any {
+private fun solutionA(input : String) : Any {
     val deltas = inputA.split('\n').map { it.toInt() }
     return deltas.sum()
 }
@@ -1081,7 +1081,7 @@ fun solutionA(input : String) : Any {
  *
  * Answer: 621
  */
-fun solutionB(input : String) : Any {
+private fun solutionB(input : String) : Any {
     val deltas = inputA.split('\n').map { it.toInt() }
     var frequency = 0
     val frequencyHistory = mutableSetOf(0)
