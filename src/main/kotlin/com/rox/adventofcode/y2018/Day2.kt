@@ -294,39 +294,28 @@ fun main(args: Array<String>) {
  * appears exactly three times. Multiplying these together produces a checksum of 4 * 3 = 12.
  *
  * What is the checksum for your list of box IDs?
+ *
+ * Answer: 7688
  */
 private fun solutionA(input : String) : Any {
     val ids = input.split('\n')
 
-    var threes = 0
-    var twos = 0
+    var triplicates = 0
+    var duplicates = 0
     ids.forEach{ id ->
-        var occurances : MutableMap<Char, Int> = mutableMapOf()
-        id.forEach { char ->
-            if (occurances.containsKey(char)){
-                occurances[char] = (occurances[char] as Int) + 1
-            } else {
-                occurances[char] = 1
-            }
-        }
-        
-        var hasDouble = false
-        var hasTriple = false
-        occurances.forEach { (char, count) ->
-            if (count == 3) {
-                hasTriple = true
-            } else if (count == 2){
-                hasDouble = true
-            }
-        }
+        //Occurrences of duplicate and triplicate values
+        val occ = id.groupBy { it }.values
+                                   .map { it.size }
+                                   .filter { it in 2..3 }
+                                   .distinct()
 
-        if (hasDouble) twos++
-        if (hasTriple) threes++
+        if (occ.contains(2)) duplicates++
+        if (occ.contains(3)) triplicates++
     }
 
 
-    println("Found $twos instances of twos and $threes instances of threes")
-    return threes * twos
+    println("Found $duplicates duplicates and $triplicates triplicates")
+    return triplicates * duplicates
 }
 
 /**
