@@ -1,5 +1,7 @@
 package com.rox.adventofcode.y2018
 
+import java.util.stream.IntStream
+
 private val inputA = """
 lsrivfotzgdxpkefaqmuiygchj
 lsrivfotzqdxpkeraqmewygchj
@@ -255,7 +257,7 @@ lsrivfotzbdxphenaqmuwyghvj
 
 fun main(args: Array<String>) {
     println("Part A: ${solutionA(inputA)}")
-   // println("Part B: ${solutionB(inputA)}")
+    println("Part B: ${solutionB(inputA)}")
 }
 
 /**
@@ -313,7 +315,6 @@ private fun solutionA(input : String) : Any {
         if (occ.contains(3)) triplicates++
     }
 
-
     println("Found $duplicates duplicates and $triplicates triplicates")
     return triplicates * duplicates
 }
@@ -340,6 +341,30 @@ private fun solutionA(input : String) : Any {
  * differing character from either ID, producing fgij.)
  */
 private fun solutionB(input : String) : Any {
+    val ids = input.split('\n')
+
+    ids.forEach { idA ->
+        ids.forEach{ idB ->
+            var differences = 0
+
+            for (i in 0 until idA.length){
+                if (idA[i] != idB[i])
+                    differences++
+                if (differences > 1)
+                    break
+            }
+
+            if (differences == 1) {
+                var commonCharacters = ""
+                for (i in 0 until idA.length){
+                    if (idA[i] == idB[i])
+                        commonCharacters += idA[i]
+                }
+                return commonCharacters
+            }
+        }
+    }
+
     return ""
 }
 
