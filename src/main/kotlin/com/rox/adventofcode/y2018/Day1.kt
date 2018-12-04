@@ -1,5 +1,7 @@
 package com.rox.adventofcode.y2018
 
+import java.lang.RuntimeException
+
 private val inputA = """
 +5
 -11
@@ -1047,7 +1049,7 @@ fun main(args: Array<String>) {
  * Answer: 543
  */
 private fun solutionA(input : String) : Any {
-    val deltas = inputA.split('\n').map { it.toInt() }
+    val deltas = input.split('\n').map { it.toInt() }
     return deltas.sum()
 }
 
@@ -1082,25 +1084,28 @@ private fun solutionA(input : String) : Any {
  * Answer: 621
  */
 private fun solutionB(input : String) : Any {
-    val deltas = inputA.split('\n').map { it.toInt() }
+    val deltas = input.split('\n').map { it.toInt() }
     var frequency = 0
     val frequencyHistory = mutableSetOf(0)
 
-    var deltaIndex = 0
-
-    while (true) {
-        val delta = deltas[deltaIndex]
-        frequency += delta
-
+    deltas.infiniteSequence().forEach { delta ->
+        frequency+=delta
         if (frequencyHistory.contains(frequency))
-            break
-
+            return frequency
         frequencyHistory.add(frequency)
-
-        if (++deltaIndex > deltas.size - 1) {
-            deltaIndex = 0
-        }
     }
 
-    return frequency
+    throw RuntimeException("Non repeating frequency")
+}
+
+/**
+ * Yield the elements of this list infinitely
+ */
+fun <T> List<T>.infiniteSequence(): Sequence<T> = sequence {
+    if (this@infiniteSequence.isEmpty()) {
+        return@sequence
+    }
+    while (true) {
+        yieldAll(this@infiniteSequence)
+    }
 }
