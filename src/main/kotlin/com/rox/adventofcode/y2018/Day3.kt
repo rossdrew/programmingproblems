@@ -1376,7 +1376,7 @@ fun main(args: Array<String>) {
 private fun solutionA(input: String): Any {
     val claimEntries = input.split('\n')
     val claims = claimEntries.map {
-        parseClaim(it)
+        Claim.parse(it)
     }
 
     val fabric = Fabric(1000, 1000)
@@ -1401,7 +1401,7 @@ private fun solutionA(input: String): Any {
 private fun solutionB(input: String): Any {
     val claimEntries = input.split('\n')
     val claims = claimEntries.map {
-        parseClaim(it)
+        Claim.parse(it)
     }
 
     val fabric = Fabric(1000, 1000)
@@ -1412,27 +1412,28 @@ private fun solutionB(input: String): Any {
     return fabric.firstUnconflicted(claims)
 }
 
-private fun parseClaim(claimEntry : String) : Claim {
-    val idSections = claimEntry.split("@")
-    val id =  idSections[0].trim().substring(1).toInt()
-
-    val claimDetailString = idSections[1].trim()
-
-    val locationString = claimDetailString.split(":")[0]
-    val x = locationString.split(",")[0].trim().toInt()
-    val y = locationString.split(",")[1].trim().toInt()
-
-    val sizeString = claimDetailString.split(":")[1]
-    val length = sizeString.split("x")[0].trim().toInt()
-    val height = sizeString.split("x")[1].trim().toInt()
-
-    return Claim(id,x,y,length,height)
-}
-
 /**
  * Represents an individual claim on a portion of fabric in inches
  */
 private class Claim(val claimId : Int, val x : Int, val y : Int, val length : Int, val height : Int){
+    companion object {
+        private val pattern = """^#(\d+) @ (\d+),(\d+): (\d+)x(\d+)$""".toRegex()
+        /**
+         * Given a claim string of the form
+         *
+         * <code>
+         * #{id} @ {x},{y}: {length}x{height}
+         * </code>
+         *
+         * parse into a {@link Claim}
+         */
+        fun parse(claimString: String): Claim =
+                pattern.find(claimString)?.let { result ->
+                    val (id, x, y, length, height) = result.destructured
+                    Claim(id.toInt(), x.toInt(), y.toInt(), length.toInt(), height.toInt())
+                } ?: throw IllegalArgumentException("Cannot parse $claimString")
+    }
+
     override fun toString(): String {
         return "Claim #$claimId @ $x,$y: ${height}x$length"
     }
