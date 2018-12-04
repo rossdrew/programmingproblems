@@ -1383,9 +1383,21 @@ private fun solutionA(input: String): Any {
     claims.forEach{
         fabric.requestSelection(it)
     }
-
-
+    
     return fabric.conflicts()
+}
+
+/**
+ * --- Part Two ---
+ * Amidst the chaos, you notice that exactly one claim doesn't overlap by even a single square inch of fabric with any
+ * other claim. If you can somehow draw attention to it, maybe the Elves will be able to make Santa's suit after all!
+ *
+ * For example, in the claims above, only claim 3 is intact after all claims are made.
+ *
+ * What is the ID of the only claim that doesn't overlap?
+ */
+private fun solutionB(input: String): Any {
+    return "Not Implemented!"
 }
 
 private fun parseClaim(claimEntry : String) : Claim {
@@ -1457,6 +1469,5 @@ private class Fabric(val length: Int, val height: Int){
     }
 }
 
-private fun solutionB(input: String): Any {
-    return "Not Implemented!"
-}
+
+
