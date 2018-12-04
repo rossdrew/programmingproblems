@@ -1395,6 +1395,8 @@ private fun solutionA(input: String): Any {
  * For example, in the claims above, only claim 3 is intact after all claims are made.
  *
  * What is the ID of the only claim that doesn't overlap?
+ *
+ * Answer: 124
  */
 private fun solutionB(input: String): Any {
     val claimEntries = input.split('\n')
@@ -1499,7 +1501,7 @@ private class Fabric(val length: Int, val height: Int){
             y@for (y in 0 until claim.height){
                 x@for (x in 0 until claim.length){
                     val location = Coordinate(claim.x + x, claim.y + y)
-                    if (material[location] !== 1){
+                    if (material[location] != 1){
                         mismatch = true
                         break@y
                     }
