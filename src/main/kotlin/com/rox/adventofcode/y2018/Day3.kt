@@ -1383,7 +1383,7 @@ private fun solutionA(input: String): Any {
     claims.forEach{
         fabric.requestSelection(it)
     }
-    
+
     return fabric.conflicts()
 }
 
@@ -1397,7 +1397,17 @@ private fun solutionA(input: String): Any {
  * What is the ID of the only claim that doesn't overlap?
  */
 private fun solutionB(input: String): Any {
-    return "Not Implemented!"
+    val claimEntries = input.split('\n')
+    val claims = claimEntries.map {
+        parseClaim(it)
+    }
+
+    val fabric = Fabric(1000, 1000)
+    claims.forEach{
+        fabric.requestSelection(it)
+    }
+
+    return fabric.firstUnconflicted(claims)
 }
 
 private fun parseClaim(claimEntry : String) : Claim {
@@ -1417,12 +1427,18 @@ private fun parseClaim(claimEntry : String) : Claim {
     return Claim(id,x,y,length,height)
 }
 
+/**
+ * Represents an individual claim on a portion of fabric in inches
+ */
 private class Claim(val claimId : Int, val x : Int, val y : Int, val length : Int, val height : Int){
     override fun toString(): String {
         return "Claim #$claimId @ $x,$y: ${height}x$length"
     }
 }
 
+/**
+ * Represents a 2D cartesian coordinate in inches on a piece of fabric
+ */
 private class Coordinate(val x: Int, val y: Int) {
     override fun toString(): String {
         return "${x}x$y"
@@ -1443,9 +1459,15 @@ private class Coordinate(val x: Int, val y: Int) {
     }
 }
 
+/**
+ * Represents a piece of {@link Fabric} in inches
+ */
 private class Fabric(val length: Int, val height: Int){
     val material = mutableMapOf<Coordinate, Int>()
 
+    /**
+     * Submit a {@link Claim} on a section of the {@link Fabric}
+     */
     fun requestSelection(claim: Claim){
         if (claim.x + claim.length !in 0 until length || claim.y + claim.height !in 0 until height) {
             throw RuntimeException("Cannot request selection outwith ${length}x$height")
@@ -1456,7 +1478,6 @@ private class Fabric(val length: Int, val height: Int){
                 val location = Coordinate(claim.x + x, claim.y + y)
                 if (material.containsKey(location)) {
                     material[location] = material[location]!! + 1
-                    println("$location++")
                 } else {
                     material[location] = 1
                 }
@@ -1464,8 +1485,32 @@ private class Fabric(val length: Int, val height: Int){
         }
     }
 
+    /**
+     * Calculate and report the number of square inches which are contested as a result
+     * of submitted {@link Claim}s on this {@link Fabric}
+     */
     fun conflicts(): Int {
         return material.values.filter { it > 1 }.size
+    }
+
+    fun firstUnconflicted(claims: List<Claim>): Int {
+        claims.forEach{ claim ->
+            var mismatch = false
+            y@for (y in 0 until claim.height){
+                x@for (x in 0 until claim.length){
+                    val location = Coordinate(claim.x + x, claim.y + y)
+                    if (material[location] !== 1){
+                        mismatch = true
+                        break@y
+                    }
+                }
+            }
+
+            if (!mismatch)
+                return claim.claimId
+        }
+
+        throw RuntimeException("All claims are conflicting")
     }
 }
 
