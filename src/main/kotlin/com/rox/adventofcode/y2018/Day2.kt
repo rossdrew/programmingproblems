@@ -1,7 +1,5 @@
 package com.rox.adventofcode.y2018
 
-import java.util.stream.IntStream
-
 private val inputA = """
 lsrivfotzgdxpkefaqmuiygchj
 lsrivfotzqdxpkeraqmewygchj
@@ -360,6 +358,7 @@ private fun solutionB(input : String) : Any {
                     if (idA[i] == idB[i])
                         commonCharacters += idA[i]
                 }
+
                 return commonCharacters
             }
         }
