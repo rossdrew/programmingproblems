@@ -1313,8 +1313,18 @@ private val inputA = """
 """.trimIndent()
 
 fun main(args: Array<String>) {
-    println("Part A: ${solutionA(inputA)}")
-    println("Part B: ${solutionB(inputA)}")
+    val claimEntries = inputA.split('\n')
+    val claims = claimEntries.map {
+        Claim.parse(it)
+    }
+
+    val fabric = Fabric(1000, 1000)
+    claims.forEach{
+        fabric.requestSelection(it)
+    }
+
+    println("Part A: ${solutionA(fabric)}")
+    println("Part B: ${solutionB(claims, fabric)}")
 }
 
 /**
@@ -1373,17 +1383,7 @@ fun main(args: Array<String>) {
  *
  * Answer: 109716
  */
-private fun solutionA(input: String): Any {
-    val claimEntries = input.split('\n')
-    val claims = claimEntries.map {
-        Claim.parse(it)
-    }
-
-    val fabric = Fabric(1000, 1000)
-    claims.forEach{
-        fabric.requestSelection(it)
-    }
-
+private fun solutionA(fabric: Fabric): Any {
     return fabric.conflicts()
 }
 
@@ -1398,17 +1398,7 @@ private fun solutionA(input: String): Any {
  *
  * Answer: 124
  */
-private fun solutionB(input: String): Any {
-    val claimEntries = input.split('\n')
-    val claims = claimEntries.map {
-        Claim.parse(it)
-    }
-
-    val fabric = Fabric(1000, 1000)
-    claims.forEach{
-        fabric.requestSelection(it)
-    }
-
+private fun solutionB(claims : List<Claim>, fabric: Fabric): Any {
     return fabric.firstUnconflicted(claims)
 }
 
