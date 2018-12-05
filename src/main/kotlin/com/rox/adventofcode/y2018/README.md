@@ -93,3 +93,31 @@ y !in 0 until claim.height
 ```
 
 which I find very expressive and handy
+
+## Day 4
+
+### Lesson 1 - Map function
+
+I want to parse a whole bunch of lines into objects and sort them by one field (date time).  So I create a map of time->object from it.  The map function on List<String> is just a case of returning the phrase "key to value" so "entry.time to entry"
+
+```
+ logEntries.map { logEntry ->
+   val entry = SleepLogEntry.parse(logEntry)
+   entry.time to entry
+ }
+```
+
+...very nice, then I can just `toMap` it and `toSortedMap` that.
+
+### Lesson 2 - With Blocks
+
+I didn't like creating that intermediate object so I had a look at the `with` block which allows us to do the parsing in it's argument and using a scope reference just return the result
+
+```
+    val sortedEntries = logEntries.map { logEntry ->
+        with(SleepLogEntry.parse(logEntry)){
+            return@map time to this
+        }
+    }.toMap()
+     .toSortedMap()
+```
