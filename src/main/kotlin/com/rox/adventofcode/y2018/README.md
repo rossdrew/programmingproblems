@@ -121,3 +121,16 @@ I didn't like creating that intermediate object so I had a look at the `with` bl
     }.toMap()
      .toSortedMap()
 ```
+
+### Lesson 3 - When blocks
+
+There's some nice syntactic sugar to get rid of ugly scrolling `if objA == obj B` statements:
+
+```
+            return when {
+                shiftStartPattern.matches(eventString) -> Event.CLOCK_ON
+                eventString == "falls asleep" -> Event.SLEEP
+                eventString == "wakes up" -> Event.WAKE
+                else -> throw RuntimeException("Unexpected log entry format for '${eventString}'")
+            }
+```

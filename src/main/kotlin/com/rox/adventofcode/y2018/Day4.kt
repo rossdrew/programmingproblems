@@ -1213,16 +1213,16 @@ fun main(args: Array<String>) {
  * 10 * 24 = 240.)
  */
 fun solutionA(logEntries: List<String>): Any {
-    val sortedEntries = logEntries.map { logEntry ->
-        with(SleepLogEntry.parse(logEntry)){
+    var currentGuardId = -1
+
+    val sortedEntries = logEntries.sorted().map { logEntry ->
+        with(LogEntry.parse(logEntry, currentGuardId)){
+            currentGuardId = this.guardId
             return@map time to this
         }
     }.toMap()
-     .toSortedMap()
 
-    sortedEntries.forEach{
-        println("${it.value}")
-    }
+    sortedEntries.iterator()
 
     return "Not implemented"
 }
@@ -1231,9 +1231,12 @@ fun solutionB(): Any {
     return "Not implemented"
 }
 
-private class SleepLogEntry(val time: LocalDateTime, val entry: String){
+private class LogEntry(val time: LocalDateTime, val event: Event, val guardId: Int){
+    enum class Event {CLOCK_ON, SLEEP, WAKE}
+
     companion object {
-        val pattern = """^\[(.*)\] (.*)$""".toRegex()
+        val entryPattern = """^\[(.*)\] (.*)$""".toRegex()
+        val shiftStartPattern = """Guard #(\d+) begins shift""".toRegex()
 
         /**
          * Given a sleep log entry of the form
@@ -1242,17 +1245,38 @@ private class SleepLogEntry(val time: LocalDateTime, val entry: String){
          * ["yyyy-MM-dd HH:mm] {entry text}
          * </code>
          *
-         * parse into a {@link SleepLogEntry}
+         * parse into a {@link LogEntry}
          */
-        fun parse(logStryString: String): SleepLogEntry =
-                pattern.find(logStryString)?.let {
+        fun parse(logStryString: String, currentGuard: Int): LogEntry =
+                entryPattern.find(logStryString)?.let {
                     val (dateString, entry) = it.destructured
                     val time = LocalDateTime.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
-                    SleepLogEntry(time, entry)
+                    val event = classifyEvent(entry)
+                    LogEntry(time, event, guardId(entry, currentGuard))
                 } ?: throw IllegalArgumentException("Cannot parse $logStryString")
+
+        private fun guardId(eventString : String, current : Int) : Int{
+            if (shiftStartPattern.matches(eventString)) {
+                shiftStartPattern.find(eventString)?.let {
+                    val (guardId) = it.destructured
+                    return guardId.toInt()
+                }
+            }
+
+            return current
+        }
+
+        private fun classifyEvent(eventString : String) : Event{
+            return when {
+                shiftStartPattern.matches(eventString) -> Event.CLOCK_ON
+                eventString == "falls asleep" -> Event.SLEEP
+                eventString == "wakes up" -> Event.WAKE
+                else -> throw RuntimeException("Unexpected log entry format for '$eventString'")
+            }
+        }
     }
 
     override fun toString(): String {
-        return "@ ${time}, ${entry}"
+        return "@ $time, Guard $guardId: $event"
     }
 }
