@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>com.rox.prob.interview.companyX</groupId>
-    <artifactId>SymphonicTrust</artifactId>
+    <artifactId>programmingproblems</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
