@@ -36,14 +36,14 @@ but Kotlin has a nice feature, **extensions**.  I can extend an object, such as 
 I can also call `this` or `return` based on specific scopes as defined by annotations
 
 ```
-fun <T> List<T>.infiniteSequence(): Sequence<T> = sequence {
-    if (this@infiniteSequence.isEmpty()) {
-        return@sequence
+    fun <T> List<T>.infiniteSequence(): Sequence<T> = sequence {
+        if (this@infiniteSequence.isEmpty()) {
+            return@sequence
+        }
+        while (true) {
+            yieldAll(this@infiniteSequence)
+        }
     }
-    while (true) {
-        yieldAll(this@infiniteSequence)
-    }
-}
 ```
 
 This all means the above piece of unmanageable code becomes an iteration over my infinite sequence.
@@ -70,11 +70,11 @@ TODO
 Kotlin has companion objects, which can do things such that in Java you would create a static factory method.  In this case useful for turning parsable lines into objects:
 
  ```
- fun parse(claimString: String): Claim =
-       pattern.find(claimString)?.let { result ->
-            val (id, x, y, length, height) = result.destructured
-            Claim(id.toInt(), x.toInt(), y.toInt(), length.toInt(), height.toInt())
-       } ?: throw IllegalArgumentException("Cannot parse $claimString")
+     fun parse(claimString: String): Claim =
+           pattern.find(claimString)?.let { result ->
+                val (id, x, y, length, height) = result.destructured
+                Claim(id.toInt(), x.toInt(), y.toInt(), length.toInt(), height.toInt())
+           } ?: throw IllegalArgumentException("Cannot parse $claimString")
  ```
 
 ### Lesson 2 - Ranges
@@ -82,14 +82,14 @@ Kotlin has companion objects, which can do things such that in Java you would cr
 Kotlins loop structure is made pretty using ranges, things like
 
 ```
-y in 0 until claim.height
-i in 0 to 100
+   y in 0 until claim.height
+   i in 0 to 100
 ```
 
 but can even work in negatives such as
 
 ```
-y !in 0 until claim.height
+   y !in 0 until claim.height
 ```
 
 which I find very expressive and handy
@@ -101,10 +101,10 @@ which I find very expressive and handy
 I want to parse a whole bunch of lines into objects and sort them by one field (date time).  So I create a map of time->object from it.  The map function on List<String> is just a case of returning the phrase "key to value" so "entry.time to entry"
 
 ```
- logEntries.map { logEntry ->
-   val entry = SleepLogEntry.parse(logEntry)
-   entry.time to entry
- }
+    logEntries.map { logEntry ->
+      val entry = SleepLogEntry.parse(logEntry)
+      entry.time to entry
+    }
 ```
 
 ...very nice, then I can just `toMap` it and `toSortedMap` that.
@@ -127,10 +127,10 @@ I didn't like creating that intermediate object so I had a look at the `with` bl
 There's some nice syntactic sugar to get rid of ugly scrolling `if objA == obj B` statements:
 
 ```
-            return when {
-                shiftStartPattern.matches(eventString) -> Event.CLOCK_ON
-                eventString == "falls asleep" -> Event.SLEEP
-                eventString == "wakes up" -> Event.WAKE
-                else -> throw RuntimeException("Unexpected log entry format for '${eventString}'")
-            }
+    return when {
+      shiftStartPattern.matches(eventString) -> Event.CLOCK_ON
+      eventString == "falls asleep" -> Event.SLEEP
+      eventString == "wakes up" -> Event.WAKE
+      else -> throw RuntimeException("Unexpected log entry format for '${eventString}'")
+    }
 ```
