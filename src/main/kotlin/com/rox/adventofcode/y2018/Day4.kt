@@ -1215,7 +1215,7 @@ fun main(args: Array<String>) {
  *
  * Answer: 131469
  */
-fun solutionA(logEntries: List<String>): Any {
+private fun solutionA(logEntries: List<String>): Any {
     val sleepSummaries = setup(logEntries)
     val sleepiestGuard = findSleepiestGuard(sleepSummaries)
     val mostPopularMinute: Int = sleepSummaries[sleepiestGuard]?.mostPopularMinute()!!
@@ -1263,7 +1263,7 @@ fun findSleepiestGuard(sleepSummaries: Map<Int, SleepSummary>): Int {
  *
  * Answer: 96951
  */
-fun solutionB(logEntries: List<String>): Any {
+private fun solutionB(logEntries: List<String>): Any {
     val sleepSummaries = setup(logEntries)
 
     val maxBy = sleepSummaries.keys.maxBy { sleepSummaries[it]!!.mostPopularMinute() } as Int
