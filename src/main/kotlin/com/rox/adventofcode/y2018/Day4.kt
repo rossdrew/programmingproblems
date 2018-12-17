@@ -2,6 +2,7 @@ package com.rox.adventofcode.y2018
 
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 private val sampleInput = """
 [1518-11-01 00:00] Guard #10 begins shift
@@ -1211,6 +1212,8 @@ fun main(args: Array<String>) {
  *
  * What is the ID of the guard you chose multiplied by the minute you chose? (In the above example, the answer would be
  * 10 * 24 = 240.)
+ *
+ * Answer: 131469
  */
 fun solutionA(logEntries: List<String>): Any {
     var currentGuardId = -1
@@ -1222,13 +1225,95 @@ fun solutionA(logEntries: List<String>): Any {
         }
     }.toMap()
 
-    sortedEntries.iterator()
+    val sleepSummaries = mutableMapOf<Int, SleepSummary>()
+    val entryIterator = sortedEntries.iterator()
 
-    return "Not implemented"
+    while (entryIterator.hasNext()){
+        val nextPart1 = entryIterator.next().value
+        if (nextPart1.event == LogEntry.Event.SLEEP) {
+            val nextPart2 = entryIterator.next().value
+            if (nextPart2.event == LogEntry.Event.WAKE){
+                sleepSummaries.update(nextPart1.guardId, nextPart1.time, nextPart2.time)
+            }
+        }
+    }
+
+    val sleepiestGuard = findSleepiestGuard(sleepSummaries)
+    val mostPopularMinute: Int = sleepSummaries[sleepiestGuard]?.mostPopularMinute()!!
+    return sleepiestGuard * mostPopularMinute
+}
+
+fun findSleepiestGuard(sleepSummaries: Map<Int, SleepSummary>): Int{
+    val firstGuard = sleepSummaries.iterator().next().value
+    var sleepiestGuard = firstGuard.guardId
+    var sleepiestGuardMinutes = firstGuard.sleepTally()
+    sleepSummaries.values.forEach {
+        if (it.sleepTally() > sleepiestGuardMinutes) {
+            sleepiestGuard = it.guardId
+            sleepiestGuardMinutes = it.sleepTally()
+        }
+    }
+    return sleepiestGuard
 }
 
 fun solutionB(): Any {
     return "Not implemented"
+}
+
+/**
+ * Get the {@link SleepSummary} or create a new one if it doesn't exist and <code>append</code> the new time range
+ */
+fun MutableMap<Int, SleepSummary>.update(key: Int, from: LocalDateTime, to: LocalDateTime) {
+    val sleepSummary = getOrDefault(key, SleepSummary(key))
+    set(key, sleepSummary.append(from, to))
+}
+
+/**
+ * A record of this guards sleep trend
+ */
+class SleepSummary(val guardId: Int){
+    private val timeSheet = Array(60) { 0 }
+
+    /**
+     * Add a sleep duration to this guards sleep summary
+     */
+    fun append(start: LocalDateTime, end: LocalDateTime): SleepSummary{
+        val startMinute = start.minute
+        //XXX If it's more than Int capacity, there's an issue here: The guard is probably dead
+        val minuteCount = start.until(end, ChronoUnit.MINUTES).toInt()
+
+        for (minuteOffset in 0 until minuteCount){
+            val minuteOfHour = ((startMinute + minuteOffset) % 60)
+            timeSheet[minuteOfHour]++
+        }
+
+        return this
+    }
+
+    fun sleepTally(): Int {
+        return timeSheet.sum()
+    }
+
+    fun mostPopularMinute(): Int {
+        var highestIndex = 0
+        var highestValue = 0
+        for (i in 0 until 60){
+            if (timeSheet[i] > highestValue){
+                highestIndex = i
+                highestValue = timeSheet[i]
+            }
+        }
+        return highestIndex
+    }
+
+    override fun toString(): String {
+        var times = ""
+        for (i in 0 until 60){
+            times += "$i : ${timeSheet[i]}, "
+        }
+        times.substring(0, times.length-2)
+        return "$guardId [$times]"
+    }
 }
 
 private class LogEntry(val time: LocalDateTime, val event: Event, val guardId: Int){
