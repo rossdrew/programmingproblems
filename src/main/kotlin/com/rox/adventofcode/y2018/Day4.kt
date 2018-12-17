@@ -1243,17 +1243,8 @@ fun solutionA(logEntries: List<String>): Any {
     return sleepiestGuard * mostPopularMinute
 }
 
-fun findSleepiestGuard(sleepSummaries: Map<Int, SleepSummary>): Int{
-    val firstGuard = sleepSummaries.iterator().next().value
-    var sleepiestGuard = firstGuard.guardId
-    var sleepiestGuardMinutes = firstGuard.sleepTally()
-    sleepSummaries.values.forEach {
-        if (it.sleepTally() > sleepiestGuardMinutes) {
-            sleepiestGuard = it.guardId
-            sleepiestGuardMinutes = it.sleepTally()
-        }
-    }
-    return sleepiestGuard
+fun findSleepiestGuard(sleepSummaries: Map<Int, SleepSummary>): Int {
+    return sleepSummaries.maxBy { it.value.sleepTally() }!!.key
 }
 
 fun solutionB(): Any {
@@ -1271,7 +1262,7 @@ fun MutableMap<Int, SleepSummary>.update(key: Int, from: LocalDateTime, to: Loca
 /**
  * A record of this guards sleep trend
  */
-class SleepSummary(val guardId: Int){
+class SleepSummary(private val guardId: Int){
     private val timeSheet = Array(60) { 0 }
 
     /**
@@ -1295,15 +1286,7 @@ class SleepSummary(val guardId: Int){
     }
 
     fun mostPopularMinute(): Int {
-        var highestIndex = 0
-        var highestValue = 0
-        for (i in 0 until 60){
-            if (timeSheet[i] > highestValue){
-                highestIndex = i
-                highestValue = timeSheet[i]
-            }
-        }
-        return highestIndex
+        return timeSheet.indices.maxBy { timeSheet[it] }!!
     }
 
     override fun toString(): String {
