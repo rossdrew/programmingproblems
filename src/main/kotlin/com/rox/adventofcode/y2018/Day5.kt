@@ -5,7 +5,7 @@ private val inputA = "ZzNnMYytTtfFTINnkKimYUOouyPpvVokKZzqQQqTtMmmIiMjJryYvVRztJ
 
 fun main(args: Array<String>) {
     println("Part A: ${solutionA(inputA)}")
-    println("Part B: ${solutionB(sampleInput)}")
+    println("Part B: ${solutionB(inputA)}")
 }
 
 /**
@@ -42,17 +42,7 @@ fun main(args: Array<String>) {
  * Answer: 11636
  */
 private fun solutionA(polymer: String): Any {
-    var newString = polymer
-
-    do {
-        var currentString = newString
-
-        for (letter in 'a'..'z') {
-            //XXX Whats the regex for replacing any of a list of strings?
-            newString = newString.replace("$letter${letter.toUpperCase()}", "")
-            newString = newString.replace("${letter.toUpperCase()}$letter", "")
-        }
-    } while (newString.length != currentString.length)
+    var newString = react(polymer)
 
     return newString.length
 }
@@ -75,7 +65,41 @@ private fun solutionA(polymer: String): Any {
  *
  * What is the length of the shortest polymer you can produce by removing all units of exactly one type and fully
  * reacting the result?
+ *
+ * Answer: 5302
  */
 private fun solutionB(polymer: String): Any {
-    return "To be implemented!"
+    val unitResults = mutableMapOf<Char, Int>()
+
+    for (letter in 'a'..'z') {
+        var newPolymer = polymer.replace("$letter", "")
+                                .replace("${letter.toUpperCase()}", "")
+
+        unitResults[letter] = react(newPolymer).length
+    }
+
+    val minimumValue = unitResults.minBy { result ->
+        result.value
+    }
+
+    return minimumValue!!
+}
+
+/**
+ * React the given polymer string by repeatedly removing any occurrences of lowercase followed by uppercase matching
+ * letters until it can be done no more
+ */
+private fun react(polymer: String): String {
+    var newString = polymer
+
+    do {
+        var currentString = newString
+
+        for (letter in 'a'..'z') {
+            //XXX Whats the regex for replacing any of a list of strings?
+            newString = newString.replace("$letter${letter.toUpperCase()}", "")
+            newString = newString.replace("${letter.toUpperCase()}$letter", "")
+        }
+    } while (newString.length != currentString.length)
+    return newString
 }
