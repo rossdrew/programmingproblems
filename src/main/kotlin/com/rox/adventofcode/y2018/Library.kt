@@ -5,7 +5,7 @@ package com.rox.adventofcode.y2018
  */
 class Coordinate(val x: Int, val y: Int) {
     override fun toString(): String {
-        return "${x}x$y"
+        return "${y}x$x"
     }
 
     override fun equals(other: Any?): Boolean {

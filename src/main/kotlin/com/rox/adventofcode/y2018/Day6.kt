@@ -1,5 +1,7 @@
 package com.rox.adventofcode.y2018
 
+import kotlin.math.abs
+
 private val sampleInput = """
 1, 1
 1, 6
@@ -129,9 +131,77 @@ fun main(args: Array<String>) {
  * What is the size of the largest area that isn't infinite?
  */
 private fun solutionA(entries : List<String>): Any {
-    return "To be implemented!"
+    val coords = entries.map { coordinateString ->
+        val coordElements = coordinateString.split(",")
+        Coordinate(coordElements[0].trim().toInt(), coordElements[1].trim().toInt())
+    }
+
+    //figure out finite space (smallest X and Y to largest X and Y)
+    //XXX Is there a nicer Kotlin way of doing this?  (without all the `?` and `!!`
+    val finiteSpaceStart = Coordinate((coords.minBy { it.x })?.x!!,
+                                       coords.minBy { it.y }?.y!!)
+
+    val finiteSpaceEnd = Coordinate((coords.maxBy { it.x })?.x!!,
+                                     coords.maxBy { it.y }?.y!!)
+
+    // - Brute Force Approach: Calculate the Manhatten distance for each empty space, to each occupied space
+    //   then chose the smallest and if it's unique, boom
+    val grid = Array(finiteSpaceEnd.y + 1) { arrayOfNulls<DistanceAndLocation>(finiteSpaceEnd.x + 1) }
+
+    for (y in 0 .. finiteSpaceEnd.y) {
+        for (x in 0 .. finiteSpaceEnd.x) {
+            grid[y][x] = DistanceAndLocation(0, Coordinate(1,1))
+
+            // for each item, get a list of all unique distances and chose the smallest
+            //XXX The description says to do this but in the example, at 0x5, the shortest unique is B.  In the example, it's empty
+            val closestDistinct = coords.map { coord ->
+                DistanceAndLocation(manhattanDistance(coord, x, y), coord)
+            }.exclusiveDistinctBy { it.distance }.minBy { it.distance }
+
+            println("${y}x$x: Closest is $closestDistinct")
+            grid[y][x] = closestDistinct
+        }
+    }
+
+    //The count of the location that appears the most is the answer
+    //TODO Still wrong as it's taking into account the ones that are left out above
+    return grid.flatten()
+               .groupBy { it?.location }.values
+               .map { it.size }
+               .max()!!
+}
+
+private fun manhattanDistance(coord: Coordinate, x: Int, y: Int): Int {
+    val deltaX = (coord.x - x)
+    val deltaY = (coord.y - y)
+
+    return abs(deltaX) + abs(deltaY)
+}
+
+/**
+ * Return only the elements which are distinct in this map given a selector
+ */
+inline fun <T, K> Iterable<T>.exclusiveDistinctBy(selector: (T) -> K): List<T> {
+    val tmpMap: MutableMap<K, T> = mutableMapOf()
+
+    for (element in this) {
+        val key = selector(element)
+
+        if (tmpMap.containsKey(key)){
+            tmpMap.remove(key)
+        } else {
+            tmpMap[key] = element
+        }
+    }
+    return tmpMap.values.toList()
 }
 
 private fun solutionB(entries : List<String>): Any {
     return "To be implemented!"
+}
+
+private class DistanceAndLocation(val distance: Int, val location: Coordinate) {
+    override fun toString(): String {
+        return "DistanceAndLocation(distance=$distance, location=$location)"
+    }
 }
