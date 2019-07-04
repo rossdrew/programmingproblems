@@ -1430,29 +1430,6 @@ private class Claim(val claimId : Int, val x : Int, val y : Int, val length : In
 }
 
 /**
- * Represents a 2D cartesian coordinate in inches on a piece of fabric
- */
-private class Coordinate(val x: Int, val y: Int) {
-    override fun toString(): String {
-        return "${x}x$y"
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (other !is Coordinate)
-            return false
-
-        if (other.x == x && other.y == y )
-            return true
-
-        return false
-    }
-
-    override fun hashCode(): Int {
-        return 31 * x + y
-    }
-}
-
-/**
  * Represents a piece of {@link Fabric} in inches
  */
 private class Fabric(val length: Int, val height: Int){
