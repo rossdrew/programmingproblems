@@ -40,7 +40,7 @@ private fun solutionA(input : String) : Int? {
     println(workingRange)
     println("${filterdRange.size} items: $filterdRange")
 
-    return filterdRange.size()
+    return filterdRange.size
 }
 
 /**
