@@ -33,23 +33,11 @@ private fun solutionA(input : String) : Int? {
     val workingRange = range[0]..range[1]
     val filteredRange = workingRange.map { it.toString() }.filter { candidate ->
         candidate.length == 6 &&
-        hasRepeatingDigit(candidate) &&
+        digitRepeats(candidate) { it > 1} &&
         candidate.toCharArray().sortedBy{it} == candidate.toList()
     }
 
     return filteredRange.size
-}
-
-private fun hasRepeatingDigit(candidate: String): Boolean{
-    var lastCharacter = candidate[0]
-    for (i in 1 until candidate.length){
-        if (candidate[i] == lastCharacter) {
-            return true
-        } else {
-            lastCharacter = candidate[i]
-        }
-    }
-    return false
 }
 
 /**
@@ -72,7 +60,7 @@ private fun solutionB(input : String) : Int? {
     val workingRange = range[0]..range[1]
     val filteredRange = workingRange.map { it.toString() }.filter { candidate ->
         candidate.length == 6 &&
-        hasSinglyRepeatedDigit(candidate) &&
+        digitRepeats(candidate) { it == 2 } &&
         candidate.toCharArray().sortedBy{it} == candidate.toList()
     }
 
@@ -80,11 +68,15 @@ private fun solutionB(input : String) : Int? {
 }
 
 /**
- * Thought of another, nicer way to do the <code>hasRepeatingDigit</code> work
+ * Are there any repaeting digits in candidate.  A predicate function is used to describe the repeating behaviour
+ * to be met, examples:
+ *
+ * <code>{it > 2></code>: Will match if any character is repeated more than once
+ * <code>{it == 2}</code>: Will match if any character repeats exactly twice
  */
-private fun hasSinglyRepeatedDigit(candidate: String): Boolean{
+private fun digitRepeats(candidate: String, predicate: (v: Int) -> Boolean): Boolean {
     candidate.toCharArray().distinct().forEach{char ->
-        if (candidate.split(char).size - 1 == 2)
+        if (predicate(candidate.split(char).size - 1))
             return true
     }
     return false
