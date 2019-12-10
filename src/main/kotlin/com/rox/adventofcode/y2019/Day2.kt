@@ -90,9 +90,20 @@ private fun solutionA(input : String) : Any {
     return runProgram(program, 12, 2)
 }
 
-private fun p(loc: Int, mem: MutableList<Int>) : Int {
+/**
+ * Return value from <code>loc</code> in <code>mem</code>
+ */
+private fun get(loc: Int, mem: MutableList<Int>) : Int {
     return mem[mem[loc]]
 }
+
+/**
+ * Put <code>value</code> at <code>loc</code> in <code>mem</code>
+ */
+private fun put(value: Int, loc: Int, mem: MutableList<Int>) {
+    mem[mem[loc]] = value
+}
+
 
 /**
  * --- Part Two ---
@@ -154,8 +165,8 @@ private fun runProgram(program: MutableList<Int>, noun: Int, verb: Int) : Int {
     for (programCounter in program.indices step 4){
         //println("Processing instruction @ ${i}: ${program[i]} ${program[i+1]} ${program[i+2]} ${program[i+3]}")
         when (program[programCounter]) {
-            1 -> program[program[programCounter+3]] = p(programCounter+1, program) + p(programCounter+2, program)
-            2 -> program[program[programCounter+3]] = p(programCounter+1, program) * p(programCounter+2, program)
+            1 -> put(get(programCounter+1, program) + get(programCounter+2, program), programCounter+3, program)
+            2 -> put(get(programCounter+1, program) * get(programCounter+2, program), programCounter+3, program)
             99 -> return program[0]
             else -> throw RuntimeException("Unknown opcode '${program[programCounter]}'@${programCounter}")
         }
