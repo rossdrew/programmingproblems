@@ -99,7 +99,7 @@ private fun trace(startingLocation: Coord, instructions: List<String>): List<Coo
 }
 
 private fun extrapolate(location: Coord, instruction: String) : List<Coord>{
-    println("Instruction: $instruction")
+    //println("Instruction: $instruction")
     val direction = instruction.substring(0, 1)
     val velocity = instruction.substring(1).toInt()
 
@@ -121,13 +121,12 @@ private fun expand(startLocation: Coord,
     var location = startLocation
     var locations = emptyList<Coord>().toMutableList()
 
-    //XXX Can this can become a map with accumulator?
-    for (step in 0 until steps){
+    repeat(steps) {
         location = operation(location)
         locations.add(location)
     }
 
-    println("Expanded $startLocation to: $locations")
+    //println("Expanded $startLocation to: $locations")
 
     return locations
 }
@@ -217,7 +216,7 @@ private fun costedExtrapolate(location: Coord,
                               instruction: String,
                               costMap: MutableMap<Coord, Int>,
                               stepsTaken: Int) : List<Coord>{
-    println("Instruction: $instruction")
+    //println("Instruction: $instruction")
     val direction = instruction.substring(0, 1)
     val velocity = instruction.substring(1).toInt()
 
@@ -252,7 +251,7 @@ private fun costedExpand(startLocation: Coord,
         locations.add(location)
     }
 
-    println("Expanded $startLocation to: $locations")
+    //println("Expanded $startLocation to: $locations")
 
     return locations
 }

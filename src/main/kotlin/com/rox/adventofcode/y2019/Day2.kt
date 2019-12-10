@@ -139,7 +139,7 @@ private fun solutionB(input : String) : Any {
         for (verb in noun..100){
             val result = runProgram(program.toMutableList(), noun, verb)
             if (result == 19690720){
-                return 100 * noun + verb;
+                return 100 * noun + verb
             }
         }
     }
