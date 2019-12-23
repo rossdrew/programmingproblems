@@ -6,11 +6,7 @@ def answer(x, y, z):
 
     valid_permutations = set()
     perms = itertools.permutations([x,y,z])
-    for perm in perms:
-        month = perm[0]
-        day_of_month = perm[1]
-        year = perm[2]
-
+    for month, day_of_month, year in perms:
         if month <= 12:
             days_in_current_month = days_in_month[month - 1]
             if day_of_month <= days_in_current_month:
