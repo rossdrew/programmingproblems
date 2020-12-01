@@ -261,15 +261,6 @@ fun solutionA(input: String): Any {
     throw UnexpectedException("There seems to be no two numbers which can be added to 2020 as expected")
 }
 
-fun solutionA_2(input: String): Any {
-    //Assume there are only two numbers which sum to 2020
-    val numbers = input.split('\n').map { it.toInt() }.distinct()
-
-
-
-    throw UnexpectedException("There seems to be no two numbers which can be added to 2020 as expected")
-}
-
 /**
  * --- Part Two ---
  * The Elves in accounting are thankful for your help; one of them even offers you a starfish
