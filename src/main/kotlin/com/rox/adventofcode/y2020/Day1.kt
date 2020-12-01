@@ -208,7 +208,7 @@ private val inputA = """
 
 fun main() {
     println("Part A: ${solutionA(inputA)}")
-    //println("Part B: ${solutionB(inputA)}")
+    println("Part B: ${solutionB(inputA)}")
 }
 
 /**
@@ -246,6 +246,8 @@ fun main() {
  *
  * Of course, your expense report is much larger. Find the two entries that sum to 2020; what
  * do you get if you multiply them together?
+ *
+ * Answer: 910539
  */
 fun solutionA(input: String): Any {
     //Assume there are only two numbers which sum to 2020
@@ -271,9 +273,23 @@ fun solutionA(input: String): Any {
  * Multiplying them together produces the answer, 241861950.
  *
  * In your expense report, what is the product of the three entries that sum to 2020?
+ *
+ * WRONG: 116724144
  */
 fun solutionB(input: String): Any {
-    TODO("Not yet implemented")
+    //Assume there are only three numbers which sum to 2020
+    val numbers = input.split('\n').map { it.toInt() }.distinct()
+    for (x in numbers){
+        for (y in numbers){
+            for (z in numbers) {
+                if (2020 == x + y + z) {
+                    return x * y * z
+                }
+            }
+        }
+    }
+
+    throw UnexpectedException("There seems to be no two numbers which can be added to 2020 as expected")
 }
 
 
