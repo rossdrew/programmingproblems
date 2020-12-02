@@ -1091,12 +1091,12 @@ private fun solutionB(input: String): Any {
         val criteria = definition[0].split(' ')
         val positionDefinitions = criteria[0].split('-').map { it.toInt() }
         val character = criteria[1].trim()[0]
-        val password = definition[1]
+        val password = definition[1].trim()
 
         PositionalPasswordDefinition(password, character, positionDefinitions)
     }.filter { passwordDefinition ->
         passwordDefinition.validPositions.filter {
-            i -> passwordDefinition.password[i] == passwordDefinition.character
+            i -> passwordDefinition.password[i-1] == passwordDefinition.character
         }.count() == 1
     }.count()
 }
