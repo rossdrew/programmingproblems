@@ -2,7 +2,6 @@ package com.rox.adventofcode.y2020
 
 import java.rmi.UnexpectedException
 
-
 private val inputA = """
 997
 1582
@@ -249,7 +248,7 @@ fun main() {
  *
  * Answer: 910539
  */
-fun solutionA(input: String): Any {
+private fun solutionA(input: String): Any {
     //Assume there are only two numbers which sum to 2020
     val numbers = input.split('\n').map { it.toInt() }.distinct()
     for (x in numbers) for (y in numbers){
@@ -274,7 +273,7 @@ fun solutionA(input: String): Any {
  *
  * WRONG: 116724144
  */
-fun solutionB(input: String): Any {
+private fun solutionB(input: String): Any {
     //Assume there are only three numbers which sum to 2020
     val numbers = input.split('\n').map { it.toInt() }.distinct()
     for (x in numbers) for (y in numbers) for (z in numbers){
