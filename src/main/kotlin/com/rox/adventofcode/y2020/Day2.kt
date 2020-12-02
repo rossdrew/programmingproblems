@@ -1050,7 +1050,7 @@ private fun solutionA(input: String): Any {
         val character = criteria[1].trim()[0]
         val password = definition[1]
 
-        PasswordDefinition(password, character, range)
+        RangedPasswordDefinition(password, character, range)
     }.filter {
         passwordDefinition -> passwordDefinition.password.filter {char ->
             char == passwordDefinition.character
@@ -1058,7 +1058,8 @@ private fun solutionA(input: String): Any {
     }.count()
 }
 
-private data class PasswordDefinition(val password: String, val character: Char, val range: ClosedRange<Int>)
+private data class RangedPasswordDefinition(val password: String, val character: Char, val range: ClosedRange<Int>)
+private data class PositionalPasswordDefinition(val password: String, val character: Char, val validPositions: List<Int>)
 
 /**
  *--- Part Two ---
@@ -1081,9 +1082,21 @@ private data class PasswordDefinition(val password: String, val character: Char,
  * 1-3 b: cdefg is invalid: neither position 1 nor position 3 contains b.
  * 2-9 c: ccccccccc is invalid: both position 2 and position 9 contain c.
  * How many passwords are valid according to the new interpretation of the policies?
+ *
+ * Answer 711
  */
 private fun solutionB(input: String): Any {
-    return input
+    return input.split('\n').map { entry ->
+        val definition = entry.split(':')
+        val criteria = definition[0].split(' ')
+        val positionDefinitions = criteria[0].split('-').map { it.toInt() }
+        val character = criteria[1].trim()[0]
+        val password = definition[1]
+
+        PositionalPasswordDefinition(password, character, positionDefinitions)
+    }.filter { def ->
+        def.validPositions.filter { i -> def.password[i] == def.character }.count() == 1
+    }.count()
 }
 
 
