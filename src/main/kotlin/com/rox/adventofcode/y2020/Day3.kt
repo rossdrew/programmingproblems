@@ -342,7 +342,7 @@ private val inputA = """
 
 fun main() {
     println("Part A: ${solutionA(inputA)}")
-    //println("Part B: ${solutionB(inputA)}")
+    println("Part B: ${solutionB(inputA)}")
 }
 
 /**
@@ -439,17 +439,50 @@ private fun solutionA(input: String): Any {
  * Right 5, down 1.
  * Right 7, down 1.
  * Right 1, down 2.
+ *
  * In the above example, these slopes would find 2, 7, 3, 4, and 2 tree(s)
  * respectively; multiplied together, these produce the answer 336.
  *
  * What do you get if you multiply together the number of trees encountered
  * on each of the listed slopes?
  *
- * Answer: ?
+ * Answer: 428316104 (TOO LOW)
  */
 private fun solutionB(input: String): Any {
-    input.split('\n')
-    return input
+    val rows = input.split('\n')
+
+    var treeProduct = 1
+
+    for (slope in arrayOf(intArrayOf(1,1),
+                          intArrayOf(3,1),
+                          intArrayOf(5,1),
+                          intArrayOf(7,1),
+                          intArrayOf(1,2)
+    )){
+        val rightSteps = slope[0]
+        val downSteps = slope[1]
+        var treeCount = 0
+
+        val columnGenerator = generateSequence(0) { (it + rightSteps) % rows[0].length }.iterator()
+        for ((index, row) in rows.withIndex()){
+
+            if (index % downSteps == 0) {
+                var column = columnGenerator.next()
+                //println("${row.subSequence(0, column)}(${row[column]})${row.subSequence(column + 1, row.length)}")
+                if (row[column] == '#')
+                    treeCount++
+            }
+//            else {
+//                println(row)
+//            }
+        }
+
+        treeProduct *= treeCount;
+
+        println("### ${rightSteps},${downSteps} > $treeCount : $treeProduct")
+    }
+
+    return treeProduct
 }
 
 
