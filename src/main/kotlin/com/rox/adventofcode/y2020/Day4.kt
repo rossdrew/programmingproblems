@@ -1405,7 +1405,7 @@ private fun combinePassportLines(iterator: Iterator<String>) :String{
  * Translate string of key value pairs into a map
  */
 private fun toMap(passportData: String): Map<String, String> {
-    val passportKeyMap = passportData
+    return passportData
             .split(' ')
             .filter { it.isNotBlank() }
             .map { entry ->
@@ -1413,7 +1413,6 @@ private fun toMap(passportData: String): Map<String, String> {
                     this[0] to this[1]
                 }
             }.toMap()
-    return passportKeyMap
 }
 
 /**
