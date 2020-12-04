@@ -1207,13 +1207,13 @@ cid:127 pid:701862616
 hgt:161cm
 """.trimIndent()
 
+private val requiredPassportEntryKeys = arrayOf("byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid")
+private val validEyeColors = arrayOf("amb", "blu", "brn", "gry", "grn", "hzl", "oth")
+
 fun main() {
     println("Part A: ${solutionA(inputA)}")
     println("Part B: ${solutionB(inputA)}")
 }
-
-private val requiredPassportEntryKeys = arrayOf("byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid")
-private val validEyeColors = arrayOf("amb", "blu", "brn", "gry", "grn", "hzl", "oth")
 
 /**
  *--- Day 4: Passport Processing ---
@@ -1284,21 +1284,8 @@ private fun solutionA(input: String): Any {
     var count = 0
     val iter = rows.iterator()
     while (iter.hasNext()){
-        var nextLine = iter.next().trim()
-        var passportData = nextLine
-        while (iter.hasNext() && nextLine.isNotBlank()){
-            nextLine = iter.next().trim()
-            passportData += " $nextLine"
-        }
-
-        val passportKeyMap = passportData
-                .split(' ')
-                .filter { it.isNotBlank() }
-                .map { entry ->
-            with (entry.split(":")){
-                this[0] to this[1]
-            }
-        }.toMap()
+        val passportData = combinePassportLines(iter)
+        val passportKeyMap = toMap(passportData)
 
         if (requiredPassportEntryKeys.all { passportKeyMap.containsKey(it) }){
             count++
@@ -1388,25 +1375,9 @@ private fun solutionB(input: String): Any {
 
     val iter = rows.iterator()
     while (iter.hasNext()){
-        //Combine multiline passport data into one passport data string
-        var nextLine = iter.next().trim()
-        var passportData = nextLine
-        while (iter.hasNext() && nextLine.isNotBlank()){
-            nextLine = iter.next().trim()
-            passportData += " $nextLine"
-        }
+        val passportData = combinePassportLines(iter)
+        val passportKeyMap = toMap(passportData)
 
-        //Turn passport data into a map
-        val passportKeyMap = passportData
-                .split(' ')
-                .filter { it.isNotBlank() }
-                .map { entry ->
-                    with (entry.split(":")){
-                        this[0] to this[1]
-                    }
-                }.toMap()
-
-        //Validate the map
         if (requiredPassportEntryKeys.all { key ->
             passportKeyMap.containsKey(key) && entryIsTypeBValid(key, passportKeyMap)
         }){
@@ -1415,6 +1386,34 @@ private fun solutionB(input: String): Any {
     }
 
     return count
+}
+
+/**
+ * Combine all contiguous lines, stopping at an empty line and combine into one passport entry
+ */
+private fun combinePassportLines(iterator: Iterator<String>) :String{
+    var nextLine = iterator.next().trim()
+    var passportData = nextLine
+    while (iterator.hasNext() && nextLine.isNotBlank()){
+        nextLine = iterator.next().trim()
+        passportData += " $nextLine"
+    }
+    return passportData
+}
+
+/**
+ * Translate string of key value pairs into a map
+ */
+private fun toMap(passportData: String): Map<String, String> {
+    val passportKeyMap = passportData
+            .split(' ')
+            .filter { it.isNotBlank() }
+            .map { entry ->
+                with(entry.split(":")) {
+                    this[0] to this[1]
+                }
+            }.toMap()
+    return passportKeyMap
 }
 
 /**
@@ -1428,8 +1427,8 @@ private fun entryIsTypeBValid(key: String, passportKeyMap: Map<String, String>) 
         "hgt" -> {
             val value: String = passportKeyMap[key]!!
             when {
-                value.endsWith("cm") -> value?.substring(0, value?.indexOf('c')).toInt() in 150..193
-                value.endsWith("in") -> value?.substring(0, value?.indexOf('i')).toInt() in 59..76
+                value.endsWith("cm") -> value.substring(0, value.indexOf('c')).toInt() in 150..193
+                value.endsWith("in") -> value.substring(0, value.indexOf('i')).toInt() in 59..76
                 else -> false
             }
         }
