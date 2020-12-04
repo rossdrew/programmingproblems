@@ -16,6 +16,35 @@ hcl:#cfa07d eyr:2025 pid:166559648
 iyr:2011 ecl:brn hgt:59in
 """.trimIndent()
 
+private val invalidType2Passports = """
+eyr:1972 cid:100
+hcl:#18171d ecl:amb hgt:170 pid:186cm iyr:2018 byr:1926
+
+iyr:2019
+hcl:#602927 eyr:1967 hgt:170cm
+ecl:grn pid:012533040 byr:1946
+
+hcl:dab227 iyr:2012
+ecl:brn hgt:182cm pid:021572410 eyr:2020 byr:1992 cid:277
+
+hgt:59cm ecl:zzz
+eyr:2038 hcl:74454a iyr:2023
+pid:3556412378 byr:2007
+""".trimIndent()
+
+private val validType2Passports = """
+pid:087499704 hgt:74in ecl:grn iyr:2012 eyr:2030 byr:1980
+hcl:#623a2f
+
+eyr:2029 ecl:blu cid:129 byr:1989
+iyr:2014 pid:896056539 hcl:#a97842 hgt:165cm
+
+hcl:#888785
+hgt:164cm byr:2001 iyr:2015 cid:88
+pid:545766238 ecl:hzl
+eyr:2022
+""".trimIndent()
+
 private val inputA = """
 iyr:2010 ecl:gry hgt:181cm
 pid:591597745 byr:1920 hcl:#6b5442 eyr:2029 cid:123
@@ -1362,20 +1391,58 @@ private fun solutionA(input: String): Any {
  * Count the number of valid passports - those that have all required fields and
  * valid values. Continue to treat cid as optional. In your batch file, how many
  * passports are valid?
+ *
+ * Answer: 184
  */
 private fun solutionB(input: String): Any {
     input.split('\n')
-//    byr (Birth Year) - four digits; at least 1920 and at most 2002.
-//    iyr (Issue Year) - four digits; at least 2010 and at most 2020.
-//    eyr (Expiration Year) - four digits; at least 2020 and at most 2030.
-//    hgt (Height) - a number followed by either cm or in:
-//    If cm, the number must be at least 150 and at most 193.
-//    If in, the number must be at least 59 and at most 76.
-//    hcl (Hair Color) - a # followed by exactly six characters 0-9 or a-f.
-//    ecl (Eye Color) - exactly one of: amb blu brn gry grn hzl oth.
-//    pid (Passport ID) - a nine-digit number, including leading zeroes.
-//    cid (Country ID) - ignored, missing or not.
-    return input
+
+    val rows = input.split('\n')
+    var count = 0
+
+    val iter = rows.iterator()
+    while (iter.hasNext()){
+        var nextLine = iter.next().trim()
+        var passportData = nextLine
+        while (iter.hasNext() && nextLine.isNotBlank()){
+            nextLine = iter.next().trim()
+            passportData += " $nextLine"
+        }
+
+        val passportKeyMap = passportData
+                .split(' ')
+                .filter { it.isNotBlank() }
+                .map { entry ->
+                    with (entry.split(":")){
+                        this[0] to this[1]
+                    }
+                }.toMap()
+
+        if (arrayOf("byr", "iyr","eyr","hgt","hcl","ecl","pid").all { key ->
+            passportKeyMap.containsKey(key) &&
+            when(key){
+                "byr" -> passportKeyMap[key]?.toInt() in 1920..2002 //byr (Birth Year) - four digits; at least 1920 and at most 2002.
+                "iyr" -> passportKeyMap[key]?.toInt() in 2010..2020 //iyr (Issue Year) - four digits; at least 2010 and at most 2020.
+                "eyr" -> passportKeyMap[key]?.toInt() in 2020..2030 //eyr (Expiration Year) - four digits; at least 2020 and at most 2030.
+                "hgt" -> {
+                    val value : String = passportKeyMap[key]!!
+                    when {
+                        value!!.endsWith("cm") -> value?.substring(0, value?.indexOf('c')).toInt() in 150..193
+                        value!!.endsWith("in") -> value?.substring(0, value?.indexOf('i')).toInt() in 59..76
+                        else -> false
+                    }
+                } //hgt (Height) - a number followed by either cm (150..193) or in (59..76):
+                "hcl" -> {"^#([a-fA-F0-9]{6})\$".toRegex().containsMatchIn(passportKeyMap[key]!!)} //hcl (Hair Color) - a # followed by exactly six characters 0-9 or a-f.
+                "ecl" -> {passportKeyMap[key]!! in arrayOf("amb","blu","brn","gry","grn","hzl","oth")} //ecl (Eye Color) - exactly one of: amb blu brn gry grn hzl oth.
+                "pid" -> {"^\\d{9}\$".toRegex().matches(passportKeyMap[key]!!)} //pid (Passport ID) - a nine-digit number, including leading zeroes.
+                else -> throw UnknownError("Unknown key specified")
+            }
+        }){
+            count++
+        }
+    }
+
+    return count
 }
 
 
