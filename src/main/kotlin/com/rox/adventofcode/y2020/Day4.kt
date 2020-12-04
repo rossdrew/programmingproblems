@@ -1388,6 +1388,7 @@ private fun solutionB(input: String): Any {
 
     val iter = rows.iterator()
     while (iter.hasNext()){
+        //Combine multiline passport data into one passport data string
         var nextLine = iter.next().trim()
         var passportData = nextLine
         while (iter.hasNext() && nextLine.isNotBlank()){
@@ -1395,6 +1396,7 @@ private fun solutionB(input: String): Any {
             passportData += " $nextLine"
         }
 
+        //Turn passport data into a map
         val passportKeyMap = passportData
                 .split(' ')
                 .filter { it.isNotBlank() }
@@ -1404,6 +1406,7 @@ private fun solutionB(input: String): Any {
                     }
                 }.toMap()
 
+        //Validate the map
         if (arrayOf("byr", "iyr","eyr","hgt","hcl","ecl","pid").all { key ->
             passportKeyMap.containsKey(key) &&
             when(key){
@@ -1413,8 +1416,8 @@ private fun solutionB(input: String): Any {
                 "hgt" -> {
                     val value : String = passportKeyMap[key]!!
                     when {
-                        value!!.endsWith("cm") -> value?.substring(0, value?.indexOf('c')).toInt() in 150..193
-                        value!!.endsWith("in") -> value?.substring(0, value?.indexOf('i')).toInt() in 59..76
+                        value.endsWith("cm") -> value?.substring(0, value?.indexOf('c')).toInt() in 150..193
+                        value.endsWith("in") -> value?.substring(0, value?.indexOf('i')).toInt() in 59..76
                         else -> false
                     }
                 } //hgt (Height) - a number followed by either cm (150..193) or in (59..76):
