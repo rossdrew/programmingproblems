@@ -1213,6 +1213,7 @@ fun main() {
 }
 
 private val requiredPassportEntryKeys = arrayOf("byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid")
+private val validEyeColors = arrayOf("amb", "blu", "brn", "gry", "grn", "hzl", "oth")
 
 /**
  *--- Day 4: Passport Processing ---
@@ -1281,7 +1282,6 @@ private fun solutionA(input: String): Any {
     val rows = input.split('\n')
 
     var count = 0
-
     val iter = rows.iterator()
     while (iter.hasNext()){
         var nextLine = iter.next().trim()
@@ -1383,8 +1383,6 @@ private fun solutionA(input: String): Any {
  * Answer: 184
  */
 private fun solutionB(input: String): Any {
-    input.split('\n')
-
     val rows = input.split('\n')
     var count = 0
 
@@ -1410,7 +1408,7 @@ private fun solutionB(input: String): Any {
 
         //Validate the map
         if (requiredPassportEntryKeys.all { key ->
-            passportKeyMap.containsKey(key) && entryIsValid(key, passportKeyMap)
+            passportKeyMap.containsKey(key) && entryIsTypeBValid(key, passportKeyMap)
         }){
             count++
         }
@@ -1422,11 +1420,11 @@ private fun solutionB(input: String): Any {
 /**
  * Validate a given passport key
  */
-private fun entryIsValid(key: String, passportKeyMap: Map<String, String>) =
+private fun entryIsTypeBValid(key: String, passportKeyMap: Map<String, String>) =
     when (key) {
-        "byr" -> passportKeyMap[key]?.toInt() in 1920..2002 //byr (Birth Year) - four digits; at least 1920 and at most 2002.
-        "iyr" -> passportKeyMap[key]?.toInt() in 2010..2020 //iyr (Issue Year) - four digits; at least 2010 and at most 2020.
-        "eyr" -> passportKeyMap[key]?.toInt() in 2020..2030 //eyr (Expiration Year) - four digits; at least 2020 and at most 2030.
+        "byr" -> passportKeyMap[key]?.toInt() in 1920..2002
+        "iyr" -> passportKeyMap[key]?.toInt() in 2010..2020
+        "eyr" -> passportKeyMap[key]?.toInt() in 2020..2030
         "hgt" -> {
             val value: String = passportKeyMap[key]!!
             when {
@@ -1434,16 +1432,10 @@ private fun entryIsValid(key: String, passportKeyMap: Map<String, String>) =
                 value.endsWith("in") -> value?.substring(0, value?.indexOf('i')).toInt() in 59..76
                 else -> false
             }
-        } //hgt (Height) - a number followed by either cm (150..193) or in (59..76):
-        "hcl" -> {
-            "^#([a-fA-F0-9]{6})\$".toRegex().containsMatchIn(passportKeyMap[key]!!)
-        } //hcl (Hair Color) - a # followed by exactly six characters 0-9 or a-f.
-        "ecl" -> {
-            passportKeyMap[key]!! in arrayOf("amb", "blu", "brn", "gry", "grn", "hzl", "oth")
-        } //ecl (Eye Color) - exactly one of: amb blu brn gry grn hzl oth.
-        "pid" -> {
-            "^\\d{9}\$".toRegex().matches(passportKeyMap[key]!!)
-        } //pid (Passport ID) - a nine-digit number, including leading zeroes.
+        }
+        "hcl" -> "^#([a-fA-F0-9]{6})\$".toRegex().containsMatchIn(passportKeyMap[key]!!)
+        "ecl" -> passportKeyMap[key]!! in validEyeColors
+        "pid" -> "^\\d{9}\$".toRegex().matches(passportKeyMap[key]!!)
         else -> throw UnknownError("Unknown key specified")
     }
 
