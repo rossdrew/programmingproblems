@@ -1305,20 +1305,6 @@ private fun solutionA(input: String): Any {
 
     return count
 }
-//
-///**
-// * byr (Birth Year)
-// * iyr (Issue Year)
-// * eyr (Expiration Year)
-// * hgt (Height)
-// * hcl (Hair Color)
-// * ecl (Eye Color)
-// * pid (Passport ID)
-// * cid (Country ID)
-// */
-//private data class Passport(val byr: Int, val iyr: Int, val eyr: Int, val hgt: Int, val hcl: String, val ecl: String, val pid: String, val cid: String)
-//
-//
 
 /**
  *  --- Part Two ---
