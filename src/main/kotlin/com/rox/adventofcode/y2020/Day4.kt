@@ -1243,6 +1243,8 @@ fun main() {
  *
  * Count the number of valid passports - those that have all required fields.
  * Treat cid as optional. In your batch file, how many passports are valid?
+ *
+ * Answer: 254
  */
 private fun solutionA(input: String): Any {
     val rows = input.split('\n')
@@ -1251,31 +1253,25 @@ private fun solutionA(input: String): Any {
 
     val iter = rows.iterator()
     while (iter.hasNext()){
-        var next = iter.next().trim()
-        var all = next
-        while (iter.hasNext() && next.isNotBlank()){
-            next = iter.next().trim()
-            all += " $next"
-
+        var nextLine = iter.next().trim()
+        var passportData = nextLine
+        while (iter.hasNext() && nextLine.isNotBlank()){
+            nextLine = iter.next().trim()
+            passportData += " $nextLine"
         }
-        val passportDefinition = all.split(' ').filter { it.isNotBlank() }
-        val passportKeyMap = passportDefinition.map {
-            val keyPair = it.split(":")
-            keyPair[0] to keyPair[1]
+
+        val passportKeyMap = passportData
+                .split(' ')
+                .filter { it.isNotBlank() }
+                .map { entry ->
+            with (entry.split(":")){
+                this[0] to this[1]
+            }
         }.toMap()
 
-        if (passportKeyMap.containsKey("byr") &&
-                passportKeyMap.containsKey("iyr") &&
-                passportKeyMap.containsKey("eyr") &&
-                passportKeyMap.containsKey("hgt") &&
-                passportKeyMap.containsKey("hcl") &&
-                passportKeyMap.containsKey("ecl") &&
-                passportKeyMap.containsKey("pid") ) {
+        if (arrayOf("byr", "iyr","eyr","hgt","hcl","ecl","pid").all { passportKeyMap.containsKey(it) }){
             count++
-        }else{
-
         }
-
     }
 
     return count
@@ -1369,6 +1365,16 @@ private fun solutionA(input: String): Any {
  */
 private fun solutionB(input: String): Any {
     input.split('\n')
+//    byr (Birth Year) - four digits; at least 1920 and at most 2002.
+//    iyr (Issue Year) - four digits; at least 2010 and at most 2020.
+//    eyr (Expiration Year) - four digits; at least 2020 and at most 2030.
+//    hgt (Height) - a number followed by either cm or in:
+//    If cm, the number must be at least 150 and at most 193.
+//    If in, the number must be at least 59 and at most 76.
+//    hcl (Hair Color) - a # followed by exactly six characters 0-9 or a-f.
+//    ecl (Eye Color) - exactly one of: amb blu brn gry grn hzl oth.
+//    pid (Passport ID) - a nine-digit number, including leading zeroes.
+//    cid (Country ID) - ignored, missing or not.
     return input
 }
 
