@@ -156,13 +156,13 @@ private fun runProgram(program: MutableList<Int>, noun: Int, verb: Int) : Int {
 
             //LOAD
             3 -> {
-                program[program[programCounter+1]] = fromInput
+                program[program[programCounter+1]] = 0//fromInput
                 programCounter += 2
             }
 
             //ECHO
             4 -> {
-                toOutput = program[program[programCounter+1]]
+                //toOutput = program[program[programCounter+1]]
                 programCounter += 2
             }
 
