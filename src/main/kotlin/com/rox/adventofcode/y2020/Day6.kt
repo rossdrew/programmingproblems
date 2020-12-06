@@ -2335,13 +2335,14 @@ private fun solutionA(input: String): Any {
  * For each group, count the number of questions to which everyone
  * answered "yes". What is the sum of those counts?
  *
- * Answer: 3359 (WRONG, too high)
+ * Answer: 3351
  */
 private fun solutionB(input: String): Any {
     input.split('\n')
 
     val rowIterator = input.split('\n').iterator()
     var sum = 0
+    var lineCount = 0
     while (rowIterator.hasNext()) {
         val groupLines = combineGroupLines(rowIterator)
 
@@ -2372,6 +2373,7 @@ private fun solutionB(input: String): Any {
             println("Huh?")
 
         sum+=count
+        lineCount++
     }
 
     return sum
@@ -2383,12 +2385,13 @@ private fun solutionB(input: String): Any {
 private fun combineGroupLines(iterator: Iterator<String>): Pair<String, Int> {
     var nextLine = iterator.next().trim()
     var groupAnswers = nextLine
-    var count = if (iterator.hasNext()) 0 else 1
+    var count = 0
     while (iterator.hasNext() && nextLine.isNotBlank()){
         nextLine = iterator.next().trim()
         groupAnswers += "$nextLine"
         count++
     }
+    count = if (!iterator.hasNext()) count + 1 else count
     return Pair(groupAnswers, count)
 }
 
