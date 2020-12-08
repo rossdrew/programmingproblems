@@ -1,5 +1,15 @@
 package com.rox.adventofcode.y2020
 
+private val testInput = """
+ancestor bags contain 1 grandfather bag, 2 grandmother bags.
+grandfather bags contain 2 father bags, 1 mother bag.
+grandmother bags contain 1 father bag, 1 mother bag.
+father bags contain 3 child bags.
+mother bags contain 1 child bag.
+child bags contain 1 shiny gold bag.
+shiny gold bags contain no other bags.
+""".trimIndent()
+
 private val inputSample = """
 light red bags contain 1 bright white bag, 2 muted yellow bags.
 dark orange bags contain 3 bright white bags, 4 muted yellow bags.
@@ -10,6 +20,7 @@ dark olive bags contain 3 faded blue bags, 4 dotted black bags.
 vibrant plum bags contain 5 faded blue bags, 6 dotted black bags.
 faded blue bags contain no other bags.
 dotted black bags contain no other bags.
+child bags contain 1 shiny gold bag
 """.trimIndent()
 
 private val inputA = """
@@ -610,6 +621,8 @@ shiny maroon bags contain 2 dim crimson bags.
 """.trimIndent()
 
 fun main() {
+//    println("Sample Input: ${solutionA(inputSample)}")
+    println("Test Input: ${solutionA(testInput)}")
     println("Part A: ${solutionA(inputA)}")
   //  println("Part B: ${solutionB(inputA)}")
 }
@@ -662,53 +675,55 @@ fun main() {
  * How many bag colors can eventually contain at least one shiny gold
  * bag? (The list of rules is quite long; make sure you get all of it.)
  *
- * Answer: 50 (WRONG)
+ * Answer: 308 (WRONG)
  */
 private fun solutionA(input: String): Any {
     var rows = input.split('\n')
 
     for (row in rows){
         //shiny gold bags contain 1 dark olive bag, 2 vibrant plum bags.
-        var rowPart = row.split("s contain")
+        var rowPart = row.split(" bags contain")
         //shiny gold bags [contain]
-        var parentBag = rowPart[0].replace(" bag", "")
+        var parentBag = rowPart[0]
         //[contain] 1 dark olive bag, 2 vibrant plum bags.
         var contents = rowPart[1]
 
-        val childList = mutableListOf<Bag>()
-        for(entry in contents.split(',')){
-            if (entry.trim() == "no other bags.") continue
-            //["1 dark olive bag", "2 vibrant plum bags"]
-            val subBag = "^(\\d{1,3})\\s(.*)\\Qbag\\Es?".toRegex().find(entry.trim())
+        val children = contents
+                .split(',')
+                .filter { it.trim() != "no other bags." }
+                .flatMap { entry ->
+                    //e.g. ["1 dark olive bag", "2 vibrant plum bags"]
+                    val subBag = "^(\\d{1,3})\\s(.*)\\Qbag\\Es?".toRegex().find(entry.trim())
+                    val numberOfBags = subBag!!.groupValues[1].trim().toInt()
+                    val bag = bag(subBag.groupValues[2].trim())
 
-            val number = subBag!!.groupValues[1].trim().toInt()
-            val name = subBag!!.groupValues[2].trim()
-
-            //build list of children
-            for (i in 0 until number){
-                val childBag = bag(name)
-                childList.add(childBag)
-            }
-        }
+                    //list of children
+                    (0 until numberOfBags).map { bag }.toList()
+                }
 
         //dependency tree
-        val parentBagObject = bag(parentBag, children = childList)
-        for (child in childList){
+        val parentBagObject = bag(parentBag, children = children)
+        for (child in children){
             possibleParents.computeIfAbsent(child){ mutableSetOf()}
-            possibleParents[child]!!.add(parentBagObject)
+            possibleParents[child] = possibleParents[child]!!.union(setOf(parentBagObject))
         }
     }
-
 
     return possibleContainers(bag("shiny gold")).size
 }
 
 private fun possibleContainers(bag: Bag): Set<Bag> {
+    if (possibleParents[bag].isNullOrEmpty())
+        return setOf()
+
     val parents = possibleParents[bag] as Set<Bag>
     val ancestors = mutableSetOf<Bag>()
     for (parent in parents) {
         if (!possibleParents[parent].isNullOrEmpty())
-            possibleParents[parent]!!.forEach { ancestors.add(it) }
+            possibleParents[parent]!!.forEach {
+                ancestors.add(it)
+                ancestors.addAll(possibleContainers(it))
+            }
     }
 
     return parents.union(ancestors)
@@ -723,7 +738,7 @@ private fun bag(name: String, children: List<Bag> = listOf()): Bag {
 private data class Bag(val name: String, var contents: List<Bag>)
 
 private val bagCatalogue = mutableMapOf<String, Bag>()
-private val possibleParents = mutableMapOf<Bag, MutableSet<Bag>>()
+private val possibleParents = mutableMapOf<Bag, Set<Bag>>()
 
 /**
  *
