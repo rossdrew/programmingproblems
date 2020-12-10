@@ -20,7 +20,6 @@ dark olive bags contain 3 faded blue bags, 4 dotted black bags.
 vibrant plum bags contain 5 faded blue bags, 6 dotted black bags.
 faded blue bags contain no other bags.
 dotted black bags contain no other bags.
-child bags contain 1 shiny gold bag
 """.trimIndent()
 
 private val inputA = """
@@ -624,7 +623,7 @@ fun main() {
 //    println("Sample Input: ${solutionA(inputSample)}")
  //   println("Test Input: ${solutionA(testInput)}")
     println("Part A: ${solutionA(inputA)}")
-    println("Part B: ${solutionB(inputA)}")
+    println("Part B: ${solutionB(inputSample)}")
 }
 
 /**
@@ -777,7 +776,50 @@ private val possibleParents = mutableMapOf<Bag, Set<Bag>>()
  * Answer: ???
  */
 private fun solutionB(input: String): Any {
-    input.split('\n')
-    return input
+    var rows = input.split('\n')
+
+    val internalBagCatalog = mutableMapOf<String, Bag>()
+
+    for (row in rows){
+        //shiny gold bags contain 1 dark olive bag, 2 vibrant plum bags.
+        var rowPart = row.split(" bags contain")
+        //shiny gold bags [contain]
+        var parentBag = rowPart[0]
+        //[contain] 1 dark olive bag, 2 vibrant plum bags.
+        var contents = rowPart[1]
+
+        val children = contents
+                .split(',')
+                .filter { it.trim() != "no other bags." }
+                .flatMap { entry ->
+                    //e.g. ["1 dark olive bag", "2 vibrant plum bags"]
+                    val subBag = "^(\\d{1,3})\\s(.*)\\Qbag\\Es?".toRegex().find(entry.trim())
+                    val numberOfBags = subBag!!.groupValues[1].trim().toInt()
+
+                    val bagName = subBag.groupValues[2].trim()
+                    val bag = internalBagCatalog.getOrDefault(bagName, Bag(bagName, listOf()))
+                    internalBagCatalog[bagName] = bag
+
+                    //list of children
+                    (0 until numberOfBags).map { bag }.toList()
+                }
+
+        internalBagCatalog[parentBag] = Bag(parentBag, children)
+    }
+    //the contents are not populated bags
+    return calculateContents(internalBagCatalog["shiny gold"] as Bag, internalBagCatalog).count()
 }
 
+//Looking for 126 from example
+private fun calculateContents(fatBag: Bag, bagCatalog : Map<String, Bag>): List<Bag> {
+    val contents = fatBag.contents //assumed to be skinny contents
+            .map {childBag ->
+                //map contents to fat
+                bagCatalog[childBag.name]
+            }
+            .flatMap {fatChildBag ->
+                //map each child to a list of their contents; including themselves?
+                calculateContents(fatChildBag as Bag, bagCatalog).union(listOf(fatBag)).toList()
+            }
+    return contents
+}
