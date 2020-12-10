@@ -22,6 +22,16 @@ faded blue bags contain no other bags.
 dotted black bags contain no other bags.
 """.trimIndent()
 
+private val inputSample2 = """
+shiny gold bags contain 2 dark red bags.
+dark red bags contain 2 dark orange bags.
+dark orange bags contain 2 dark yellow bags.
+dark yellow bags contain 2 dark green bags.
+dark green bags contain 2 dark blue bags.
+dark blue bags contain 2 dark violet bags.
+dark violet bags contain no other bags.
+""".trimIndent()
+
 private val inputA = """
 striped tan bags contain 2 light silver bags, 1 drab black bag, 2 clear tan bags, 2 mirrored tan bags.
 dark black bags contain 1 vibrant indigo bag, 5 muted gold bags, 4 bright tomato bags, 3 dull tan bags.
@@ -623,7 +633,7 @@ fun main() {
 //    println("Sample Input: ${solutionA(inputSample)}")
  //   println("Test Input: ${solutionA(testInput)}")
     println("Part A: ${solutionA(inputA)}")
-    println("Part B: ${solutionB(inputSample)}")
+    println("Part B: ${solutionB(inputA)}")
 }
 
 /**
@@ -773,7 +783,7 @@ private val possibleParents = mutableMapOf<Bag, Set<Bag>>()
  *
  * How many individual bags are required inside your single shiny gold bag?
  *
- * Answer: ???
+ * Answer: 4165
  */
 private fun solutionB(input: String): Any {
     var rows = input.split('\n')
@@ -806,20 +816,14 @@ private fun solutionB(input: String): Any {
 
         internalBagCatalog[parentBag] = Bag(parentBag, children)
     }
-    //the contents are not populated bags
-    return calculateContents(internalBagCatalog["shiny gold"] as Bag, internalBagCatalog).count()
+
+    return calculateContents(internalBagCatalog["shiny gold"] as Bag, internalBagCatalog).count()-1
 }
 
-//Looking for 126 from example
-private fun calculateContents(fatBag: Bag, bagCatalog : Map<String, Bag>): List<Bag> {
+private fun calculateContents(fatBag: Bag, bagCatalog : Map<String, Bag>, indent: String = ""): List<Bag> {
     val contents = fatBag.contents //assumed to be skinny contents
-            .map {childBag ->
-                //map contents to fat
-                bagCatalog[childBag.name]
-            }
-            .flatMap {fatChildBag ->
-                //map each child to a list of their contents; including themselves?
-                calculateContents(fatChildBag as Bag, bagCatalog).union(listOf(fatBag)).toList()
-            }
-    return contents
+            .map {childBag -> bagCatalog[childBag.name] }
+            .flatMap {fatChildBag -> calculateContents(fatChildBag as Bag, bagCatalog, indent+"\t") }
+
+    return contents + fatBag
 }
