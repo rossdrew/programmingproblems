@@ -663,9 +663,8 @@ jmp +1
 
 fun main() {
     println("Sample Input: ${solutionA(inputSample)}")
- //   println("Test Input: ${solutionA(testInput)}")
     println("Part A: ${solutionA(inputA)}")
-    //println("Part B: ${solutionB(inputA)}")
+    println("Part B: ${solutionB(inputA)}")
 }
 
 /**
@@ -742,7 +741,7 @@ private fun solutionA(input: String): Any {
     while (!visited.contains(environment.programCounter)){
         visited.add(environment.programCounter)
         val command = commands[environment.programCounter]
-        println("${environment.programCounter}: $command -> ${environment.programCounter}")
+        //println("${environment.programCounter}: $command -> ${environment.programCounter}")
         environment = when (command.first) {
             "acc" -> Environment(environment.programCounter + 1, environment.accumulator + command.second)
             "jmp" -> Environment(environment.programCounter + command.second, environment.accumulator)
@@ -807,5 +806,46 @@ data class Environment(val programCounter: Int = 0, val accumulator: Int = 0)
 private fun solutionB(input: String): Any {
     input.split('\n')
 
-    return input
+    val rows = input.split('\n')
+
+    val mutators = mutableSetOf<Int>()
+    val commands = rows.mapIndexed() { i, row ->
+        with(row.split(' ')) {
+            when (this[0].trim()){
+                "nop" -> mutators.add(i)
+                "jmp" -> mutators.add(i)
+            }
+            Pair(this[0], Integer.parseInt(this[1].replace("+", " ").trim()))
+        }
+    }.toList()
+
+    for (mutator in mutators){
+        val mutatedProgram = commands.toMutableList()
+        //("Mutating '${mutatedProgram[mutator].first}' @ $mutator")
+        val mutatedInstruction = if (mutatedProgram[mutator].first == "jmp") "nop" else "jmp"
+        mutatedProgram[mutator] = Pair(mutatedInstruction,  mutatedProgram[mutator].second)
+        var environment = executeProgram(mutatedProgram)
+        if (environment.programCounter == mutatedProgram.size)
+            return environment.accumulator
+    }
+
+    throw RuntimeException("No valid mutated state found")
 }
+
+private fun executeProgram(commands: List<Pair<String, Int>>): Environment {
+    var environment = Environment(0, 0)
+    val visited = mutableSetOf<Int>()
+    while (!visited.contains(environment.programCounter) && environment.programCounter < commands.size) {
+        visited.add(environment.programCounter)
+        val command = commands[environment.programCounter]
+        //println("${environment.programCounter}: $command -> ${environment.programCounter}")
+        environment = when (command.first) {
+            "acc" -> Environment(environment.programCounter + 1, environment.accumulator + command.second)
+            "jmp" -> Environment(environment.programCounter + command.second, environment.accumulator)
+            "nop" -> Environment(environment.programCounter + 1, environment.accumulator)
+            else -> throw RuntimeException("Unknown command ${command.first}")
+        }
+    }
+    return environment
+}
+
