@@ -1030,8 +1030,9 @@ private val inputA = """
 
 fun main() {
     //println("Sample Input: ${solutionA(inputSample)}")
-    println("Part A: ${solutionA(inputA)}")
-    //println("Part B: ${solutionB(inputA)}")
+    //println("Part A: ${solutionA(inputA)}")
+    //println("Sample Input: ${solutionB(inputSample)}")
+    println("Part B: ${solutionB(inputA)}")
 }
 
 /**
@@ -1161,11 +1162,42 @@ fun unlocatableSum(expectedSum: Double, collection: List<Double>) : Boolean {
  *
  * What is the encryption weakness in your XMAS-encrypted list of numbers?
  *
- * Answer: ???
+ * Answer: 75998374 (WRONG - Too Low)
  */
 private fun solutionB(input: String): Any {
     val rows = input.split('\n')
 
-    return input
+    val values = rows.map { row ->
+        row.toDouble()
+    }.toDoubleArray()
+
+    val invalidNumber = firstInvalidNumber(25, values)
+
+    //TODO Find a contiguous set of numbers which sum to the answer to solution A
+    for (lower in 0 until values.size-1){
+        var sectionSum = 0.0
+        for (upper in lower+1 until values.size){
+            sectionSum += values[upper]
+            if (sectionSum > invalidNumber){
+                break
+            } else if (sectionSum == invalidNumber){
+                with (values.slice(lower..upper).sorted()){
+                    return (this.first()+this.last()).toBigDecimal().toPlainString()
+                }
+            }
+        }
+    }
+
+    throw RuntimeException("There were no matching numbers")
+}
+
+private fun firstInvalidNumber(buffer: Int, values: DoubleArray): Double {
+    for (i in buffer until values.size) {
+        val sorted = values.slice(i - buffer until i).sorted()
+        if (unlocatableSum(values[i], sorted))
+            return values[i]
+    }
+
+    throw RuntimeException("No invalid number found")
 }
 
