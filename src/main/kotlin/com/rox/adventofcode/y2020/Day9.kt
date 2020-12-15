@@ -1162,7 +1162,7 @@ fun unlocatableSum(expectedSum: Double, collection: List<Double>) : Boolean {
  *
  * What is the encryption weakness in your XMAS-encrypted list of numbers?
  *
- * Answer: 75998374 (WRONG - Too Low)
+ * Answer: 76096372
  */
 private fun solutionB(input: String): Any {
     val rows = input.split('\n')
@@ -1173,9 +1173,8 @@ private fun solutionB(input: String): Any {
 
     val invalidNumber = firstInvalidNumber(25, values)
 
-    //TODO Find a contiguous set of numbers which sum to the answer to solution A
     for (lower in 0 until values.size-1){
-        var sectionSum = 0.0
+        var sectionSum = values[lower]
         for (upper in lower+1 until values.size){
             sectionSum += values[upper]
             if (sectionSum > invalidNumber){
