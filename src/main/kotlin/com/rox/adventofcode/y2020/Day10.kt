@@ -1,6 +1,7 @@
 package com.rox.adventofcode.y2020
 
 import java.lang.RuntimeException
+import kotlin.math.pow
 
 private val inputSampleA = """
 16
@@ -158,7 +159,9 @@ private val inputA = """
 fun main() {
     //println("Sample Input A: ${solutionA(inputSampleA)}")
     //println("Sample Input B: ${solutionA(inputSampleB)}")
-    println("Part A: ${solutionA(inputA)}")
+    //println("Part A: ${solutionA(inputA)}")
+    //println("Sample Input A: ${solutionB(inputSampleA)}")
+    println("Sample Input B: ${solutionB(inputSampleB)}")
     //println("Part B: ${solutionB(inputA)}")
 }
 
@@ -365,6 +368,30 @@ private fun solutionA(input: String): Any {
 private fun solutionB(input: String): Any {
     val rows = input.split('\n')
 
-    return input
+    val orderedJoltRatings = arrayListOf(0.0)
+    orderedJoltRatings.addAll(rows.map { adaptor ->
+        adaptor.toDouble()
+    }.sorted())
+
+    var count = 1.0
+    var i = 1
+    while (i < orderedJoltRatings.size - 2){
+        println("$i : ${orderedJoltRatings[i-1]} [${orderedJoltRatings[i]}] ${orderedJoltRatings[i+1]}")
+        var multiplier = 1
+        while ((i < orderedJoltRatings.size - 1) && (orderedJoltRatings[i] - orderedJoltRatings[i-1]) == (orderedJoltRatings[i+1] - orderedJoltRatings[i]) ){
+            println("$i : ${orderedJoltRatings[i-1]} [${orderedJoltRatings[i]}] ${orderedJoltRatings[i+1]}")
+            multiplier++
+            i++
+        }
+
+        //Looking for 19,208
+        if (multiplier > 1){
+            println("\t${multiplier}.  ${count}->${2.0.pow(multiplier-1)} (2^${multiplier-1})")
+            count *= 2.0.pow(multiplier-1)
+        }
+        i++
+    }
+
+    return count.toBigDecimal().toPlainString()
 }
 
