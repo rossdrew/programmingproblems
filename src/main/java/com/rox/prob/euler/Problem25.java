@@ -25,6 +25,8 @@ import java.math.BigDecimal;
  * The 12th term, F<sub>12</sub>, is the first term to contain three digits.
  *
  * What is the index of the first term in the Fibonacci sequence to contain 1000 digits?
+ *
+ * [Answer: 4782]
  */
 public class Problem25 implements NumericalProblem<BigDecimal> {
     @Override
@@ -32,8 +34,37 @@ public class Problem25 implements NumericalProblem<BigDecimal> {
         return solution(1000);
     }
 
-    public BigDecimal solution(int digits){
-        return BigDecimal.ZERO;
+    private class FibonacciState {
+        BigDecimal x;
+        BigDecimal y;
+        Long index = 2L;
+
+        FibonacciState(){
+            this(BigDecimal.ONE, BigDecimal.ONE);
+        }
+
+        FibonacciState(BigDecimal x, BigDecimal y){
+            this.x = x;
+            this.y = y;
+        }
+
+        FibonacciState next(){
+            FibonacciState fibonacciState = new FibonacciState(y, x.add(y));
+            fibonacciState.index = index + 1;
+            return fibonacciState;
+        }
     }
 
+    public BigDecimal solution(int digits){
+        FibonacciState f = new FibonacciState();
+        while(f.y.toString().length()<digits){
+            f = f.next();
+        }
+
+        return new BigDecimal(f.index);
+    }
+
+    public static void main(String[] args){
+        new Problem25().solution();
+    }
 }
