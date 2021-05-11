@@ -45,20 +45,54 @@ public class Problem24 implements NumericalProblem<BigDecimal> {
             final String permutation = Arrays.stream(collection).mapToObj(i -> ((Integer) i).toString()).collect(Collectors.joining());
             final ArrayList<String> permutations = new ArrayList<>();
             permutations.add(permutation);
+            System.out.println("\t+" + Arrays.toString(collection));
             return permutations;
         }
 
+        /***
+         * Trying to better understand the algoritm:
+         *
+         * 1. recurses-1 down to k==1 and adds permutation 0
+         * 	    +[1, 2, 3, 4, 5]
+         * 2. back up to k==2, create permutation 1
+         *      k:2 i:0 > [2, 1, 3, 4, 5]
+         * 3. recurses-2 down to k-1 (1), adds permutation 1
+         * 	    +[2, 1, 3, 4, 5]
+         * 4. back up to k==2, exit loop and falls out of recursive frame to k==3, create permutation 2
+         *      k:3 i:0 > [3, 1, 2, 4, 5]
+         * 5. recurses-2 down to k-1 (2), recurses-1 down to k-1 (1), adds permutation 2
+         * 	    +[3, 1, 2, 4, 5]
+         * 6. back up to k==2, create permutation 3
+         *      k:2 i:0 > [1, 3, 2, 4, 5]
+         * 7. recurses-2 down to k-1 (1), adds permutation 3
+         * 	    +[1, 3, 2, 4, 5]
+         * 8. back up to k==2, exit loop falls out of recursive frame to k==3, increment i and create permutation  4      *
+         *      k:3 i:1 > [2, 3, 1, 4, 5]
+         * 9. recurses-2 down to k-1 (2), recurses-1 down to k-1 (1), adds permutation 4
+         * 	    +[2, 3, 1, 4, 5]
+         *
+         * k:2 i:0 > [3, 2, 1, 4, 5]
+         * 	+[3, 2, 1, 4, 5]
+         * k:4 i:0 > [4, 2, 1, 3, 5]
+         * 	+[4, 2, 1, 3, 5]
+         */
+
         final List<String> permutations = heapsPermutations(k - 1, collection);
         for (int i=0; i<k-1; i++){
-            if (k%2==0){
-                swap(i, k-1, collection);
-            }else{
-                swap(0, k-1, collection);
-            }
+            swap(isEven(k) ? i : 0, k-1, collection);
+            System.out.println("k:" + k + " i:" + i + " > " + Arrays.toString(collection));
             permutations.addAll(heapsPermutations(k-1, collection));
         }
 
         return permutations;
+    }
+
+    public static void main(String[] args){
+        new Problem24().heapsPermutations(5, new int[] {1,2,3,4,5});
+    }
+
+    private boolean isEven(long n){
+        return (n & 1) == 0;
     }
 
     /**
