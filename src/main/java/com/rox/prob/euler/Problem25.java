@@ -63,8 +63,4 @@ public class Problem25 implements NumericalProblem<BigDecimal> {
 
         return new BigDecimal(f.index);
     }
-
-    public static void main(String[] args){
-        new Problem25().solution();
-    }
 }
