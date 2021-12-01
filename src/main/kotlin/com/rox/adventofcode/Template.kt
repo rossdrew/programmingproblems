@@ -1,10 +1,11 @@
 package com.rox.adventofcode
 
+import java.io.File
+
 private val inputSample = """
 """.trimIndent()
 
-private val inputA = """
-""".trimIndent()
+fun puzzleInputFromFile(fileName: String): String = File(fileName).readText(Charsets.UTF_8)
 
 fun main() {
     println("Sample Input: ${solutionA(inputSample)}")
