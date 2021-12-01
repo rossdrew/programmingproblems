@@ -85,7 +85,7 @@ private fun solutionA(input: String): Any {
     val numbers = input.split('\n').map { it.toInt() }
     var count = 0
     for (i in 1 until numbers.size) {
-        count = if (numbers[i] > numbers[i-1]) count+1 else count
+        if (numbers[i] > numbers[i-1]) count++
     }
 
     return count
@@ -140,7 +140,7 @@ private fun solutionB(input: String): Any {
         val plusplus = if (i+2 >= numbers.size) 0 else numbers [i+2]
         val a = numbers[i-1]+numbers[i]+plus
         val b = numbers[i]+plus+plusplus
-        count = if (a<b) count+1 else count
+        if (a<b) count++
     }
 
     return count
