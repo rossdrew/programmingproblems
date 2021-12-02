@@ -5,8 +5,6 @@ import java.io.File
 private val inputSample = """
 """.trimIndent()
 
-fun puzzleInputFromFile(fileName: String): String = File(fileName).readText(Charsets.UTF_8)
-
 fun main() {
     println("Sample Input: ${solutionA(inputSample)}")
     //println("Part A: ${solutionA(inputA)}")

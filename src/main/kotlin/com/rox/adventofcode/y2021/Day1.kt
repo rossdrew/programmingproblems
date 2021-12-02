@@ -1,6 +1,6 @@
 package com.rox.adventofcode.y2021
 
-import java.io.File
+import com.rox.adventofcode.puzzleInputFromFile
 
 private val inputSample = """
 199
@@ -14,8 +14,6 @@ private val inputSample = """
 260
 263
 """.trimIndent()
-
-fun puzzleInputFromFile(fileName: String): String = File(fileName).readText(Charsets.UTF_8)
 
 fun main() {
     println("Part A: ${solutionA(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2021/day1.input"))}")
