@@ -11,6 +11,9 @@ down 8
 forward 2
 """.trimIndent()
 
+data class Position(var x: Int = 0, var depth: Int = 0)
+data class TacticalPosition(var x: Int = 0, var depth: Int = 0, var aim: Int = 0)
+
 fun main() {
     println("Sample Input A: ${solutionA(inputSample)}")
     println("Sample Input B: ${solutionB(inputSample)}")
@@ -71,10 +74,6 @@ private fun solutionA(input: String): Any {
     return position.x * position.depth
 }
 
-data class Position(var x: Int = 0, var depth: Int = 0)
-
-data class TacticalPosition(var x: Int = 0, var depth: Int = 0, var aim: Int = 0)
-
 /**
  *--- Part Two ---
  * Based on your calculations, the planned course doesn't seem to make any sense. You find the
@@ -108,7 +107,7 @@ data class TacticalPosition(var x: Int = 0, var depth: Int = 0, var aim: Int = 0
  * would have after following the planned course. What do you get if you multiply your final horizontal
  * position by your final depth?
  *
- * Answer: ???
+ * Answer: 1282809906
  */
 private fun solutionB(input: String): Any {
     val rows = input.split('\n')
