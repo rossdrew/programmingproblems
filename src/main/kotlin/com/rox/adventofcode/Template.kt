@@ -1,7 +1,5 @@
 package com.rox.adventofcode
 
-import java.io.File
-
 private val inputSample = """
 """.trimIndent()
 
