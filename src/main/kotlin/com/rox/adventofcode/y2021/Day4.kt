@@ -1,6 +1,7 @@
 package com.rox.adventofcode.y2021
 
 import com.rox.adventofcode.puzzleInputFromFile
+import java.lang.RuntimeException
 
 private val inputSample = """
 7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8,19,3,26,1
@@ -25,9 +26,9 @@ private val inputSample = """
 """.trimIndent()
 
 fun main() {
-    println("Sample Input A: ${solutionA(inputSample)}")
-    println("Sample Input B: ${solutionB(inputSample)}")
-    println("Part A: ${solutionA(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2021/Day4.input"))}")
+    //println("Sample Input A: ${solutionA(inputSample)}")
+    //println("Sample Input B: ${solutionB(inputSample)}")
+    //println("Part A: ${solutionA(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2021/Day4.input"))}")
     println("Part B: ${solutionB(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2021/Day4.input"))}")
 }
 
@@ -166,8 +167,6 @@ data class BingoCard(val cardNumber: Int){
             row@ for (row in rows){
                 if (row[col] != -1){
                     continue@col
-                }else{
-
                 }
             }
             return true
@@ -228,17 +227,22 @@ private fun solutionB(input: String): Any {
     players.add(player)
 
     //for each number, do any players have a complete rows or column
-    var playersRemaining = players.size
+    var eliminatedPlayers = mutableSetOf<BingoCard>()
+
     for (draw in draws){
-        for (player in players){
-            if (player.mark(draw)){
+        for (currentPlayer in players){
+            if (!(eliminatedPlayers.contains(currentPlayer)) && currentPlayer.mark(draw)){
                 //When a winner is found, what is the sum of the last drawn number and all remaining numbers on the winners board )
-                if (--playersRemaining == 0)
-                    return player.count() * draw
+                if (players.size - eliminatedPlayers.size == 1) {
+                    return currentPlayer.count() * draw
+                }else{
+                    eliminatedPlayers.add(currentPlayer)
+                }
             }
         }
+
     }
 
-    return input
+    throw RuntimeException("Unexpected fallthrough, no completion condition exists")
 }
 
