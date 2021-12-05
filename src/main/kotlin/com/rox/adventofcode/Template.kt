@@ -4,9 +4,10 @@ private val inputSample = """
 """.trimIndent()
 
 fun main() {
-    println("Sample Input: ${solutionA(inputSample)}")
-    //println("Part A: ${solutionA(inputA)}")
-    //println("Part B: ${solutionB(inputA)}")
+    println("Sample Input A: ${solutionA(inputSample)}")
+    //println("Sample Input B: ${solutionB(inputSample)}")
+    //println("Part A: ${solutionA(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2021/DayX.input"))}")
+    //println("Part B: ${com.rox.adventofcode.y2021.solutionB(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2021/DayX.input"))}")
 }
 
 /**
