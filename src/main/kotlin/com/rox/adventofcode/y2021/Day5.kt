@@ -80,14 +80,16 @@ private fun solutionA(input: String): Any {
     var grid = mutableMapOf<Coord, Int>()
 
     rows.map { r ->
-        val c = r.split(" -> ")
-        val left = c[0].split(",")
-        val right = c[1].split(",")
-        val a = Coord(left[0].toInt(), left[1].toInt())
-        val b = Coord(right[0].toInt(), right[1].toInt())
+        val statement = r.split(" -> ")
+
+        val lhs = statement[0].split(",")
+        val rhs = statement[1].split(",")
+
+        val start = Coord(lhs[0].toInt(), lhs[1].toInt())
+        val end = Coord(rhs[0].toInt(), rhs[1].toInt())
 
         //Pairs of Coords
-        Pair(a,b)
+        Pair(start, end)
     }.filter { p ->
         //Only the vertical and horizontal lines
         p.first.x == p.second.x || p.first.y == p.second.y
@@ -154,20 +156,16 @@ private fun solutionB(input: String): Any {
     var grid = mutableMapOf<Coord, Int>()
 
     rows.map { r ->
-        val c = r.split(" -> ")
-        val left = c[0].split(",")
-        val right = c[1].split(",")
-        val a = Coord(left[0].toInt(), left[1].toInt())
-        val b = Coord(right[0].toInt(), right[1].toInt())
+        val statement = r.split(" -> ")
+
+        val lhs = statement[0].split(",")
+        val rhs = statement[1].split(",")
+
+        val start = Coord(lhs[0].toInt(), lhs[1].toInt())
+        val end = Coord(rhs[0].toInt(), rhs[1].toInt())
 
         //Pairs of Coords
-        Pair(a,b)
-    }.map { p ->
-        //Put in ascending order
-        if (p.second.x < p.first.x || p.second.y < p.first.y)
-            Pair(p.second, p.first)
-        else
-            p
+        Pair(start,end)
     }.map { p ->
         //Build grid
         val a = p.first
@@ -177,11 +175,11 @@ private fun solutionB(input: String): Any {
         val sY = if (a.y == b.y) generateSequence (a.y) { it }.take(abs(a.x-b.x)+1) else (a.y towards b.y).asSequence()
 
         sY.zip(sX).forEach { pair ->
-            println("${pair.first}x${pair.second}")
             val currentCoord = Coord(pair.first,pair.second)
             val oldValue = grid.getOrDefault(currentCoord, 0)
             grid[currentCoord] = oldValue+1
         }
+        sY.zip(sX)
     }
 
     return grid.filter { e ->
