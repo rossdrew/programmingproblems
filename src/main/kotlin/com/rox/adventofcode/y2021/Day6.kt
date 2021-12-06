@@ -149,12 +149,10 @@ class Lanternfish{
 private fun solutionB(input: String): Any {
     val rows = input.split('\n')
 
-    var startingFishStates = rows[0].split(",").map { fishDefinition ->
-        fishDefinition.toInt()
-    }.toList()
-
     var allTheFishAsNothingButANumber = LongArray(size = 9)
-    startingFishStates.forEach { f ->
+    rows[0].split(",").map { fishDefinition ->
+        fishDefinition.toInt()
+    }.forEach { f ->
         allTheFishAsNothingButANumber[f]++
     }
 
