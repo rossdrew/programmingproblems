@@ -125,7 +125,7 @@ private fun solutionB(input: String): Any {
         val convergenceMagnitude = crabHPositions
             .filter { pos -> pos != potentialFinalPosition }
             .map { pos -> abs(potentialFinalPosition-pos) }
-            .map { v -> (1..v).sum() } //Expand
+            .map { v -> v*(v+1)/2 } //Expand
             .sum()
         lowestConvergenceMagnitude = lowestConvergenceMagnitude.coerceAtMost(convergenceMagnitude)
     }
