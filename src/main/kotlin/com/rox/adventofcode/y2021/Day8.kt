@@ -27,31 +27,7 @@ fun main() {
     println("Sample Input B1: ${solutionB(inputSample1)}")
     println("Sample Input B2: ${solutionB(inputSample2)}")
     println("Part A: ${solutionA(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2021/day8.input"))}")
-    println("Part B: ${com.rox.adventofcode.y2021.solutionB(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2021/day8.input"))}")
-}
-
-val segments = mapOf(
-    0 to "abcefg",
-    1 to "cf",
-    2 to "acdeg",
-    3 to "acdfg",
-    4 to "bcdf",
-    5 to "abdfg",
-    6 to "abdefg",
-    7 to "acf",
-    8 to "absdefg",
-    9 to "absdfg"
-)
-
-fun segmentWithLength(segmentCount: Int): String{
-    when (segmentCount) {
-        2 -> return segments[1] as String
-        3 -> return segments[7] as String
-        4 -> return segments[4] as String
-        5,6 -> throw RuntimeException("Multiple options exist")
-        7 -> return segments[8] as String
-    }
-    throw RuntimeException("No option with this segment count")
+    println("Part B: ${solutionB(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2021/day8.input"))}")
 }
 
 /**
