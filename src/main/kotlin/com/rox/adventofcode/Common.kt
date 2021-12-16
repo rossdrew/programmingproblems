@@ -11,3 +11,12 @@ fun <TypeA, TypeB> cartesianProduct(A: Collection<TypeA>, B: Collection<TypeB>):
             }
     }
 }
+
+fun parseGrid(rows: List<String>): Array<IntArray>{
+    val grid = Array(rows.size) { IntArray(rows[0].length) }
+    for (rowIndex in rows.indices){
+        grid[rowIndex] = rows[rowIndex].toCharArray().map { c -> "$c".toInt() }.toIntArray()
+    }
+    return grid
+}
+

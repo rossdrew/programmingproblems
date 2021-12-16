@@ -20,7 +20,7 @@ private val inputSample = """
 
 fun main() {
     println("Sample Input A: ${solutionA(inputSample)}")
-    //println("Sample Input B: ${solutionB(inputSample)}")
+    println("Sample Input B: ${solutionB(inputSample)}")
     println("Part A: ${solutionA(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2021/day10.input"))}")
     println("Part B: ${solutionB(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2021/day10.input"))}")
 }

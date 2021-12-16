@@ -1,6 +1,7 @@
 package com.rox.adventofcode.y2021
 
 import com.rox.adventofcode.cartesianProduct
+import com.rox.adventofcode.parseGrid
 import com.rox.adventofcode.puzzleInputFromFile
 
 private val inputSample = """
@@ -144,12 +145,7 @@ private fun lowestPoints(heightmap: Array<IntArray>): List<Pair<Int, Int>> {
  */
 private fun solutionB(input: String): Any {
     val rows = input.split('\n')
-
-    val heightmap = Array(rows.size) { IntArray(rows[0].length) }
-
-    for (rowIndex in rows.indices){
-        heightmap[rowIndex] = rows[rowIndex].toCharArray().map { c -> "$c".toInt() }.toIntArray()
-    }
+    val heightmap = parseGrid(rows)
 
     return lowestPoints(heightmap)
         .map { lowestPoint -> mapBasin(lowestPoint, heightmap) }
