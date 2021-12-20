@@ -20,3 +20,11 @@ fun parseGrid(rows: List<String>): Array<IntArray>{
     return grid
 }
 
+
+fun parseGrid(rows: List<String>, conversionFunction: (input: String) -> Int): Array<IntArray>{
+    val grid = Array(rows.size) { IntArray(rows[0].length) }
+    for (rowIndex in rows.indices){
+        grid[rowIndex] = rows[rowIndex].toCharArray().map { c -> conversionFunction("$c") }.toIntArray()
+    }
+    return grid
+}
