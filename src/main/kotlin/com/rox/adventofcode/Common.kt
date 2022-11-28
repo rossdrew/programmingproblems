@@ -28,3 +28,15 @@ fun parseGrid(rows: List<String>, conversionFunction: (input: String) -> Int): A
     }
     return grid
 }
+
+/**
+ * Yield the elements of this list infinitely
+ */
+fun <T> List<T>.infiniteSequence(): Sequence<T> = sequence {
+    if (this@infiniteSequence.isEmpty()) {
+        return@sequence
+    }
+    while (true) {
+        yieldAll(this@infiniteSequence)
+    }
+}

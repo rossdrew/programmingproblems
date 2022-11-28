@@ -1,5 +1,6 @@
 package com.rox.adventofcode.y2018
 
+import com.rox.adventofcode.infiniteSequence
 import java.lang.RuntimeException
 
 private val inputA = """
@@ -1096,16 +1097,4 @@ private fun solutionB(input : String) : Any {
     }
 
     throw RuntimeException("Non repeating frequency")
-}
-
-/**
- * Yield the elements of this list infinitely
- */
-fun <T> List<T>.infiniteSequence(): Sequence<T> = sequence {
-    if (this@infiniteSequence.isEmpty()) {
-        return@sequence
-    }
-    while (true) {
-        yieldAll(this@infiniteSequence)
-    }
 }
