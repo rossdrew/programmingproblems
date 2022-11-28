@@ -19,9 +19,9 @@ R2, R2, R2
 """.trimIndent()
 
 fun main() {
-    println("Sample Input A: ${solutionA(inputSampleA)}")
-    println("Sample Input B: ${solutionA(inputSampleB)}")
-    println("Sample Input C: ${solutionA(inputSampleC)}")
+    //println("Sample Input A: ${solutionA(inputSampleA)}")
+    //println("Sample Input B: ${solutionA(inputSampleB)}")
+    //println("Sample Input C: ${solutionA(inputSampleC)}")
     println("Part A: ${solutionA(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2016/day1.input"))}")
     //println("Part B: ${com.rox.adventofcode.y2021.solutionB(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2022/day1.input"))}")
 }
@@ -62,13 +62,11 @@ private fun solutionA(input: String): Any {
 
     val directions = rows[0].split(", ")
     val startState = DirectionalCoord(SimpleCoord(0, 0), NORTH)
-
     //println("${directions.size} steps...")
 
     val finalState = directions.fold(startState, { state, nextDirection ->
-        //println("@ (${state.location.x},${state.location.y}) facing ${state.direction}. NEXT: $nextDirection")
-        val steps = Integer.parseInt(nextDirection[1].toString())
-        //println("turning ${parseDirection(nextDirection[0], state.direction)} for $steps...")
+        val steps = Integer.parseInt(nextDirection.substring(1))
+        //println("\t @ (${state.location.x},${state.location.y}) facing ${state.direction}. ($nextDirection) Turning ${parseDirection(nextDirection[0], state.direction)} for $steps...")
 
         when (parseDirection(nextDirection[0], state.direction)) {
             NORTH -> DirectionalCoord(SimpleCoord(state.location.x, state.location.y - steps), NORTH)
@@ -78,7 +76,7 @@ private fun solutionA(input: String): Any {
         }
     })
 
-    println("\t Ended @ (${finalState.location.x},${finalState.location.y}) facing ${finalState.direction}. Distance = ${manhattanDistance(startState.location, finalState.location)}")
+    //println("\t Ended @ (${finalState.location.x},${finalState.location.y}) facing ${finalState.direction}. Distance = ${manhattanDistance(startState.location, finalState.location)}")
     return manhattanDistance(startState.location, finalState.location)
 }
 

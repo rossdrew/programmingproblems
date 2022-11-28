@@ -47,6 +47,13 @@ fun <T> List<T>.infiniteSequence(): Sequence<T> = sequence {
  */
 data class SimpleCoord(val x: Int, val y: Int)
 
+//TODO Add SimpleCoord transformers?
+enum class CardinalDirection {
+    NORTH, SOUTH, WEST, EAST
+}
+
+data class DirectionalCoord(val location: SimpleCoord, val direction: CardinalDirection)
+
 /**
  * Calculate the manhattan distance between two {@link Coord}s
  */
