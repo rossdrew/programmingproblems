@@ -1,5 +1,8 @@
 package com.rox.adventofcode.y2020
 
+import com.rox.adventofcode.parseMap
+import java.util.stream.Collectors.toMap
+
 private val inputSample = """
 ecl:gry pid:860033327 eyr:2020 hcl:#fffffd
 byr:1937 iyr:2017 cid:147 hgt:183cm
@@ -1285,7 +1288,7 @@ private fun solutionA(input: String): Any {
     val iter = rows.iterator()
     while (iter.hasNext()){
         val passportData = combinePassportLines(iter)
-        val passportKeyMap = toMap(passportData)
+        val passportKeyMap = parseMap(passportData)
 
         if (requiredPassportEntryKeys.all { passportKeyMap.containsKey(it) }){
             count++
@@ -1376,7 +1379,7 @@ private fun solutionB(input: String): Any {
     val iter = rows.iterator()
     while (iter.hasNext()){
         val passportData = combinePassportLines(iter)
-        val passportKeyMap = toMap(passportData)
+        val passportKeyMap = parseMap(passportData)
 
         if (requiredPassportEntryKeys.all { key ->
             passportKeyMap.containsKey(key) && entryIsTypeBValid(key, passportKeyMap)
@@ -1399,20 +1402,6 @@ private fun combinePassportLines(iterator: Iterator<String>) :String{
         passportData += " $nextLine"
     }
     return passportData
-}
-
-/**
- * Translate string of key value pairs into a map
- */
-private fun toMap(passportData: String): Map<String, String> {
-    return passportData
-            .split(' ')
-            .filter { it.isNotBlank() }
-            .map { entry ->
-                with(entry.split(":")) {
-                    this[0] to this[1]
-                }
-            }.toMap()
 }
 
 /**

@@ -1,5 +1,6 @@
 package com.rox.adventofcode.y2021
 
+import com.rox.adventofcode.SimpleCoord
 import com.rox.adventofcode.puzzleInputFromFile
 import java.lang.RuntimeException
 import kotlin.math.abs
@@ -77,7 +78,7 @@ fun main() {
 private fun solutionA(input: String): Any {
     val rows = input.split('\n')
 
-    var grid = mutableMapOf<Coord, Int>()
+    var grid = mutableMapOf<SimpleCoord, Int>()
 
     rows.map { r ->
         val statement = r.split(" -> ")
@@ -85,8 +86,8 @@ private fun solutionA(input: String): Any {
         val lhs = statement[0].split(",")
         val rhs = statement[1].split(",")
 
-        val start = Coord(lhs[0].toInt(), lhs[1].toInt())
-        val end = Coord(rhs[0].toInt(), rhs[1].toInt())
+        val start = SimpleCoord(lhs[0].toInt(), lhs[1].toInt())
+        val end = SimpleCoord(rhs[0].toInt(), rhs[1].toInt())
 
         //Pairs of Coords
         Pair(start, end)
@@ -106,7 +107,7 @@ private fun solutionA(input: String): Any {
 
         for (x in a.x .. b.x ){
             for (y in a.y .. b.y ){
-                val currentCoord = Coord(x,y)
+                val currentCoord = SimpleCoord(x,y)
                 val oldValue = grid.getOrDefault(currentCoord, 0)
                 grid[currentCoord] = oldValue+1
             }
@@ -117,8 +118,6 @@ private fun solutionA(input: String): Any {
         e.value > 1
     }.count()
 }
-
-data class Coord(val x: Int, val y: Int)
 
 /**
  *
@@ -153,7 +152,7 @@ data class Coord(val x: Int, val y: Int)
 private fun solutionB(input: String): Any {
     val rows = input.split('\n')
 
-    var grid = mutableMapOf<Coord, Int>()
+    var grid = mutableMapOf<SimpleCoord, Int>()
 
     rows.map { r ->
         val statement = r.split(" -> ")
@@ -161,8 +160,8 @@ private fun solutionB(input: String): Any {
         val lhs = statement[0].split(",")
         val rhs = statement[1].split(",")
 
-        val start = Coord(lhs[0].toInt(), lhs[1].toInt())
-        val end = Coord(rhs[0].toInt(), rhs[1].toInt())
+        val start = SimpleCoord(lhs[0].toInt(), lhs[1].toInt())
+        val end = SimpleCoord(rhs[0].toInt(), rhs[1].toInt())
 
         //Pairs of Coords
         Pair(start,end)
@@ -175,7 +174,7 @@ private fun solutionB(input: String): Any {
         val sY = if (a.y == b.y) generateSequence (a.y) { it }.take(abs(a.x-b.x)+1) else (a.y towards b.y).asSequence()
 
         sY.zip(sX).forEach { pair ->
-            val currentCoord = Coord(pair.first,pair.second)
+            val currentCoord = SimpleCoord(pair.first,pair.second)
             val oldValue = grid.getOrDefault(currentCoord, 0)
             grid[currentCoord] = oldValue+1
         }
@@ -188,7 +187,6 @@ private fun solutionB(input: String): Any {
 }
 
 private infix fun Int.towards(to: Int): IntProgression {
-
     return IntProgression.fromClosedRange(this, to, getStep(this, to))
 }
 

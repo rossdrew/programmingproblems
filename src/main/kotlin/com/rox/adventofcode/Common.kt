@@ -1,6 +1,7 @@
 package com.rox.adventofcode
 
 import java.io.File
+import kotlin.math.abs
 
 fun puzzleInputFromFile(fileName: String): String = File(fileName).readText(Charsets.UTF_8)
 
@@ -39,4 +40,38 @@ fun <T> List<T>.infiniteSequence(): Sequence<T> = sequence {
     while (true) {
         yieldAll(this@infiniteSequence)
     }
+}
+
+/**
+ * A Co-ordinate on a Cartesian plane
+ */
+data class SimpleCoord(val x: Int, val y: Int)
+
+/**
+ * Calculate the manhattan distance between two {@link Coord}s
+ */
+fun manhattanDistance(pointA: SimpleCoord, pointB: SimpleCoord): Int {
+    val deltaX = (pointA.x - pointB.x)
+    val deltaY = (pointA.y - pointB.y)
+
+    return abs(deltaX) + abs(deltaY)
+}
+
+/**
+ * Translate string of key value pairs into a map that is
+ *
+ * KeyA <i>entryDelimiter</i> ValueA <i>pairDelimiter</i> KeyB <i>entryDelimiter</i> ValueB
+ * becomes [KeyA:ValueA, KeyB:ValueB]
+ */
+fun parseMap(passportData: String,
+                  entryDelimiter: String = " ",
+                  pairDelimiter: String = ":"): Map<String, String> {
+    return passportData
+        .split(entryDelimiter)
+        .filter { it.isNotBlank() }
+        .map { entry ->
+            with(entry.split(pairDelimiter)) {
+                this[0] to this[1]
+            }
+        }.toMap()
 }

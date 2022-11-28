@@ -1,7 +1,7 @@
 package com.rox.adventofcode.y2019
 
-import com.rox.adventofcode.y2018.Coordinate
-import kotlin.math.abs
+import com.rox.adventofcode.SimpleCoord
+import com.rox.adventofcode.manhattanDistance
 
 private val testInputA = """R8,U5,L5,D3
 U7,R6,D4,L4"""
@@ -61,7 +61,7 @@ fun main(args: Array<String>) {
 private fun solutionA(input : String) : Int? {
     val wires = input.split('\n').map { it }
 
-    val centralPortLocation = Coord(1000,1000)
+    val centralPortLocation = SimpleCoord(1000,1000)
 
     val wireAInstructions = wires[0].split(',').map { it }
     val wireBInstructions = wires[1].split(',').map { it }
@@ -76,19 +76,12 @@ private fun solutionA(input : String) : Int? {
     return intersectingPoints.map { manhattanDistance(it, centralPortLocation) }.min()
 }
 
-private fun manhattanDistance(pointA: Coord, pointB: Coord): Int {
-    val deltaX = (pointA.x - pointB.x)
-    val deltaY = (pointA.y - pointB.y)
-
-    return abs(deltaX) + abs(deltaY)
-}
-
 /**
  * Trace the list of instructions and return a list of locations that the wire occupies
  */
-private fun trace(startingLocation: Coord, instructions: List<String>): List<Coord>{
+private fun trace(startingLocation: SimpleCoord, instructions: List<String>): List<SimpleCoord>{
     var location = startingLocation
-    var locations = emptyList<Coord>().toMutableList()
+    var locations = emptyList<SimpleCoord>().toMutableList()
     locations.add(location)
     for (step in instructions.indices){
         val extrapolated = extrapolate(location, instructions[step])
@@ -98,16 +91,16 @@ private fun trace(startingLocation: Coord, instructions: List<String>): List<Coo
     return locations
 }
 
-private fun extrapolate(location: Coord, instruction: String) : List<Coord>{
+private fun extrapolate(location: SimpleCoord, instruction: String) : List<SimpleCoord>{
     //println("Instruction: $instruction")
     val direction = instruction.substring(0, 1)
     val velocity = instruction.substring(1).toInt()
 
     return when (direction) {
-        "U" -> expand(location, {Coord(it.x, it.y+1)}, velocity)
-        "D" -> expand(location, {Coord(it.x, it.y-1)}, velocity)
-        "L" -> expand(location, {Coord(it.x-1, it.y)}, velocity)
-        "R" -> expand(location, {Coord(it.x+1, it.y)}, velocity)
+        "U" -> expand(location, {SimpleCoord(it.x, it.y+1)}, velocity)
+        "D" -> expand(location, {SimpleCoord(it.x, it.y-1)}, velocity)
+        "L" -> expand(location, {SimpleCoord(it.x-1, it.y)}, velocity)
+        "R" -> expand(location, {SimpleCoord(it.x+1, it.y)}, velocity)
         else -> throw RuntimeException("Unknown command!")
     }
 }
@@ -115,11 +108,11 @@ private fun extrapolate(location: Coord, instruction: String) : List<Coord>{
 /**
  * Create a list of coords expanded from startLocation, given a direction and number of steps in that direction
  */
-private fun expand(startLocation: Coord,
-                   operation: (l: Coord) -> Coord,
-                   steps: Int): List<Coord>{
+private fun expand(startLocation: SimpleCoord,
+                   operation: (l: SimpleCoord) -> SimpleCoord,
+                   steps: Int): List<SimpleCoord>{
     var location = startLocation
-    var locations = emptyList<Coord>().toMutableList()
+    var locations = emptyList<SimpleCoord>().toMutableList()
 
     repeat(steps) {
         location = operation(location)
@@ -171,14 +164,14 @@ private fun expand(startLocation: Coord,
 private fun solutionB(input : String) : Int? {
     val wires = input.split('\n').map { it }
 
-    val centralPortLocation = Coord(1000,1000)
+    val centralPortLocation = SimpleCoord(1000,1000)
 
     val wireAInstructions = wires[0].split(',').map { it }
     val wireBInstructions = wires[1].split(',').map { it }
 
     //Trace needs to populate locations with steps data
     //This method wont work if an intersection is hit more than once by either' node
-    val costMap: MutableMap<Coord, Int> = mutableMapOf()
+    val costMap: MutableMap<SimpleCoord, Int> = mutableMapOf()
 
     val wireALocations = costedTrace(centralPortLocation, wireAInstructions, costMap)
     val wireBLocations = costedTrace(centralPortLocation, wireBInstructions, costMap)
@@ -191,18 +184,13 @@ private fun solutionB(input : String) : Int? {
 }
 
 /**
- * A Co-ordinate on a Cartesian plane
- */
-private data class Coord(val x: Int, val y: Int)
-
-/**
  * Trace the list of instructions and return a list of locations that the wire occupies
  */
-private fun costedTrace(startingLocation: Coord,
+private fun costedTrace(startingLocation: SimpleCoord,
                         instructions: List<String>,
-                        costMap: MutableMap<Coord, Int>): List<Coord>{
+                        costMap: MutableMap<SimpleCoord, Int>): List<SimpleCoord>{
     var location = startingLocation
-    var locations = emptyList<Coord>().toMutableList()
+    var locations = emptyList<SimpleCoord>().toMutableList()
     locations.add(location)
     for (step in instructions.indices){
         val extrapolated = costedExtrapolate(location, instructions[step], costMap, locations.size)
@@ -212,19 +200,19 @@ private fun costedTrace(startingLocation: Coord,
     return locations
 }
 
-private fun costedExtrapolate(location: Coord,
+private fun costedExtrapolate(location: SimpleCoord,
                               instruction: String,
-                              costMap: MutableMap<Coord, Int>,
-                              stepsTaken: Int) : List<Coord>{
+                              costMap: MutableMap<SimpleCoord, Int>,
+                              stepsTaken: Int) : List<SimpleCoord>{
     //println("Instruction: $instruction")
     val direction = instruction.substring(0, 1)
     val velocity = instruction.substring(1).toInt()
 
     return when (direction) {
-        "U" -> costedExpand(location, stepsTaken, {Coord(it.x, it.y+1)}, velocity, costMap)
-        "D" -> costedExpand(location, stepsTaken, {Coord(it.x, it.y-1)}, velocity, costMap)
-        "L" -> costedExpand(location, stepsTaken, {Coord(it.x-1, it.y)}, velocity, costMap)
-        "R" -> costedExpand(location, stepsTaken, {Coord(it.x+1, it.y)}, velocity, costMap)
+        "U" -> costedExpand(location, stepsTaken, {SimpleCoord(it.x, it.y+1)}, velocity, costMap)
+        "D" -> costedExpand(location, stepsTaken, {SimpleCoord(it.x, it.y-1)}, velocity, costMap)
+        "L" -> costedExpand(location, stepsTaken, {SimpleCoord(it.x-1, it.y)}, velocity, costMap)
+        "R" -> costedExpand(location, stepsTaken, {SimpleCoord(it.x+1, it.y)}, velocity, costMap)
         else -> throw RuntimeException("Unknown command!")
     }
 }
@@ -232,13 +220,13 @@ private fun costedExtrapolate(location: Coord,
 /**
  * Create a list of coords expanded from startLocation, given a direction and number of steps in that direction
  */
-private fun costedExpand(startLocation: Coord,
+private fun costedExpand(startLocation: SimpleCoord,
                          stepsTaken: Int,
-                         operation: (l: Coord) -> Coord,
+                         operation: (l: SimpleCoord) -> SimpleCoord,
                          steps: Int,
-                         costMap: MutableMap<Coord, Int>): List<Coord>{
+                         costMap: MutableMap<SimpleCoord, Int>): List<SimpleCoord>{
     var location = startLocation
-    var locations = emptyList<Coord>().toMutableList()
+    var locations = emptyList<SimpleCoord>().toMutableList()
 
     //XXX Can this can become a map with accumulator?
     for (step in 0 until steps){
