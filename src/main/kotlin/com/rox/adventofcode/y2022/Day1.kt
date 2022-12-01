@@ -107,7 +107,7 @@ private fun solutionB(input: String): Any {
 }
 
 /**
- * An alternative approach with intermediates
+ * An alternative approach without intermediates
  */
 fun alternative(input: String, topN: Int): Int {
     return input
