@@ -80,24 +80,9 @@ fun main() {
  */
 private fun solutionA(input: String): Int? {
     val rows = input.split('\n')
-
-    val elfs = mutableListOf<Elf>()
-    var foodStack = mutableListOf<Int>()
-    for (rowIndex in rows.indices){
-       if (rows[rowIndex].isEmpty()){
-           elfs.add(Elf(foodStack))
-           foodStack = mutableListOf()
-       }else{
-           foodStack.add(Integer.parseInt(rows[rowIndex]))
-       }
-    }
-    elfs.add(Elf(foodStack))
-
+    val elfs = extractElves(rows)
     return elfs.map { elf -> elf.food.sum() }.max()
 }
-
-/** An elf carrying a stack of food */
-data class Elf(val food: List<Int>)
 
 /**
  * --- Part Two ---
@@ -117,7 +102,11 @@ data class Elf(val food: List<Int>)
  */
 private fun solutionB(input: String): Any {
     val rows = input.split('\n')
+    val elfs = extractElves(rows)
+    return elfs.map { elf -> elf.food.sum() }.sorted().reversed().take(3).sum()
+}
 
+fun extractElves(rows: List<String>): List<Elf> {
     val elfs = mutableListOf<Elf>()
     var foodStack = mutableListOf<Int>()
     for (rowIndex in rows.indices){
@@ -129,7 +118,8 @@ private fun solutionB(input: String): Any {
         }
     }
     elfs.add(Elf(foodStack))
-
-    return elfs.map { elf -> elf.food.sum() }.sorted().reversed().take(3).sum()
+    return elfs
 }
 
+/** An elf carrying a stack of food */
+data class Elf(val food: List<Int>)
