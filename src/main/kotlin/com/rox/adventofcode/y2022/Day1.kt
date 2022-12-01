@@ -106,6 +106,21 @@ private fun solutionB(input: String): Any {
     return elfs.map { elf -> elf.food.sum() }.sorted().reversed().take(3).sum()
 }
 
+/**
+ * An alternative approach with intermediates
+ */
+fun alternative(input: String, topN: Int): Int {
+    return input
+        .split("\n\n")
+        .map { elf -> elf
+            .split("\n")
+            .map { food -> food.toInt() }
+            .sum() }
+        .sorted()
+        .takeLast(topN)
+        .sum()
+}
+
 fun extractElfs(rows: List<String>): List<Elf> {
     val elfs = mutableListOf<Elf>()
     var foodStack = mutableListOf<Int>()
