@@ -80,7 +80,7 @@ fun main() {
  */
 private fun solutionA(input: String): Int? {
     val rows = input.split('\n')
-    val elfs = extractElves(rows)
+    val elfs = extractElfs(rows)
     return elfs.map { elf -> elf.food.sum() }.max()
 }
 
@@ -102,11 +102,11 @@ private fun solutionA(input: String): Int? {
  */
 private fun solutionB(input: String): Any {
     val rows = input.split('\n')
-    val elfs = extractElves(rows)
+    val elfs = extractElfs(rows)
     return elfs.map { elf -> elf.food.sum() }.sorted().reversed().take(3).sum()
 }
 
-fun extractElves(rows: List<String>): List<Elf> {
+fun extractElfs(rows: List<String>): List<Elf> {
     val elfs = mutableListOf<Elf>()
     var foodStack = mutableListOf<Int>()
     for (rowIndex in rows.indices){
