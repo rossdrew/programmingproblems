@@ -22,8 +22,8 @@ private val inputSample = """
 fun main() {
     println("Sample Input A: ${solutionA(inputSample)}")
     println("Sample Input B: ${solutionB(inputSample)}")
-    println("Part A: ${com.rox.adventofcode.y2022.solutionA(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2022/day1.input"))}")
-    println("Part B: ${com.rox.adventofcode.y2022.solutionB(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2022/day1.input"))}")
+    println("Part A: ${solutionA(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2022/day1.input"))}")
+    println("Part B: ${solutionB(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2022/day1.input"))}")
 }
 
 /**
@@ -130,7 +130,6 @@ private fun solutionB(input: String): Any {
     }
     elfs.add(Elf(foodStack))
 
-    val sorted = elfs.map { elf -> elf.food.sum() }.sorted().reversed()
-    return (0..2).map { i -> sorted[i] }.sum()
+    return elfs.map { elf -> elf.food.sum() }.sorted().reversed().take(3).sum()
 }
 
