@@ -87,7 +87,7 @@ private fun solutionA(input: String): Any {
  * Following the Elf's instructions for the second column, what would your total score be if everything goes exactly
  * according to your strategy guide?
  *
- * Answer: ???
+ * Answer: 14416
  */
 private fun solutionB(input: String): Any {
     val rows = input.split('\n')
@@ -123,9 +123,43 @@ fun calculateResultB(row: String): Int {
     return player2.rank + intendedResult.points
 }
 
+typealias Round = Pair<Hand,Hand>
+
+/**
+ * Refactor (WIP)
+ *
+ * Feels like this could be done with a map and some filtering like this.
+ */
+class RockPaperScissorsSolutionFinder {
+    val resultMap = mutableMapOf(
+        Pair(ROCK,ROCK) to DRAW,
+        Pair(PAPER,PAPER) to DRAW,
+        Pair(SCISSORS,SCISSORS) to DRAW,
+
+        Pair(ROCK,PAPER) to LOSE,
+        Pair(PAPER,SCISSORS) to LOSE,
+        Pair(SCISSORS,ROCK) to LOSE,
+
+        Pair(ROCK,SCISSORS) to WIN,
+        Pair(PAPER,ROCK) to WIN,
+        Pair(SCISSORS,PAPER) to WIN
+    )
+
+    /** Problem 1 **/
+    fun getOutcome(playerOneHand: Hand, playerTwoHand: Hand): Outcome {
+        return resultMap[Pair(playerOneHand, playerTwoHand)] as Outcome
+    }
+
+    /** Problem 2 **/
+    fun getHandForDesiredOutcome(playerOneHand: Hand, desiredOutcome: Outcome): Hand {
+        return resultMap.filter { e -> e.key.first == playerOneHand && e.value == desiredOutcome }.map { e -> e.key.second }[0]
+    }
+}
+
 fun calculateResultA(hands: List<Hand>): Int {
     val player1 = hands[0]
     val player2 = hands[1]
+
     val result = when (player1){
         ROCK -> {
             when (player2) {
