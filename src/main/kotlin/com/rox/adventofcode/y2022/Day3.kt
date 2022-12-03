@@ -124,14 +124,23 @@ private fun solutionB(input: String): Any {
     val rows = input.split('\n')
 
     var sum = 0
-    for (i in 0 .. (rows.size - 3) step 3){
+    var groupSize = 3
+    for (i in 0 .. (rows.size - 3) step groupSize){
         val a = rows[i].toSet()
         val b = rows[i+1].toSet()
         val c = rows[i+2].toSet()
 
+
         val intersection = a.intersect(b).intersect(c)
         sum += priorities[intersection.first()] as Int
     }
+
+    //The duplication here could probably be exchange for a reduce
+    val alternative = rows
+        .chunked(3)
+        .map { group -> priorities[group[0].toSet()
+            .intersect(group[1].toSet())
+            .intersect(group[2].toSet()).first()] as Int }.sum()
 
     return sum
 }
