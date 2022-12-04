@@ -14,8 +14,8 @@ private val inputSample = """
 """.trimIndent()
 
 fun main() {
-    //println("Sample Input A: ${solutionA(inputSample)}")
-    //println("Sample Input B: ${solutionB(inputSample)}")
+    println("Sample Input A: ${solutionA(inputSample)}")
+    println("Sample Input B: ${solutionB(inputSample)}")
     println("Part A: ${solutionA(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2022/Day4.input"))}")
     println("Part B: ${solutionB(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2022/Day4.input"))}")
 }
@@ -27,20 +27,12 @@ fun main() {
  */
 private fun solutionA(input: String): Any {
     val rows = input.split('\n')
-
-    val matches = rows.map { row ->
-        val pair = row.split(",")
-        val map = pair.map { elf -> elf.split("-") }.map { indices -> (indices[0]..indices[1])  }
-
-        val elfA = pair[0].split("-").map { i -> i.toInt() }
-        val elfB = pair[1].split("-").map { i -> i.toInt() }
-        if (aContainsB(elfA,elfB) || aContainsB(elfB,elfA)) 1 else 0
-    }
-
-    return matches.sum()
+    return extractData(rows)
+        .filter { elfs -> aContainsB(elfs.first, elfs.second) || aContainsB(elfs.second, elfs.first) }
+        .count()
 }
 
-fun aContainsB(a: List<Int>, b: List<Int>): Boolean{
+fun aContainsB(a: List<Int>, b: List<Int>): Boolean {
     return a[0] <= b[0] && a[1] >= b[1]
 }
 
@@ -50,19 +42,29 @@ fun aContainsB(a: List<Int>, b: List<Int>): Boolean{
  */
 private fun solutionB(input: String): Any {
     val rows = input.split('\n')
-
-    val matches = rows.map { row ->
-        val pair = row.split(",")
-        val elfA = pair[0].split("-").map { i -> i.toInt() }
-        val elfB = pair[1].split("-").map { i -> i.toInt() }
-
-        if (thereExistsOverlap(elfA,elfB)) 1 else 0
-    }
-
-    return matches.sum()
+    return extractData(rows)
+        .filter { elfs -> thereExistsOverlap(elfs.first, elfs.second) }
+        .count()
 }
 
 fun thereExistsOverlap(a: List<Int>, b: List<Int>): Boolean {
     return max(a[0],b[0]) <= min(a[1],b[1])
+}
+
+/** A range of sections assigned to an elf */
+typealias elfRange = List<Int>
+/** A work pair of elfs sections */
+typealias elfPair = Pair<elfRange,elfRange>
+
+/**
+ * Extract out a List of elfPairs made up of two elfRanges
+ */
+fun extractData(rows: List<String>): List<elfPair> {
+    return rows.map { row ->
+        val pair = row.split(",")
+        val elfA = pair[0].split("-").map { i -> i.toInt() }
+        val elfB = pair[1].split("-").map { i -> i.toInt() }
+        Pair(elfA,elfB)
+    }
 }
 
