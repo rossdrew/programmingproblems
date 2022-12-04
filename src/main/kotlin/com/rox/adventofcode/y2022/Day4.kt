@@ -1,6 +1,8 @@
 package com.rox.adventofcode.y2022
 
 import com.rox.adventofcode.puzzleInputFromFile
+import kotlin.math.max
+import kotlin.math.min
 
 private val inputSample = """
 2-4,6-8
@@ -28,6 +30,8 @@ private fun solutionA(input: String): Any {
 
     val matches = rows.map { row ->
         val pair = row.split(",")
+        val map = pair.map { elf -> elf.split("-") }.map { indices -> (indices[0]..indices[1])  }
+
         val elfA = pair[0].split("-").map { i -> i.toInt() }
         val elfB = pair[1].split("-").map { i -> i.toInt() }
         if (aContainsB(elfA,elfB) || aContainsB(elfB,elfA)) 1 else 0
@@ -42,7 +46,7 @@ fun aContainsB(a: List<Int>, b: List<Int>): Boolean{
 
 /**
  *
- * Answer: 651 (too low)
+ * Answer: 956
  */
 private fun solutionB(input: String): Any {
     val rows = input.split('\n')
@@ -51,16 +55,14 @@ private fun solutionB(input: String): Any {
         val pair = row.split(",")
         val elfA = pair[0].split("-").map { i -> i.toInt() }
         val elfB = pair[1].split("-").map { i -> i.toInt() }
-        if (aOverlapsB(elfA,elfB) || aOverlapsB(elfB,elfA)) 1 else 0
+
+        if (thereExistsOverlap(elfA,elfB)) 1 else 0
     }
 
     return matches.sum()
 }
 
-fun aOverlapsB(a: List<Int>, b: List<Int>): Boolean {
-    /**      A starts within Bs range */
-    return (a[0] >= b[0] && a[0] <= b[1])
-    /** OR   A ends within Bs range */
-            || (a[1] >= b[0] && a[1] <= b[1])
+fun thereExistsOverlap(a: List<Int>, b: List<Int>): Boolean {
+    return max(a[0],b[0]) <= min(a[1],b[1])
 }
 
