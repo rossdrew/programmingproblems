@@ -80,7 +80,7 @@ private fun endOfAllSteps(startState: DirectionalCoord, directions: List<String>
         val steps = Integer.parseInt(nextDirection.substring(1))
         //println("\t @ (${state.location.x},${state.location.y}) facing ${state.direction}. ($nextDirection) Turning ${parseDirection(nextDirection[0], state.direction)} for $steps...")
 
-        when (parseDirection(nextDirection[0], state.direction)) {
+        when (newDirection(nextDirection[0], state.direction)) {
             NORTH -> DirectionalCoord(SimpleCoord(state.location.x, state.location.y - steps), NORTH)
             SOUTH -> DirectionalCoord(SimpleCoord(state.location.x, state.location.y + steps), SOUTH)
             EAST -> DirectionalCoord(SimpleCoord(state.location.x + steps, state.location.y), EAST)
@@ -89,13 +89,11 @@ private fun endOfAllSteps(startState: DirectionalCoord, directions: List<String>
     })
 }
 
-private fun parseDirection(value: Char, direction: CardinalDirection) : CardinalDirection {
-    return when (direction){
-        //XXX rogue input will count as 'R'
-        NORTH -> if (value == 'L') WEST else EAST
-        SOUTH -> if (value == 'L') EAST else WEST
-        WEST -> if (value == 'L') SOUTH else NORTH
-        EAST -> if (value == 'L') NORTH else SOUTH
+private fun newDirection(value: Char, direction: CardinalDirection) : CardinalDirection {
+    return when (value){
+        'L' -> direction.counterClockwise()
+        'R' -> direction.clockwise()
+        else -> throw UnexpectedException("Can rotate 'L' or 'R', not '$value'")
     }
 }
 
@@ -108,7 +106,7 @@ private fun parseDirection(value: Char, direction: CardinalDirection) : Cardinal
  *
  * How many blocks away is the first location you visit twice?
  *
- * Answer: ???
+ * Answer: 181
  */
 private fun solutionB(input: String): Any {
     val rows = input.split('\n')
@@ -130,9 +128,9 @@ private fun firstPathOverlap(startState: DirectionalCoord, directions: List<Stri
         val steps = Integer.parseInt(nextDirection.substring(1))
         //println("\t @ (${state.location.x},${state.location.y}) facing ${state.direction}. ($nextDirection) Turning ${parseDirection(nextDirection[0], state.direction)} for $steps...")
 
-        state = when (parseDirection(nextDirection[0], state.direction)) {
+        state = when (newDirection(nextDirection[0], state.direction)) {
             NORTH -> {
-                for (y in (state.location.y-steps) until state.location.y){
+                for (y in (state.location.y - steps) until state.location.y){
                     val newLocation = DirectionalCoord(SimpleCoord(state.location.x, y), NORTH)
                     if (visited.contains(newLocation.location)) return newLocation
                     visited.add(SimpleCoord(state.location.x, y))
@@ -156,7 +154,7 @@ private fun firstPathOverlap(startState: DirectionalCoord, directions: List<Stri
                 DirectionalCoord(SimpleCoord(state.location.x + steps, state.location.y), EAST)
             }
             WEST -> {
-                for (x in state.location.x-steps until state.location.x){
+                for (x in state.location.x - steps until state.location.x){
                     val newLocation = DirectionalCoord(SimpleCoord(x, state.location.y), WEST)
                     if (visited.contains(newLocation.location)) return newLocation
                     visited.add(SimpleCoord(x, state.location.y))

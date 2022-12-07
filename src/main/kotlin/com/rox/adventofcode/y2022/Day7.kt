@@ -1,6 +1,7 @@
 package com.rox.adventofcode.y2022
 
 import com.rox.adventofcode.puzzleInputFromFile
+import java.rmi.UnexpectedException
 import java.util.*
 
 private val inputSample = """
@@ -30,33 +31,57 @@ ${'$'} ls
 """.trimIndent()
 
 fun main() {
-    //println("Sample Input A: ${solutionA(inputSample)}")
-    //println("Sample Input B: ${solutionB(inputSample)}")
+    println("Sample Input A: ${solutionA(inputSample)}")
+    println("Sample Input B: ${solutionB(inputSample)}")
     println("Part A: ${solutionA(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2022/Day7.input"))}")
-    //println("Part B: ${com.rox.adventofcode.y2021.solutionB(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2021/DayX.input"))}")
+    println("Part B: ${solutionB(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2022/Day7.input"))}")
 }
 
 /**
  *
  *
- * Answer: 196781 is too low
+ * Answer: 1118405
  */
 private fun solutionA(input: String): Any {
     val rows = input.split('\n')
-
     var fileSystem = parseFileSystem(rows)
-
     val recursiveDirectoryListing = extractDirectories(fileSystem)
-    printDirectoryStructure(fileSystem)
-
-   //TODO find all of the directories with a total size of at most 100000, then calculate the sum of their total sizes.
+    //printDirectoryStructure(fileSystem)
     return recursiveDirectoryListing.map { dir -> dir.size() }.filter { size -> size <= 100000 }.sum()
 }
 
-fun printDirectoryStructure(filesystem: Directory, nest: String = ""){
-    println("$nest(+) ${filesystem.name()} (${filesystem.size()})")
-    filesystem.children.filter { !it.isLeaf() }.forEach { printDirectoryStructure(it as Directory, "$nest\t") }
-    filesystem.children.filter { it.isLeaf() }.forEach { child -> println("$nest\t(-) ${child.name()} (${child.size()})") }
+/**
+ *
+ * Answer: 24933642 is too high
+ */
+private fun solutionB(input: String): Long? {
+    val storageSpace =  70000000
+    val requiredSpace = 30000000
+
+    val rows = input.split('\n')
+    var fileSystem = parseFileSystem(rows)
+    val recursiveDirectoryListing = extractDirectories(fileSystem)
+
+    val usedSpace = fileSystem.size()
+    val remainingSpace = storageSpace - usedSpace
+    val neededSpace = requiredSpace - remainingSpace
+
+    return recursiveDirectoryListing
+        .filter { dir -> dir.size() >= neededSpace }
+        .sortedBy { dir -> dir.size() }
+        .map { dir -> dir.size() }
+        .min()
+}
+
+/** Debug function */
+fun printDirectoryStructure(dir: Directory, nest: String = ""){
+    println("$nest(+) ${dir.name()} (${dir.size()})${sizeIndicator(dir.size())}")
+    dir.children.filter { !it.isLeaf() }.forEach { printDirectoryStructure(it as Directory, "$nest\t") }
+    dir.children.filter { it.isLeaf() }.forEach { child -> println("$nest\t(-) ${child.name()} (${child.size()})") }
+}
+
+fun sizeIndicator(size: Long): String {
+    return if (size <= 100000) "*" else ""
 }
 
 fun extractDirectories(directory: Directory): Set<Directory> {
@@ -77,7 +102,6 @@ fun extractDirectories(directory: Directory): Set<Directory> {
 
 private fun parseFileSystem(rows: List<String>): Directory {
     var fileSystem = Directory("/")
-    var pwd = fileSystem
 
     val pwdStack = LinkedList<Directory>(listOf(fileSystem))
 
@@ -90,26 +114,24 @@ private fun parseFileSystem(rows: List<String>): Directory {
                     when {
                         //Top of file system
                         row.slice(5 until row.length).startsWith("/") -> {
-                            //No action, this is bootstrapped
+                            pwdStack.clear()
+                            pwdStack.add(fileSystem)
                         }
 
                         //backup
                         row.slice(5 until row.length).startsWith("..") -> {
                             pwdStack.pop()
-                            pwd = pwdStack.last
                         }
 
                         //directory
                         else -> {
                             val name = row.slice(5 until row.length)
-                            val tmp = pwd
-                            if (tmp.children.map { c -> c.name() }.contains(name)) {
-                                //XXX No type checking here
-                                pwd = tmp.children.filter { c -> c.name() == name }.first() as Directory
-                                pwdStack.push(pwd)
-                            } else {
-                                pwd = Directory(name)
-                                pwdStack.push(pwd)
+
+                            if (pwdStack.first.children.any{child -> !child.isLeaf() && child.name() == name}){
+                                val newDir = pwdStack.first.children.first{child -> !child.isLeaf() && child.name() == name} as Directory
+                                pwdStack.push(newDir)
+                            }else{
+                                throw UnexpectedException("Attempted to navigate to unknown directory '$name' from '${pwdStack.first.name}'")
                             }
                         }
                     }
@@ -124,8 +146,9 @@ private fun parseFileSystem(rows: List<String>): Directory {
             //Directory Listing
             'd' -> {
                 val name = row.slice(4 until row.length)
-                if (!pwd.children.map { c -> c.name() }.contains(name)) {
-                    pwd.addChild(Directory(name))
+
+                if (!pwdStack.first.children.any{child -> !child.isLeaf() && child.name() == name}){
+                    pwdStack.first.addChild(Directory(name))
                 }
             }
 
@@ -134,8 +157,8 @@ private fun parseFileSystem(rows: List<String>): Directory {
                 val parts = row.split(" ")
                 val size = Integer.parseInt(parts[0]).toLong()
                 val name = parts[1]
-                if (!pwd.children.map { c -> c.name() }.contains(name)) {
-                    pwd.addChild(File(name, size))
+                if (!pwdStack.first.children.any{child -> child.isLeaf() && child.name() == name}){
+                    pwdStack.first.addChild(File(name, size))
                 }
             }
         }
@@ -183,13 +206,4 @@ class File(val name: String, val size: Long): Node {
     }
 }
 
-/**
- *
- * Answer: ???
- */
-private fun solutionB(input: String): Any {
-    val rows = input.split('\n')
-
-    return input
-}
 
