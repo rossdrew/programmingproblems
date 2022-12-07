@@ -52,7 +52,7 @@ private fun solutionA(input: String): Any {
 
 /**
  *
- * Answer: 24933642 is too high
+ * Answer: 12545514
  */
 private fun solutionB(input: String): Long? {
     val storageSpace =  70000000
@@ -110,25 +110,25 @@ private fun parseFileSystem(rows: List<String>): Directory {
             //Command
             '$' -> when {
                 //Change directory
-                row.slice(2 until row.length).startsWith("cd") -> {
+                row.slice("$ ".length until row.length).startsWith("cd") -> {
                     when {
                         //Top of file system
-                        row.slice(5 until row.length).startsWith("/") -> {
+                        row.slice("$ cd ".length until row.length).startsWith("/") -> {
                             pwdStack.clear()
                             pwdStack.add(fileSystem)
                         }
 
                         //backup
-                        row.slice(5 until row.length).startsWith("..") -> {
+                        row.slice("$ cd ".length until row.length).startsWith("..") -> {
                             pwdStack.pop()
                         }
 
                         //directory
                         else -> {
-                            val name = row.slice(5 until row.length)
+                            val name = row.slice("$ cd ".length until row.length)
 
-                            if (pwdStack.first.children.any{child -> !child.isLeaf() && child.name() == name}){
-                                val newDir = pwdStack.first.children.first{child -> !child.isLeaf() && child.name() == name} as Directory
+                            if (pwdStack.first.children.any{!it.isLeaf() && it.name() == name}){
+                                val newDir = pwdStack.first.children.first{!it.isLeaf() && it.name() == name} as Directory
                                 pwdStack.push(newDir)
                             }else{
                                 throw UnexpectedException("Attempted to navigate to unknown directory '$name' from '${pwdStack.first.name}'")
@@ -138,14 +138,14 @@ private fun parseFileSystem(rows: List<String>): Directory {
                 }
 
                 //List director
-                row.slice(2 until row.length).startsWith("ls") -> {
+                row.slice("$ ".length until row.length).startsWith("ls") -> {
                     //Do nothing and just assume the next few lines are files and directories
                 }
             }
 
             //Directory Listing
             'd' -> {
-                val name = row.slice(4 until row.length)
+                val name = row.slice("dir ".length until row.length)
 
                 if (!pwdStack.first.children.any{child -> !child.isLeaf() && child.name() == name}){
                     pwdStack.first.addChild(Directory(name))
@@ -154,11 +154,13 @@ private fun parseFileSystem(rows: List<String>): Directory {
 
             //File Listing
             in '0'..'9' -> {
-                val parts = row.split(" ")
-                val size = Integer.parseInt(parts[0]).toLong()
-                val name = parts[1]
-                if (!pwdStack.first.children.any{child -> child.isLeaf() && child.name() == name}){
-                    pwdStack.first.addChild(File(name, size))
+                val file = row.split(" ")
+                              .zipWithNext { size, name -> Pair(name, Integer.parseInt(size).toLong())  }
+                              .map { fileDecl -> File(fileDecl.first, fileDecl.second) }
+                              .first()
+
+                if (!pwdStack.first.children.any{it.isLeaf() && it.name() == file.name}){
+                    pwdStack.first.addChild(file)
                 }
             }
         }
@@ -167,43 +169,33 @@ private fun parseFileSystem(rows: List<String>): Directory {
 }
 
 interface Node {
+    /** The size of this an any sub Nodes */
     fun size(): Long
+    /** The String name of this node */
     fun name(): String
+    /** true if this is a leaf node (File) and false if not (Directory) */
     fun isLeaf(): Boolean
 }
 
+/**
+ * A Node which represents a Directory that can contain other Nodes
+ */
 class Directory(val name: String) : Node {
     val children = mutableListOf<Node>()
 
-    fun addChild(child: Node){
-        children.add(child)
-    }
-
-    override fun size(): Long {
-        return children.map { child -> child.size() }.sum()
-    }
-
-    override fun name(): String {
-        return name
-    }
-
-    override fun isLeaf(): Boolean {
-        return false
-    }
+    fun addChild(child: Node) = children.add(child)
+    override fun size() = children.map { child -> child.size() }.sum()
+    override fun name() = name
+    override fun isLeaf() = false
 }
 
+/**
+ * A Node which represents a File that cannot contain other Nodes
+ */
 class File(val name: String, val size: Long): Node {
-    override fun size(): Long {
-        return size
-    }
-
-    override fun name(): String {
-        return name
-    }
-
-    override fun isLeaf(): Boolean {
-        return true
-    }
+    override fun size() = size
+    override fun name() = name
+    override fun isLeaf() = true
 }
 
 
