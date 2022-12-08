@@ -1,10 +1,7 @@
 package com.rox.adventofcode.y2022
 
-import com.rox.adventofcode.CardinalDirection
-import com.rox.adventofcode.DirectionalCoord
 import com.rox.adventofcode.SimpleCoord
 import com.rox.adventofcode.puzzleInputFromFile
-import com.rox.adventofcode.y2018.Coordinate
 
 private val inputSample = """
 30373
@@ -81,17 +78,19 @@ private fun solutionB(input: String): Any {
             val myLocation = SimpleCoord(x,y)
             val me: Int = grid[myLocation] as Int
 
+            //A list of all trees in each direction
             val left = (x-1 downTo 0).map { xx -> SimpleCoord(xx,y) }.filter { it.x in (rows[y].indices) }
             val right = (x+1 until rows[y].length).map{xx -> SimpleCoord(xx,y)}.filter { it.x in (rows[y].indices) }
             val up = (y-1 downTo  0).map { yy -> SimpleCoord(x,yy) }.filter { it.y in (rows.indices) }
             val down = (y+1 until rows.size).map { yy -> SimpleCoord(x,yy) }.filter { it.y in (rows.indices) }
 
-            val s = listOf(up,left,down,right).map { direction ->
+            //Compressed to just the distance we can see
+            val viewingDistances = listOf(up, left, down, right).map { direction ->
                 println(myLocation)
                 val indexOfFirst = (direction.indices).indexOfFirst { i -> (grid[direction[i]] as Int) >= me }
                 if (indexOfFirst == -1) direction.size else indexOfFirst+1
             }
-            val product = s.reduce { acc, i ->  acc * i }
+            val product = viewingDistances.reduce { acc, i ->  acc * i }
 
             if (longestView.first < product)
                 longestView = Pair(product, myLocation)
