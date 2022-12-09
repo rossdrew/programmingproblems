@@ -1,5 +1,6 @@
 package com.rox.adventofcode
 
+import com.rox.adventofcode.CardinalDirection.*
 import java.io.File
 import kotlin.math.abs
 
@@ -11,23 +12,6 @@ fun <TypeA, TypeB> cartesianProduct(A: Collection<TypeA>, B: Collection<TypeB>):
                 b -> a to b
             }
     }
-}
-
-fun parseGrid(rows: List<String>): Array<IntArray>{
-    val grid = Array(rows.size) { IntArray(rows[0].length) }
-    for (rowIndex in rows.indices){
-        grid[rowIndex] = rows[rowIndex].toCharArray().map { c -> "$c".toInt() }.toIntArray()
-    }
-    return grid
-}
-
-
-fun parseGrid(rows: List<String>, conversionFunction: (input: String) -> Int): Array<IntArray>{
-    val grid = Array(rows.size) { IntArray(rows[0].length) }
-    for (rowIndex in rows.indices){
-        grid[rowIndex] = rows[rowIndex].toCharArray().map { c -> conversionFunction("$c") }.toIntArray()
-    }
-    return grid
 }
 
 /**
@@ -47,11 +31,45 @@ fun <T> List<T>.infiniteSequence(): Sequence<T> = sequence {
  */
 data class SimpleCoord(val x: Int, val y: Int)
 
-//TODO Add SimpleCoord transformers?
+/**
+ * A compass/cardinal direction value
+ */
 enum class CardinalDirection {
-    NORTH, SOUTH, WEST, EAST
+    NORTH, SOUTH, WEST, EAST;
+
+    fun directionTransform(location: SimpleCoord): SimpleCoord {
+        return when (this){
+            NORTH -> SimpleCoord(location.x, location.y-1)
+            SOUTH -> SimpleCoord(location.x, location.y+1)
+            WEST -> SimpleCoord(location.x-1, location.y)
+            EAST -> SimpleCoord(location.x+1, location.y)
+        }
+    }
+
+    /** Return CardinalDirection 90 degrees clockwise from current **/
+    fun clockwise(): CardinalDirection {
+        return when (this) {
+            NORTH -> EAST
+            SOUTH -> WEST
+            WEST -> NORTH
+            EAST -> SOUTH
+        }
+    }
+
+    /** Return CardinalDirection 90 degrees counter clockwise from current **/
+    fun counterClockwise(): CardinalDirection {
+        return when (this) {
+            NORTH -> WEST
+            SOUTH -> EAST
+            WEST -> SOUTH
+            EAST -> NORTH
+        }
+    }
 }
 
+/**
+ * A SimpleCoord location and a CardinalDirection direction
+ */
 data class DirectionalCoord(val location: SimpleCoord, val direction: CardinalDirection)
 
 /**
@@ -62,6 +80,23 @@ fun manhattanDistance(pointA: SimpleCoord, pointB: SimpleCoord): Int {
     val deltaY = (pointA.y - pointB.y)
 
     return abs(deltaX) + abs(deltaY)
+}
+
+fun parseGrid(rows: List<String>): Array<IntArray>{
+    val grid = Array(rows.size) { IntArray(rows[0].length) }
+    for (rowIndex in rows.indices){
+        grid[rowIndex] = rows[rowIndex].toCharArray().map { c -> "$c".toInt() }.toIntArray()
+    }
+    return grid
+}
+
+
+fun parseGrid(rows: List<String>, conversionFunction: (input: String) -> Int): Array<IntArray>{
+    val grid = Array(rows.size) { IntArray(rows[0].length) }
+    for (rowIndex in rows.indices){
+        grid[rowIndex] = rows[rowIndex].toCharArray().map { c -> conversionFunction("$c") }.toIntArray()
+    }
+    return grid
 }
 
 /**
