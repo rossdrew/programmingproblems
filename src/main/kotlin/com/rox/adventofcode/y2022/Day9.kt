@@ -4,7 +4,6 @@ import com.rox.adventofcode.CardinalDirection
 import com.rox.adventofcode.CardinalDirection.*
 import com.rox.adventofcode.SimpleCoord
 import com.rox.adventofcode.puzzleInputFromFile
-import org.junit.jupiter.api.assertAll
 import java.rmi.UnexpectedException
 import kotlin.math.abs
 
@@ -102,29 +101,35 @@ private fun solutionB(input: String): Any {
         for (step in 0 until steps){
             rope[0] = direction.directionTransform(rope[0])
             for (ropeSegment in 1 until 10){
+                val previousSegment = rope[ropeSegment-1]
+
                 //Supplemental (diagonal) move if we are not touching and not in the same column or row
-                if (abs(rope[ropeSegment].x-rope[ropeSegment-1].x) + abs(rope[ropeSegment].y-rope[ropeSegment-1].y) == 3){
-                    when (rope[ropeSegment].x-rope[ropeSegment-1].x){
-                        -1 -> rope[ropeSegment] = EAST.directionTransform(rope[ropeSegment])
-                        1 -> rope[ropeSegment] = WEST.directionTransform(rope[ropeSegment])
+                if (abs(rope[ropeSegment].x - previousSegment.x) + abs(rope[ropeSegment].y - previousSegment.y) == 3){
+                    rope[ropeSegment] = when (rope[ropeSegment].x - previousSegment.x){
+                        -1 -> EAST.directionTransform(rope[ropeSegment])
+                        1 -> WEST.directionTransform(rope[ropeSegment])
+                        else -> rope[ropeSegment]
                     }
-                    when (rope[ropeSegment].y-rope[ropeSegment-1].y){
-                        -1 -> rope[ropeSegment] = SOUTH.directionTransform(rope[ropeSegment])
-                        1 -> rope[ropeSegment] = NORTH.directionTransform(rope[ropeSegment])
+                    rope[ropeSegment] = when (rope[ropeSegment].y - previousSegment.y){
+                        -1 -> SOUTH.directionTransform(rope[ropeSegment])
+                        1 -> NORTH.directionTransform(rope[ropeSegment])
+                        else -> rope[ropeSegment]
                     }
                 }
 
-                when (rope[ropeSegment].x - rope[ropeSegment-1].x){
-                    -2 -> rope[ropeSegment] = EAST.directionTransform(rope[ropeSegment])
-                    2 -> rope[ropeSegment] = WEST.directionTransform(rope[ropeSegment])
+                rope[ropeSegment] = when (rope[ropeSegment].x - previousSegment.x){
+                    -2 -> EAST.directionTransform(rope[ropeSegment])
+                    2 -> WEST.directionTransform(rope[ropeSegment])
+                    else -> rope[ropeSegment]
                 }
 
-                when (rope[ropeSegment].y - rope[ropeSegment-1].y){
-                    -2 -> rope[ropeSegment] = SOUTH.directionTransform(rope[ropeSegment])
-                    2 -> rope[ropeSegment] = NORTH.directionTransform(rope[ropeSegment])
+                rope[ropeSegment] = when (rope[ropeSegment].y - previousSegment.y){
+                    -2 -> SOUTH.directionTransform(rope[ropeSegment])
+                    2 -> NORTH.directionTransform(rope[ropeSegment])
+                    else -> rope[ropeSegment]
                 }
             }
-
+            //Log tail locations
             tailVisited.add(rope[9])
         }
     }
