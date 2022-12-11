@@ -122,17 +122,12 @@ private fun solutionB(input: String): Any {
         inspections[name] = 0
     }
 
-    val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
-    System.out.println(" Starting at "+sdf.format(Date()))
-
-
-
     for (round in 1 .. 10000){
         for (monkeyName in 0 until monkeys.keys.size){
             val monkey = monkeys[monkeyName]
-            val items = monkey?.items as MutableList
-            for (itemIndex in items.indices){
-                val item = items[itemIndex]
+            val monkeysItems = monkey?.items as MutableList
+            for (itemIndex in monkeysItems.indices){
+                val item = monkeysItems[itemIndex]
                 //inspect
                 val inspectedValue = performBigOperation(monkey.op, item)
                 //make number size managemable
@@ -150,7 +145,7 @@ private fun solutionB(input: String): Any {
 
             monkey.items = mutableListOf()
         }
-        System.out.println("Round $round completed at "+sdf.format(Date()))
+
         when (round){
             1,20,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000 -> {
                 inspections.forEach{ monkey ->
