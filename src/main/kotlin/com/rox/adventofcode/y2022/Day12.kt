@@ -13,7 +13,7 @@ abdefghi
 """.trimIndent()
 
 fun main() {
-    println("Sample Input A: ${solutionA(inputSample)}")
+    //println("Sample Input A: ${solutionA(inputSample)}")
     //println("Sample Input B: ${solutionB(inputSample)}")
     println("Part A: ${solutionA(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2022/Day12.input"))}")
     //println("Part B: ${solutionB(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y202X/DayX.input"))}")
@@ -40,10 +40,9 @@ private fun proceduralDijkstra(tacticalMap: TacticalMap,
     var unvisited = unvisitedList.toMutableList()
     var distances = distanceMap.toMutableMap()
 
-    println("Nodes: $unvisitedList")
     do {
         tacticalMap.getAdjacentLocations(currentNode).filter { node ->
-            unvisitedList.contains(node) && (tacticalMap.getAtLocation(node) - tacticalMap.getAtLocation(currentNode) <= 1)
+            unvisited.contains(node) && (tacticalMap.getAtLocation(node) - tacticalMap.getAtLocation(currentNode) <= 1)
         }.map { unvisitedNode ->
             val myDistance = distances.getOrElse(currentNode, {throw UnexpectedException("${currentNode} should know it's own distance")})
             unvisitedNode to myDistance + 1
@@ -58,7 +57,6 @@ private fun proceduralDijkstra(tacticalMap: TacticalMap,
         if (paths.isNotEmpty()){
             currentNode = paths.first()
         }
-        println("Nodes: $unvisitedList")
     } while (paths.isNotEmpty())
 
     return Pair(distances, unvisited)
