@@ -22,20 +22,54 @@ fun main() {
 /**
  *
  *
- * Answer: ???
+ * Answer: 468
  */
 private fun solutionA(input: String): Any {
     val rows = input.split('\n')
 
     val tacticalMap = generateTacticalMap(rows)
-    val (distances, visited) = generateDistanceMap(tacticalMap)
+    val (distances, visited) = proceduralDijkstra(tacticalMap)
 
     return distances[tacticalMap.destination].toString()
 }
 
-private fun generateDistanceMap(tacticalMap: TacticalMap,
-                                unvisitedList: List<SimpleCoord> = tacticalMap.locations(),
-                                distanceMap: Distance = mapOf(tacticalMap.location to 0)): Pair<Distance, MutableList<SimpleCoord>> {
+private fun proceduralDijkstra(tacticalMap: TacticalMap,
+                               unvisitedList: List<SimpleCoord> = tacticalMap.locations(),
+                               distanceMap: Distance = mapOf(tacticalMap.location to 0L)): Pair<Distance, MutableList<SimpleCoord>> {
+    var currentNode = tacticalMap.location
+    var unvisited = unvisitedList.toMutableList()
+    var distances = distanceMap.toMutableMap()
+
+    println("Nodes: $unvisitedList")
+    do {
+        tacticalMap.getAdjacentLocations(currentNode).filter { node ->
+            unvisitedList.contains(node) && (tacticalMap.getAtLocation(node) - tacticalMap.getAtLocation(currentNode) <= 1)
+        }.map { unvisitedNode ->
+            val myDistance = distances.getOrElse(currentNode, {throw UnexpectedException("${currentNode} should know it's own distance")})
+            unvisitedNode to myDistance + 1
+        }.forEach { nodeAndDistance ->
+            if (distances.getOrDefault(nodeAndDistance.first, Long.MAX_VALUE) > nodeAndDistance.second){
+                distances[nodeAndDistance.first] = nodeAndDistance.second
+            }
+        }
+        unvisited.remove(currentNode)
+
+        val paths = distances.filter { d -> unvisited.contains(d.key) }.map { d -> d.key }
+        if (paths.isNotEmpty()){
+            currentNode = paths.first()
+        }
+        println("Nodes: $unvisitedList")
+    } while (paths.isNotEmpty())
+
+    return Pair(distances, unvisited)
+}
+
+/**
+ * Recursive Dijkstra's Algorithm
+ */
+private fun recursiveDijkstra(tacticalMap: TacticalMap,
+                              unvisitedList: List<SimpleCoord> = tacticalMap.locations(),
+                              distanceMap: Distance = mapOf(tacticalMap.location to 0L)): Pair<Distance, MutableList<SimpleCoord>> {
     var unvisited = unvisitedList.toMutableList()
     var distances = distanceMap.toMutableMap()
 
@@ -52,7 +86,7 @@ private fun generateDistanceMap(tacticalMap: TacticalMap,
     }.forEach{distanceToNeighbour ->
         //Compare gathered values to what exists for each in distances and use the smaller of the two
         //Replace existing distance to node with shorter one
-        if (distances.getOrDefault(distanceToNeighbour.first, Int.MAX_VALUE) > distanceToNeighbour.second){
+        if (distances.getOrDefault(distanceToNeighbour.first, Long.MAX_VALUE) > distanceToNeighbour.second){
             //println("\t${distanceToNeighbour.first} shortest distance becomes ${distanceToNeighbour.second}")
             distances[distanceToNeighbour.first] = distanceToNeighbour.second
         }
@@ -65,7 +99,7 @@ private fun generateDistanceMap(tacticalMap: TacticalMap,
     if (paths.isNotEmpty()){
         val updatedTacticalMap = TacticalMap(paths.first(), tacticalMap.destination, tacticalMap.map)
         //println("\t>Selecting ${paths.first()} from $paths")
-        val (newDistances, newUnvisited) = generateDistanceMap(
+        val (newDistances, newUnvisited) = recursiveDijkstra(
             updatedTacticalMap,
             unvisited,
             distances
@@ -79,7 +113,7 @@ private fun generateDistanceMap(tacticalMap: TacticalMap,
 }
 
 typealias Grid = Array<CharArray>
-typealias Distance = Map<SimpleCoord, Int>
+typealias Distance = Map<SimpleCoord, Long>
 
 data class TacticalMap(val location: SimpleCoord,
                        val destination: SimpleCoord,
