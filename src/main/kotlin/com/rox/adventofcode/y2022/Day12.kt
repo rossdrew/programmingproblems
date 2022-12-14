@@ -1,8 +1,8 @@
 package com.rox.adventofcode.y2022
 
 import com.rox.adventofcode.SimpleCoord
-import com.rox.adventofcode.puzzleInputFromFile
 import java.rmi.UnexpectedException
+import java.util.*
 
 private val inputSample = """
 Sabqponm
@@ -13,10 +13,10 @@ abdefghi
 """.trimIndent()
 
 fun main() {
-    //println("Sample Input A: ${solutionA(inputSample)}")
+    println("Sample Input A: ${solutionA(inputSample)}")
     //println("Sample Input B: ${solutionB(inputSample)}")
-    println("Part A: ${solutionA(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2022/Day12.input"))}")
-    //println("Part B: ${solutionB(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y202X/DayX.input"))}")
+    //println("Part A: ${solutionA(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2022/Day12.input"))}")
+    //println("Part B: ${solutionB(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2022/Day12.input"))}")
 }
 
 /**
@@ -28,38 +28,97 @@ private fun solutionA(input: String): Any {
     val rows = input.split('\n')
 
     val tacticalMap = generateTacticalMap(rows)
-    val (distances, visited) = proceduralDijkstra(tacticalMap)
+    val distances = proceduralDijkstra(tacticalMap)
 
     return distances[tacticalMap.destination].toString()
 }
 
-private fun proceduralDijkstra(tacticalMap: TacticalMap,
-                               unvisitedList: List<SimpleCoord> = tacticalMap.locations(),
-                               distanceMap: Distance = mapOf(tacticalMap.location to 0L)): Pair<Distance, MutableList<SimpleCoord>> {
+/**
+ * Answer: 459
+ */
+private fun solutionB(input: String): Any {
+    val rows = input.split('\n')
+
+    var tacticalMap = generateTacticalMap(rows)
+    var backwardsTacticalMap = TacticalMap(tacticalMap.destination, SimpleCoord(-1,-1), tacticalMap.map)
+    val distances = proceduralDijkstra2(backwardsTacticalMap, oneLowerAtMost)
+
+    val allAs = backwardsTacticalMap.locations().filter { loc -> backwardsTacticalMap.getAtLocation(loc) == 'a' }
+    return distances.filter { d -> allAs.contains(d.key) }.map { it.value }.sorted().first()
+}
+
+val oneHigherAtMost = {map: TacticalMap, from: SimpleCoord, to: SimpleCoord -> map.getAtLocation(from) - map.getAtLocation(to) <= 1}
+val oneLowerAtMost = {map: TacticalMap, from: SimpleCoord, to: SimpleCoord -> map.getAtLocation(to) - map.getAtLocation(from) <= 1}
+
+private fun proceduralDijkstra2(tacticalMap: TacticalMap,
+                                isTraversableStep: (TacticalMap, SimpleCoord, SimpleCoord) -> Boolean,
+                                unvisitedList: List<SimpleCoord> = tacticalMap.locations(),
+                                distanceMap: Distance = mapOf(tacticalMap.location to 0L)): MutableMap<SimpleCoord, Long> {
     var currentNode = tacticalMap.location
     var unvisited = unvisitedList.toMutableList()
     var distances = distanceMap.toMutableMap()
 
+    println("Starting at ${Calendar.getInstance().time}...")
     do {
-        tacticalMap.getAdjacentLocations(currentNode).filter { node ->
-            unvisited.contains(node) && (tacticalMap.getAtLocation(node) - tacticalMap.getAtLocation(currentNode) <= 1)
+        //Update all neighbour distances
+        tacticalMap.getAdjacentLocations(currentNode).filter { adjacentNode ->
+            //All unvisited cells, adjacent to this one which are 1 higher at most
+            unvisited.contains(adjacentNode) && isTraversableStep(tacticalMap, currentNode, adjacentNode)
         }.map { unvisitedNode ->
+            //Generate pairs of neighbour location to their distance made up of our distance + 1 (as all paths are 1 here)
             val myDistance = distances.getOrElse(currentNode, {throw UnexpectedException("${currentNode} should know it's own distance")})
             unvisitedNode to myDistance + 1
         }.forEach { nodeAndDistance ->
+            //Compare calculated distance to what exists for each in distances and use the smaller of the two
             if (distances.getOrDefault(nodeAndDistance.first, Long.MAX_VALUE) > nodeAndDistance.second){
                 distances[nodeAndDistance.first] = nodeAndDistance.second
             }
         }
         unvisited.remove(currentNode)
 
-        val paths = distances.filter { d -> unvisited.contains(d.key) }.map { d -> d.key }
-        if (paths.isNotEmpty()){
-            currentNode = paths.first()
+        //Move on to shortest distance from origin
+        val unexploredPaths = distances.filter { unvisited.contains(it.key) }.map { it.key }
+        if (unexploredPaths.isNotEmpty()){
+            currentNode = unexploredPaths.first()
         }
-    } while (paths.isNotEmpty())
+    } while (unexploredPaths.isNotEmpty())
+    println("...completed at ${Calendar.getInstance().time}")
 
-    return Pair(distances, unvisited)
+    return distances
+}
+
+private fun proceduralDijkstra(tacticalMap: TacticalMap,
+                               unvisitedList: List<SimpleCoord> = tacticalMap.locations(),
+                               distanceMap: Distance = mapOf(tacticalMap.location to 0L)): MutableMap<SimpleCoord, Long> {
+    var currentNode = tacticalMap.location
+    var unvisited = unvisitedList.toMutableList()
+    var distances = distanceMap.toMutableMap()
+
+    println("Starting at ${Calendar.getInstance().time}...")
+    do {
+        tacticalMap.getAdjacentLocations(currentNode).filter { adjacentNode ->
+            //All unvisited cells, adjacent to this one which are 1 higher at most
+            unvisited.contains(adjacentNode) && (tacticalMap.getAtLocation(adjacentNode) - tacticalMap.getAtLocation(currentNode) <= 1)
+        }.map { unvisitedNode ->
+            //Generate pairs of neighbour location to their distance made up of our distance + 1 (as all paths are 1 here)
+            val myDistance = distances.getOrElse(currentNode, {throw UnexpectedException("${currentNode} should know it's own distance")})
+            unvisitedNode to myDistance + 1
+        }.forEach { nodeAndDistance ->
+            //Compare calculated distance to what exists for each in distances and use the smaller of the two
+            if (distances.getOrDefault(nodeAndDistance.first, Long.MAX_VALUE) > nodeAndDistance.second){
+                distances[nodeAndDistance.first] = nodeAndDistance.second
+            }
+        }
+        unvisited.remove(currentNode)
+
+        val unexploredPaths = distances.filter { unvisited.contains(it.key) }.map { it.key }
+        if (unexploredPaths.isNotEmpty()){
+            currentNode = unexploredPaths.first()
+        }
+    } while (unexploredPaths.isNotEmpty())
+    println("...completed at ${Calendar.getInstance().time}")
+
+    return distances
 }
 
 /**
@@ -134,7 +193,6 @@ data class TacticalMap(val location: SimpleCoord,
         return getAdjacentLocations(location)
     }
 
-    //TODO Option to exclude diagonals
     fun getAdjacentLocations(coords: SimpleCoord): List<SimpleCoord> {
         /*
         -1-1 | 0,-1 | +1-1
@@ -147,6 +205,7 @@ data class TacticalMap(val location: SimpleCoord,
         if x=length remove right col
         if y=0 remove top row
         if y=length remove bottom row
+        Diagonals commented out
          */
         return mutableListOf(
             //Top row
@@ -191,15 +250,5 @@ private fun generateTacticalMap(rows: List<String>) : TacticalMap {
     }
 
     return TacticalMap(me, destination, grid)
-}
-
-/**
- *
- * Answer: ???
- */
-private fun solutionB(input: String): Any {
-    val rows = input.split('\n')
-
-    return input
 }
 
