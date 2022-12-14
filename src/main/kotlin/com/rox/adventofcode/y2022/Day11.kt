@@ -1,9 +1,8 @@
 package com.rox.adventofcode.y2022
 
+import com.rox.adventofcode.puzzleInputFromFile
 import java.math.BigInteger
 import java.rmi.UnexpectedException
-import java.text.SimpleDateFormat
-import java.util.*
 
 private val inputSample = """
 Monkey 0:
@@ -37,8 +36,8 @@ Monkey 3:
 
 fun main() {
     //println("Sample Input A: ${solutionA(inputSample)}")
-    println("Sample Input B: ${solutionB(inputSample)}")
-    //println("Part A: ${solutionA(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2022/Day11.input"))}")
+    //println("Sample Input B: ${solutionB(inputSample)}")
+    println("Part A: ${solutionA(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2022/Day11.input"))}")
     //println("Part B: ${solutionB(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y202X/DayX.input"))}")
 }
 
@@ -57,12 +56,27 @@ private fun solutionA(input: String): Any {
         val line = monkey.split("\n")
         val name = line[0].subSequence("Monkey ".length, line[0].length-1).toString().toInt()
         val items = line[1].subSequence(" Starting items: ".length, line[1].length).split(",").map { item -> Integer.parseInt(item.trim()) }
-        val operation = line[2].subSequence(" Operation: new = ".length, line[2].length).trim().toString()
-        val test = line[3].subSequence(" Test: ".length, line[3].length).trim().toString()
         val ifTrue = (line[4].subSequence("    If true: throw to monkey ".length, line[4].length) as String).toInt()
         val ifFalse = (line[5].subSequence("    If false: throw to monkey ".length, line[5].length) as String).toInt()
+        val testDivisor = Integer.parseInt(line[3].subSequence(" Test: divisible by ".length, line[3].length).trim().toString())
+        val testLogic = { worry: Int -> if (worry % testDivisor == 0) ifTrue else ifFalse }
+        val operation = line[2].subSequence(" Operation: new = ".length, line[2].length).trim().split(" ")
+        val lhsArg = operation[0]
+        val op = operation[1]
+        val rhsArg = operation[2]
 
-        monkeys[name] = Monkey(name, items, operation, test, ifTrue, ifFalse)
+        val operationLogic = { item: Int ->
+            val lhs = if (lhsArg == "old") item else lhsArg.toInt()
+            val rhs = if (rhsArg == "old") item else rhsArg.toInt()
+
+            when (op){
+                "+" -> lhs + rhs
+                "*" -> lhs * rhs
+                else -> throw UnexpectedException("Unknown operator '$op'")
+            }
+        }
+
+        monkeys[name] = Monkey(name, items, operationLogic, testLogic)
         inspections[name] = 0
     }
 
@@ -72,18 +86,11 @@ private fun solutionA(input: String): Any {
             val items = monkey?.items as MutableList
             for (itemIndex in items.indices){
                 val item = items[itemIndex]
-                //inspect
-                val inspectedValue = performOperation(monkey.op, item)
+                val inspectedValue = monkey.inspect.invoke(item)
                 //divide worry by 3 and round down/
                 val safeItem = inspectedValue / 3
-                //test worry level
-                if (performTest(monkey.test, safeItem)){
-                    (monkeys[monkey.ifTrue]?.items as MutableList).add(safeItem)
-                    //println("Round$round: Monkey $monkeyName passes $item ($safeItem) to ${monkey.ifTrue}")
-                }else{
-                    (monkeys[monkey.ifFalse]?.items as MutableList).add(safeItem)
-                    //println("Round$round: Monkey $monkeyName passes $item ($safeItem) to ${monkey.ifFalse}")
-                }
+                val receivingMonkey = monkey.testItem.invoke(safeItem)
+                (monkeys[receivingMonkey]?.items as MutableList).add(safeItem)
                 inspections[monkeyName] = (inspections[monkeyName] as Int) + 1
             }
 
@@ -106,21 +113,7 @@ val lcd = BigInteger("9699690") //of 2,7,3,11,17,5,13,19
 private fun solutionB(input: String): Any {
     val groups = input.split("\n\n")
 
-    val monkeys = mutableMapOf<Int, BigWorryMonkey>()
-    val inspections = mutableMapOf<Int,Long>()
-
-    groups.map { monkey ->
-        val line = monkey.split("\n")
-        val name = line[0].subSequence("Monkey ".length, line[0].length-1).toString().toInt()
-        val items = line[1].subSequence(" Starting items: ".length, line[1].length).split(",").map { item -> BigInteger(item.trim()) }
-        val operation = line[2].subSequence(" Operation: new = ".length, line[2].length).trim().toString()
-        val test = line[3].subSequence(" Test: ".length, line[3].length).trim().toString()
-        val ifTrue = (line[4].subSequence("    If true: throw to monkey ".length, line[4].length) as String).toInt()
-        val ifFalse = (line[5].subSequence("    If false: throw to monkey ".length, line[5].length) as String).toInt()
-
-        monkeys[name] = BigWorryMonkey(name, items, operation, test, ifTrue, ifFalse)
-        inspections[name] = 0
-    }
+    val (monkeys, inspections) = parseMonkeys(groups)
 
     for (round in 1 .. 10000){
         for (monkeyName in 0 until monkeys.keys.size){
@@ -128,18 +121,11 @@ private fun solutionB(input: String): Any {
             val monkeysItems = monkey?.items as MutableList
             for (itemIndex in monkeysItems.indices){
                 val item = monkeysItems[itemIndex]
-                //inspect
-                val inspectedValue = performBigOperation(monkey.op, item)
-                //make number size managemable
+                val inspectedValue = monkey.inspect.invoke(item)
+                //make number size manageable
                 val constrainedItem = inspectedValue.mod(lcd)
-                //test worry level
-                if (performBigTest(monkey.test, constrainedItem)){
-                    (monkeys[monkey.ifTrue]?.items as MutableList).add(constrainedItem)
-                    //println("Round$round: Monkey $monkeyName passes $item ($safeItem) to ${monkey.ifTrue}")
-                }else{
-                    (monkeys[monkey.ifFalse]?.items as MutableList).add(constrainedItem)
-                    //println("Round$round: Monkey $monkeyName passes $item ($safeItem) to ${monkey.ifFalse}")
-                }
+                val receivingMonkey = monkey.testItem.invoke(constrainedItem)
+                (monkeys[receivingMonkey]?.items as MutableList).add(constrainedItem)
                 inspections[monkeyName] = (inspections[monkeyName] as Long) + 1
             }
 
@@ -148,6 +134,7 @@ private fun solutionB(input: String): Any {
 
         when (round){
             1,20,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000 -> {
+                println("$round:")
                 inspections.forEach{ monkey ->
                     println("\tMonkey ${monkey.key} inspected items ${monkey.value} times.")
                 }
@@ -159,68 +146,47 @@ private fun solutionB(input: String): Any {
     return inspections.values.sorted().takeLast(2).reduce{ a, v -> a*v}
 }
 
+private fun parseMonkeys(groups: List<String>): Pair<MutableMap<Int, BigWorryMonkey>, MutableMap<Int, Long>> {
+    val monkeys = mutableMapOf<Int, BigWorryMonkey>()
+    val inspections = mutableMapOf<Int, Long>()
+
+    groups.map { monkey ->
+        val line = monkey.split("\n")
+        val name = line[0].subSequence("Monkey ".length, line[0].length - 1).toString().toInt()
+        val items = line[1].subSequence(" Starting items: ".length, line[1].length).split(",")
+            .map { item -> BigInteger(item.trim()) }
+        val ifTrue = (line[4].subSequence("    If true: throw to monkey ".length, line[4].length) as String).toInt()
+        val ifFalse = (line[5].subSequence("    If false: throw to monkey ".length, line[5].length) as String).toInt()
+        val testDivisor = BigInteger(line[3].subSequence(" Test: divisible by ".length, line[3].length).trim().toString())
+        val testLogic = { worry: BigInteger -> if (worry.mod(testDivisor) == BigInteger.ZERO) ifTrue else ifFalse }
+        val operation = line[2].subSequence(" Operation: new = ".length, line[2].length).trim().split(" ")
+        val lhsArg = operation[0]
+        val op = operation[1]
+        val rhsArg = operation[2]
+
+        val operationLogic = { item: BigInteger ->
+            val lhs = if (lhsArg == "old") item else BigInteger(lhsArg)
+            val rhs = if (rhsArg == "old") item else BigInteger(rhsArg)
+
+            when (op){
+                "+" -> lhs + rhs
+                "*" -> lhs * rhs
+                else -> throw UnexpectedException("Unknown operator '$op'")
+            }
+        }
+
+        monkeys[name] = BigWorryMonkey(name, items, operationLogic, testLogic)
+        inspections[name] = 0
+    }
+    return Pair(monkeys, inspections)
+}
+
 data class Monkey(val id: Int,
                   var items: List<Int>,
-                  val op: String,
-                  val test: String,
-                  val ifTrue: Int,
-                  val ifFalse: Int)
+                  val inspect: (Int)->Int, //Item to
+                  val testItem: (Int)->Int)
 
 data class BigWorryMonkey(val id: Int,
                           var items: List<BigInteger>,
-                          val op: String,
-                          val test: String,
-                          val ifTrue: Int,
-                          val ifFalse: Int)
-
-fun performBigOperation(instr: String, param: BigInteger): BigInteger {
-    val split = instr.split(" ")
-    val lhsArg = split[0]
-    val op = split[1]
-    val rhsArg = split[2]
-
-    val lhs = if (lhsArg == "old") param else BigInteger(lhsArg)
-    val rhs = if (rhsArg == "old") param else BigInteger(rhsArg)
-
-    return when (op){
-        "+" -> lhs.plus(rhs)
-        "*" -> lhs.multiply(rhs)
-        else -> throw UnexpectedException("Unknown operator '$op'")
-    }
-}
-
-fun performOperation(instr: String, param: Int): Int{
-    val split = instr.split(" ")
-    val lhsArg = split[0]
-    val op = split[1]
-    val rhsArg = split[2]
-
-    val lhs = if (lhsArg == "old") param else lhsArg.toInt()
-    val rhs = if (rhsArg == "old") param else rhsArg.toInt()
-
-    return when (op){
-        "+" -> lhs + rhs
-        "*" -> lhs * rhs
-        else -> throw UnexpectedException("Unknown operator '$op'")
-    }
-}
-
-fun performBigTest(instr: String, param: BigInteger): Boolean{
-    return when {
-        instr.startsWith("divisible by ")->{
-            val by = instr.split(" ")[2].trim().toBigInteger()
-            return param.mod(by) == BigInteger.ZERO
-        }
-        else -> throw UnexpectedException("Test not recognised '$instr'")
-    }
-}
-
-fun performTest(instr: String, param: Int): Boolean{
-    return when {
-        instr.startsWith("divisible by ")->{
-            val by = instr.split(" ")[2].trim().toInt()
-            return param % by == 0
-        }
-        else -> throw UnexpectedException("Test not recognised '$instr'")
-    }
-}
+                          val inspect: (BigInteger)->BigInteger,
+                          val testItem: (BigInteger)->Int)
