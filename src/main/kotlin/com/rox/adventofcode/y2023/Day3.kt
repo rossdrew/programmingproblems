@@ -101,7 +101,7 @@ private fun solutionA(input: String): Any {
 
 /**
  *
- * Answer: 59201499 (TOO LOW) ...79635623 (NOT RIGHT)
+ * Answer: 79613331
  */
 private fun solutionB(input: String): Any {
     val rows = input.split('\n')
@@ -195,7 +195,9 @@ private fun solutionB(input: String): Any {
                         gearRatio *= n.toString().toInt()
                     }
                 }
-                sum += gearRatio
+                if (gearNumbers == 2) {
+                    sum += gearRatio
+                }
             }
         }
     }
