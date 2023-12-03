@@ -86,20 +86,6 @@ private fun convertFirstAndLastWordsToNumbers(line : String): String {
     return "${convertWordToDigit(first)}${convertWordToDigit(last)}";
 }
 
-private fun convertAllWordsToNumbers(line: String) : String{
-    val regex = "(one|two|three|four|five|six|seven|eight|nine)".toRegex()
-
-    val endSize = if (line.length < 5) line.length else line.length - 5
-    val replaceLastFiveCharactersFirst = regex.replace(line.substring(endSize)) { m -> convertWordToDigit(m.value)}
-    val andStickItBackOnToMakeModifiedLine = line.substring(0, endSize) + replaceLastFiveCharactersFirst
-
-    regex.findAll(line).last()
-
-    return regex.replace(andStickItBackOnToMakeModifiedLine) {
-        m -> convertWordToDigit(m.value)
-    }
-}
-
 private fun convertWordToDigit(word: String): String {
     if (word.toIntOrNull() != null) return word
 
