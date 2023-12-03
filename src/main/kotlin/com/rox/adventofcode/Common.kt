@@ -29,7 +29,11 @@ fun <T> List<T>.infiniteSequence(): Sequence<T> = sequence {
 /**
  * A Co-ordinate on a Cartesian plane
  */
-data class SimpleCoord(val x: Int, val y: Int)
+data class SimpleCoord(val x: Int, val y: Int){
+    override fun toString(): String {
+        return "($x, $y)"
+    }
+}
 
 /**
  * A compass/cardinal direction value

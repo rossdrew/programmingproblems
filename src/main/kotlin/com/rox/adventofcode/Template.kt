@@ -6,8 +6,8 @@ private val inputSample = """
 fun main() {
     println("Sample Input A: ${solutionA(inputSample)}")
     //println("Sample Input B: ${solutionB(inputSample)}")
-    //println("Part A: ${solutionA(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2021/DayX.input"))}")
-    //println("Part B: ${com.rox.adventofcode.y2021.solutionB(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2021/DayX.input"))}")
+    //println("Part A: ${solutionA(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y202X/DayX.input"))}")
+    //println("Part B: ${solutionB(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y202X/DayX.input"))}")
 }
 
 /**
