@@ -130,7 +130,6 @@ private fun solutionB(input: String): Any {
         val b = rows[i+1].toSet()
         val c = rows[i+2].toSet()
 
-
         val intersection = a.intersect(b).intersect(c)
         sum += priorities[intersection.first()] as Int
     }
