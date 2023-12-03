@@ -20,9 +20,22 @@ zoneight234
 7pqrstsixteen
 """.trimIndent()
 
+private val inputSampleC = """
+1sevenine 
+2oneight
+3nineight
+4eightwo
+5eighthree
+6threeight
+7fiveight
+8twone
+""".trimIndent() //19, 28, 38, 42, 53, 68, 78, 81 = 407
+
 fun main() {
   //  println("Sample Input A: ${solutionA(inputSampleA)}")
-    println("Sample Input B: ${solutionB(inputSampleB)}")
+  //  println("Sample Input B: ${solutionB(inputSampleB)}")
+  //  println("Sample Input B: ${solutionB(inputSampleB)}")
+  //  println("Sample Input B 2: ${solutionB(inputSampleC)} should be 407")
   //  println("Part A: ${solutionA(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2023/Day1.input"))}")
     println("Part B: ${solutionB(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2023/Day1.input"))}")
 }
@@ -45,6 +58,9 @@ private fun solutionA(input: String): Any {
         .sum()
 }
 
+private val digitRegex = "[0-9]".toRegex()
+private val numberRegex = "one|two|three|four|five|six|seven|eight|nine|[0-9]".toRegex()
+
 /**
  *
  * Answer: 54807 (TOO LOW)
@@ -52,10 +68,8 @@ private fun solutionA(input: String): Any {
 private fun solutionB(input: String): Any {
     val rows = input.split('\n')
 
-    val g = rows.map { row -> convertAllWordsToNumbers(row) }
-
     return rows
-        .map { row -> convertAllWordsToNumbers(row) }
+        .map { row -> convertFirstAndLastWordsToNumbers(row) }
         .map { row ->
             row.substring(
                 row.indexOfFirst { c -> c.isDigit() },
@@ -65,6 +79,13 @@ private fun solutionB(input: String): Any {
         .sum()
 }
 
+private fun convertFirstAndLastWordsToNumbers(line : String): String {
+    val first = "(one|two|three|four|five|six|seven|eight|nine|\\d)".toRegex().findAll(line).first().value
+    val last = "(${"one|two|three|four|five|six|seven|eight|nine".reversed()}|\\d)".toRegex().findAll(line.reversed()).first().value.reversed()
+
+    return "${convertWordToDigit(first)}${convertWordToDigit(last)}";
+}
+
 private fun convertAllWordsToNumbers(line: String) : String{
     val regex = "(one|two|three|four|five|six|seven|eight|nine)".toRegex()
 
@@ -72,13 +93,16 @@ private fun convertAllWordsToNumbers(line: String) : String{
     val replaceLastFiveCharactersFirst = regex.replace(line.substring(endSize)) { m -> convertWordToDigit(m.value)}
     val andStickItBackOnToMakeModifiedLine = line.substring(0, endSize) + replaceLastFiveCharactersFirst
 
-    //XXX This is probably doing the first one right but eager replacement is ruining the last number
+    regex.findAll(line).last()
+
     return regex.replace(andStickItBackOnToMakeModifiedLine) {
         m -> convertWordToDigit(m.value)
     }
 }
 
 private fun convertWordToDigit(word: String): String {
+    if (word.toIntOrNull() != null) return word
+
     return when (word){
         "one" -> "1"
         "two" -> "2"
