@@ -51,6 +51,10 @@ data class CategoryConversion(val from: String, val to: String, val mappings: Mu
         val mappedValue = mappings.firstOrNull { m -> value in m.range }
         if (mappedValue != null) return (value + mappedValue.offset) else return value
     }
+
+    fun g(range: LongRange){
+
+    }
 }
 
 data class RangeAndOffset(val range: LongRange, val offset: Long)
@@ -96,39 +100,41 @@ private fun solutionA(input: String): Any {
  * Answer: ???
  */
 private fun solutionB(input: String): Any {
-//    val rows = input.split('\n')
-//    val seedRanges = rows[0].substring("seeds: ".length).split(" ").map { i -> i.toLong() }
-//    val seedsToPlant = mutableListOf<LongRange>()
-//    for (i in seedRanges.indices step 2){
-//        println("$i...")
-//        seedsToPlant.add(seedRanges[i] until seedRanges[i]+seedRanges[i+1])
-//    }
-//
-//    val categories = mutableMapOf<String, CategoryConversion>()
-//    var parseIndex = 1
-//    for (block in 0 .. 6) {
-//        parseIndex++
-//        val (from, to) = rows[parseIndex++].split(" ")[0].split("-to-")
-//        val mappedRanges = mutableListOf<RangeAndOffset>()
-//
-//        while (parseIndex < rows.size && rows[parseIndex].isNotEmpty()){
-//            val (destination, source, count) = rows[parseIndex++].split(" ").map { entry -> entry.toLong() }
-//            val sourceRange = (source..(source + (count - 1)))
-//            mappedRanges.add(RangeAndOffset(sourceRange, destination - source))
-//        }
-//
-//        categories[from] = CategoryConversion(from, to, mappedRanges)
-//    }
-//
-//    var nearestSeed = Long.MAX_VALUE
-//    for (seed in seedsToPlant) {
-//        var seedProgress = seed
-//        for (stage in listOf("seed", "soil", "fertilizer", "water", "light", "temperature", "humidity")){
-//            seedProgress = categories[stage]?.getMappingFor(seedProgress)!!
-//            println("$stage: $seedProgress")
-//        }
-//        nearestSeed = min(nearestSeed, seedProgress)
-//    }
-//
-//    return nearestSeed
+    val rows = input.split('\n')
+    val seedRanges = rows[0].substring("seeds: ".length).split(" ").map { i -> i.toLong() }
+    val rangesOfSeedsToPlant = mutableListOf<LongRange>()
+    for (i in seedRanges.indices step 2){
+        rangesOfSeedsToPlant.add(seedRanges[i] until seedRanges[i]+seedRanges[i+1])
+    }
+
+    val categories = mutableMapOf<String, CategoryConversion>()
+    var parseIndex = 1
+    for (block in 0 .. 6) {
+        parseIndex++
+        val (from, to) = rows[parseIndex++].split(" ")[0].split("-to-")
+        val mappedRanges = mutableListOf<RangeAndOffset>()
+
+        while (parseIndex < rows.size && rows[parseIndex].isNotEmpty()){
+            val (destination, source, count) = rows[parseIndex++].split(" ").map { entry -> entry.toLong() }
+            val sourceRange = (source..(source + (count - 1)))
+            mappedRanges.add(RangeAndOffset(sourceRange, destination - source))
+        }
+
+        categories[from] = CategoryConversion(from, to, mappedRanges)
+    }
+
+    var nearestSeed = Long.MAX_VALUE
+    for (seedRange in rangesOfSeedsToPlant) {
+        println("Range: ${seedRange.first}-${seedRange.last} of ${rangesOfSeedsToPlant.size}")
+        for (seed in seedRange) {
+            var seedProgress = seed
+            for (stage in listOf("seed", "soil", "fertilizer", "water", "light", "temperature", "humidity")) {
+            seedProgress = categories[stage]?.getMappingFor(seedProgress)!!
+                //println("$stage: $seedProgress")
+            }
+            nearestSeed = min(nearestSeed, seedProgress)
+        }
+    }
+
+    return nearestSeed
 }
