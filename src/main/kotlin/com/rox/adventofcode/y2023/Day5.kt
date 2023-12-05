@@ -42,8 +42,8 @@ humidity-to-location map:
 fun main() {
     //println("Sample Input A: ${solutionA(inputSample)}")
     //println("Sample Input B: ${solutionB(inputSample)}")
-    //println("Part A: ${solutionA(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2023/Day5.input"))}")
-    println("Part B: ${solutionB(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2023/Day5.input"))}")
+    println("Part A: ${solutionA(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2023/Day5.input"))}")
+    //println("Part B: ${solutionB(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2023/Day5.input"))}")
 }
 
 data class CategoryConversion(val from: String, val to: String, val mappings: MutableList<RangeAndOffset>){
@@ -51,16 +51,12 @@ data class CategoryConversion(val from: String, val to: String, val mappings: Mu
         val mappedValue = mappings.firstOrNull { m -> value in m.range }
         if (mappedValue != null) return (value + mappedValue.offset) else return value
     }
-
-    fun g(range: LongRange){
-
-    }
 }
 
 data class RangeAndOffset(val range: LongRange, val offset: Long)
 
 /**
- * Answer: ???
+ * Answer: 218513636
  */
 private fun solutionA(input: String): Any {
     val rows = input.split('\n')
@@ -97,7 +93,7 @@ private fun solutionA(input: String): Any {
 
 /**
  *
- * Answer: ???
+ * Answer: 81956384
  */
 private fun solutionB(input: String): Any {
     val rows = input.split('\n')
@@ -125,12 +121,10 @@ private fun solutionB(input: String): Any {
 
     var nearestSeed = Long.MAX_VALUE
     for (seedRange in rangesOfSeedsToPlant) {
-        println("Range: ${seedRange.first}-${seedRange.last} of ${rangesOfSeedsToPlant.size}")
         for (seed in seedRange) {
             var seedProgress = seed
             for (stage in listOf("seed", "soil", "fertilizer", "water", "light", "temperature", "humidity")) {
-            seedProgress = categories[stage]?.getMappingFor(seedProgress)!!
-                //println("$stage: $seedProgress")
+                seedProgress = categories[stage]?.getMappingFor(seedProgress)!!
             }
             nearestSeed = min(nearestSeed, seedProgress)
         }
