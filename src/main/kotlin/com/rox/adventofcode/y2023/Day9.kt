@@ -23,15 +23,7 @@ private fun solutionA(input: String): Any {
 
     var sum = 0
     for (row in rows) {
-        val rowSequence = row.split(" ").map { e -> e.trim().toInt() }
-
-        var sequences = mutableListOf(rowSequence)
-        var deltaSequence = nextSequence(rowSequence)
-        while (deltaSequence.any { e -> e != 0 }){
-            sequences.add(deltaSequence)
-            deltaSequence = nextSequence(deltaSequence)
-        }
-        //sequences.add(deltaSequence) - it's always zero so would never be usefully added
+        val sequences = buildRowSequences(row)
 
         for (ri in sequences.size-2 downTo 0){
             val lastNumberInSequence = sequences[ri][sequences[ri].size-1]
@@ -48,8 +40,6 @@ private fun solutionA(input: String): Any {
     return sum
 }
 
-fun nextSequence(inputSequence: List<Int>): List<Int> = (1 until inputSequence.size).map { i -> inputSequence[i] - inputSequence[i-1] }
-
 /**
  * Answer: 1087
  */
@@ -58,15 +48,7 @@ private fun solutionB(input: String): Any {
 
     var sum = 0
     for (row in rows) {
-        val rowSequence = row.split(" ").map { e -> e.trim().toInt() }
-
-        var sequences = mutableListOf(rowSequence)
-        var deltaSequence = nextSequence(rowSequence)
-        while (deltaSequence.any { e -> e != 0 }){
-            sequences.add(deltaSequence)
-            deltaSequence = nextSequence(deltaSequence)
-        }
-        //sequences.add(deltaSequence) - it's always zero so would never be usefully added
+        val sequences = buildRowSequences(row)
 
         for (ri in sequences.size-2 downTo 0){
             val firstNumberInSequence = sequences[ri][0]
@@ -82,3 +64,18 @@ private fun solutionB(input: String): Any {
 
     return sum
 }
+
+fun buildRowSequences(row: String): MutableList<List<Int>> {
+    val rowSequence = row.split(" ").map { e -> e.trim().toInt() }
+
+    var sequences = mutableListOf(rowSequence)
+    var deltaSequence = nextSequence(rowSequence)
+    while (deltaSequence.any { e -> e != 0 }){
+        sequences.add(deltaSequence)
+        deltaSequence = nextSequence(deltaSequence)
+    }
+    //sequences.add(deltaSequence) - it's always zero so would never be usefully added
+    return sequences
+}
+
+fun nextSequence(inputSequence: List<Int>): List<Int> = (1 until inputSequence.size).map { i -> inputSequence[i] - inputSequence[i-1] }
