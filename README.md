@@ -10,6 +10,7 @@ My personal solutions for various programming problems I find.  Each problem sou
  - [Codeorces](http://codeforces.com/problemset)
  - [CodeChef](https://www.codechef.com/)
  - [Hanukkah of Data ](https://hanukkah.bluebird.sh/5784/)
+ - [Coding Quest](https://codingquest.io/)
 
 ### Other Avenues
  Some avenues for code exercise which may or be not be commitable:-
