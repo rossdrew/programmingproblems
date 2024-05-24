@@ -8,8 +8,8 @@ My personal solutions for various programming problems I find.  Each problem sou
  - [InterviewCake](https://www.interviewcake.com/question/stock-price)
  - [LeetCode](https://leetcode.com)
  - [Codeorces](http://codeforces.com/problemset)
- - [CodeChef](https://www.codechef.com/) 
-
+ - [CodeChef](https://www.codechef.com/)
+ - [Hanukkah of Data ](https://hanukkah.bluebird.sh/5784/)
 
 ### Other Avenues
  Some avenues for code exercise which may or be not be commitable:-
