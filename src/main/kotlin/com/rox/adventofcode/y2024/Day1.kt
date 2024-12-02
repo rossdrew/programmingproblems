@@ -38,7 +38,7 @@ private fun solutionA(input: String): Any {
 
 /**
  *
- * Answer: ???
+ * Answer: 25574739
  */
 private fun solutionB(input: String): Any {
     val rows = input.split('\n')
