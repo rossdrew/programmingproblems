@@ -13,6 +13,26 @@ enum class TwoDGridDirection(val yOffset: Int, val xOffset: Int) {
     WEST(0,-1),
     NW(-1,-1);
 
+    fun inverse(): TwoDGridDirection{
+        return when (this){
+            ANY -> ANY
+            STATIC -> STATIC
+            NORTH -> SOUTH
+            NE -> SW
+            EAST -> WEST
+            SE -> NW
+            SOUTH -> NORTH
+            SW -> NE
+            WEST -> EAST
+            NW -> SE
+        }
+    }
+
+    fun adjacent(): List<TwoDGridDirection> {
+        return listOf(NORTH, NE, EAST, SE, SOUTH, SW, WEST, NW)
+    }
+
+    //XXX NEeded?
     companion object {
         fun adjecency(): List<TwoDGridDirection> {
             return listOf(NORTH, NE, EAST, SE, SOUTH, SW, WEST, NW)
