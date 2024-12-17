@@ -14,9 +14,11 @@ private val inputSample = """
 
 fun main() {
     println("Sample Input A: ${solutionA(inputSample)}")
-    println("Sample Input B: ${solutionB(inputSample)}")
-    println("Part A: ${solutionA(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2024/Day2.input"))}")
-    println("Part B: ${solutionB(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2024/Day2.input"))}")
+    println("Sample Input A (alt): ${solutionAApproach2(inputSample)}")
+    //println("Sample Input B: ${solutionB(inputSample)}")
+    //println("Part A: ${solutionA(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2024/Day2.input"))}")
+    println("Part A (alt): ${solutionAApproach2(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2024/Day2.input"))}")
+    //println("Part B: ${solutionB(puzzleInputFromFile("src/main/kotlin/com/rox/adventofcode/y2024/Day2.input"))}")
 }
 
 enum class State {
@@ -34,6 +36,18 @@ private fun solutionA(input: String): Any {
 }
 
 /**
+ * A much more concise approach where we convert all numbers to deltas and filter based on
+ * 1. all being positive or all being negative
+ * 2. all being < 4
+ */
+private fun solutionAApproach2(input: String): Any {
+    val rows = input.split('\n')
+    val rowsOfDeltas = rows.map { row -> numbersToDeltas(row.split(' '))}
+
+    return rowsOfDeltas.count { row -> (row.all { it > 0 } || row.all { it < 0 }) && row.all { abs(it) < 4 } }
+}
+
+/**
  * Answer: 268 (TOO LOW)
  */
 private fun solutionB(input: String): Any {
@@ -41,6 +55,10 @@ private fun solutionB(input: String): Any {
     val columnSeperatedRows = rows.map { row -> row.split(' ') }
 
     return columnSeperatedRows.map { row -> rowSafe(row, 1) }.count { it }
+}
+
+private fun numbersToDeltas(row: List<String>): List<Int>{
+    return row.zipWithNext { a,b -> b.toInt()-a.toInt()}
 }
 
 private fun rowSafe(row: List<String>, tolerance: Int = 0, indent: String = ""): Boolean {
